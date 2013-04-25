@@ -20,7 +20,7 @@
 
                 Na het invullen van de vragen krijgt U binnen maximaal drie werkdagen antwoord.
             </p>
-            <form name="form1" action="http://www.vliegbagage.nl/formmail.php" method="get">
+            <form name="form1" action="formmail.php" method="get">
                 <input type="hidden" name="recipient" value="info@vliegbagage.nl"> 
 		        <input type="hidden" name="subject" value="Infoaanvraag via VLIEGBAGAGE.NL "> 
 		        <input type="hidden" name="redirect" value="http://www.vliegbagage.nl/bedankt.html" target="_blank"> 
