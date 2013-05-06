@@ -49,7 +49,7 @@
             </tr>
               <tr>
               <td>Met welke maatschappij reist U? </td>
-              <td valign="top"><input name="maatschappij" type="text" id="maatschappij" size="30"><input name="Maatschappij nog onbekend" type="radio" value="Maatschappij nog onbekend" />Onbekend
+              <td valign="top"><input name="maatschappij" type="text" id="maatschappij" size="30"><input name="Maatschappij nog onbekend" type="checkbox" value="Maatschappij nog onbekend" />Onbekend
    </td>
             </tr>
                <tr>

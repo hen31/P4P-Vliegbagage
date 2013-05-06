@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 06, 2013 at 11:44 AM
+-- Generation Time: May 06, 2013 at 12:06 PM
 -- Server version: 5.5.27
 -- PHP Version: 5.4.7
 
@@ -147,6 +147,19 @@ CREATE TABLE IF NOT EXISTS `trajectairline` (
   `traject_id` int(11) NOT NULL,
   `zone` int(11) NOT NULL,
   PRIMARY KEY (`TrajectAirline_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+CREATE TABLE IF NOT EXISTS `user` (
+  `user_id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(50) NOT NULL,
+  PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
