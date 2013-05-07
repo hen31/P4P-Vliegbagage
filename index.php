@@ -1,3 +1,8 @@
+<?php
+//Alle data classes includen
+require("data/includeAll.php");
+?>
+
 <!DOCTYPE HTML>
 <html>
     <head>

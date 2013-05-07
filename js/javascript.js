@@ -1,3 +1,3 @@
-$("body").hide("slow", function(){
-    $("body").show("slow");
+$(document).ready(function(){
+    
 })

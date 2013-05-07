@@ -1,0 +1,9 @@
+<?php
+require("airline.php");
+require("airports.php");
+require("databasehandler.php");
+require("specialluggage.php");
+require("trajecten.php");
+require("users.php");
+require("validator.php");
+?>
