@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 06, 2013 at 12:06 PM
+-- Generation Time: May 07, 2013 at 02:06 PM
 -- Server version: 5.5.27
 -- PHP Version: 5.4.7
 
@@ -42,37 +42,11 @@ CREATE TABLE IF NOT EXISTS `airline` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `airlinespecialluggage`
+-- Table structure for table `airlineclass`
 --
 
-CREATE TABLE IF NOT EXISTS `airlinespecialluggage` (
-  `AirlineSpecialLuggage_id` int(11) NOT NULL AUTO_INCREMENT,
-  `airline_id` int(11) NOT NULL,
-  `specialLuggage_id` int(11) NOT NULL,
-  `notes` varchar(1000) NOT NULL,
-  PRIMARY KEY (`AirlineSpecialLuggage_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `airports`
---
-
-CREATE TABLE IF NOT EXISTS `airports` (
-  `airport_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  PRIMARY KEY (`airport_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `classes`
---
-
-CREATE TABLE IF NOT EXISTS `classes` (
-  `airline_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `airlineclass` (
+  `class_id` int(11) NOT NULL AUTO_INCREMENT,
   `airline` int(11) NOT NULL,
   `classnumber` int(11) NOT NULL,
   `pcsHL` int(11) NOT NULL,
@@ -100,14 +74,40 @@ CREATE TABLE IF NOT EXISTS `classes` (
   `FreeWheelChair` tinyint(1) NOT NULL,
   `FreeServiceDog` tinyint(1) NOT NULL,
   `PetsAllowed` tinyint(1) NOT NULL,
-  `MaxWeigtPet` int(11) NOT NULL,
+  `MaxWeightPet` int(11) NOT NULL,
   `sizeLenghtPet` int(11) NOT NULL,
   `sizeHeightPet` int(11) NOT NULL,
   `sizeWidthPet` int(11) NOT NULL,
   `sizeTotalPet` int(11) NOT NULL,
   `DeclarationOfValue` tinyint(1) NOT NULL,
   `MaxDeclarationOfValue` int(11) NOT NULL,
-  PRIMARY KEY (`airline_id`)
+  PRIMARY KEY (`class_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `airlinespecialluggage`
+--
+
+CREATE TABLE IF NOT EXISTS `airlinespecialluggage` (
+  `AirlineSpecialLuggage_id` int(11) NOT NULL AUTO_INCREMENT,
+  `airline_id` int(11) NOT NULL,
+  `specialLuggage_id` int(11) NOT NULL,
+  `notes` varchar(1000) NOT NULL,
+  PRIMARY KEY (`AirlineSpecialLuggage_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `airports`
+--
+
+CREATE TABLE IF NOT EXISTS `airports` (
+  `airport_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  PRIMARY KEY (`airport_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
