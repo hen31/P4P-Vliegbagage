@@ -20,25 +20,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $error["base"] = "<span style=\"color:red\">Niet alle velden zijn ingevuld.</span>";
     }
 }
+require_once("bovenkant.php");
 ?>
-
-<!DOCTYPE HTML>
-<html>
-    <head>
-	   <meta http-equiv="content-type" content="text/html" />
-	   <title>Vliegbagage.nl | Home</title>
-       <link href="style.css" type="text/css" rel="stylesheet"/>
-    </head>
-    <body>
-    <div id="container">
-        <div id="header"></div>
-        <div class="name">
-            <h1>VLIEGBAGAGE.NL</h1>
-        </div>
-        <div id="content">
             <?php 
             if(isset($error) || $_SERVER["REQUEST_METHOD"] == "GET"){
             ?>
+            <h2>Contact</h2>
             <p>Mocht u contact op willen nemen met de eigenaar van deze website, dan kunt u het volgende contact formulier gebruiken.</p>
             
             <form action="contact.php" method="post">
@@ -61,13 +48,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             ?>
             
         </div>
-<div id="footer">
-www.vliegbagage.nl - info@vliegbagage.nl<br/>
-</div>
-</div>
-
-<script src="js/jquery.js"></script>
-<script src="js/javascript.js"></script>
-
-</body>
-</html>
+<?php
+require_once("onderkant.php");
+?>

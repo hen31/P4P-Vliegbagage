@@ -26,6 +26,21 @@ body {
 	border-top-color: #006e81;
 	border-bottom-color: #006e81;
 }
+
+.name a{
+    float: left;
+    font-size: 12pt;
+    margin: 3px 0 0 5px;
+}
+
+.name a:visited{
+    color: #006388;
+}
+
+.name a:hover{
+    text-decoration: none;
+}
+
 h1 {
 	font-size: 1.5em;
 	color: #006388;
