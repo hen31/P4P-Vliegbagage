@@ -1,19 +1,16 @@
 <?php
 
 /**
- * @Wim Dalof
+ * @author 
  * @copyright 2013
  */
 
 require("../data/DbHandler.php");
-
-class Trajecten
+class trajecten
 {
-    public $test = 0;
-    
     function addTraject($startId, $stopId)
     {
-        
+        echo("hallo");
     }
 }
 
