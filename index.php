@@ -1,30 +1,6 @@
 <?php
 //Alle data classes includen
 require_once("data/includeAll.php");
-?>
-
-<!DOCTYPE HTML>
-<html>
-    <head>
-	   <meta http-equiv="content-type" content="text/html" />
-	   <title>Vliegbagage.nl | Home</title>
-       <link href="style.css" type="text/css" rel="stylesheet"/>
-       <link rel="stylesheet" href="jquery-ui.css" />
-    </head>
-    <body>
-    <?php
-    if($_SERVER["REQUEST_METHOD"] == "POST"){
-        print_r($_POST);
-    }
-    ?>
-    <div id="container">
-        <div id="header"></div>
-        <div class="name">
-            <h1>VLIEGBAGAGE.NL</h1>
-        </div>
-        <div id="content">
-=======
-require("data/includeAll.php");
 
 require_once("bovenkant.php");
 ?>
@@ -91,9 +67,7 @@ www.vliegbagage.nl - info@vliegbagage.nl<br/>
   });
   </script>
 </body>
-</html>
-=======
-            
+</html>            
 <?php
 require_once("onderkant.php");
 ?>
