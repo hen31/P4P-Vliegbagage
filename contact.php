@@ -1,6 +1,6 @@
 <?php
 //Alle data classes includen
-require("data/includeAll.php");
+require_once("data/includeAll.php");
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(isset($_POST["naam"], $_POST["mail"], $_POST["onderwerp"], $_POST["bericht"]) && !empty($_POST["naam"]) && !empty($_POST["mail"]) && !empty($_POST["mail"]) && !empty($_POST["bericht"])){
@@ -56,7 +56,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             }
             else
             {
-                echo "De mail is verzonden. Veel geluk met je leven.";
+                echo "Het bericht is verzonden.";
             }
             ?>
             
