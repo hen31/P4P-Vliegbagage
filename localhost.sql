@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 07, 2013 at 02:06 PM
+-- Generation Time: May 13, 2013 at 09:51 AM
 -- Server version: 5.5.27
 -- PHP Version: 5.4.7
 
@@ -32,10 +32,10 @@ CREATE TABLE IF NOT EXISTS `airline` (
   `airline_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `logo` varchar(100) NOT NULL,
-  `OverweightChargeG` int(11) NOT NULL,
-  `OverweightChargeBag` int(11) NOT NULL,
-  `ChargeExtraBag` int(11) NOT NULL,
-  `OversizeCharge` int(11) NOT NULL,
+  `OverweightChargeG` float NOT NULL,
+  `OverweightChargeBag` float NOT NULL,
+  `ChargeExtraBag` float NOT NULL,
+  `OversizeCharge` float NOT NULL,
   PRIMARY KEY (`airline_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `airlineclass` (
   `sizeWidthPet` int(11) NOT NULL,
   `sizeTotalPet` int(11) NOT NULL,
   `DeclarationOfValue` tinyint(1) NOT NULL,
-  `MaxDeclarationOfValue` int(11) NOT NULL,
+  `MaxDeclarationOfValue` float NOT NULL,
   PRIMARY KEY (`class_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
@@ -108,6 +108,19 @@ CREATE TABLE IF NOT EXISTS `airports` (
   `airport_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   PRIMARY KEY (`airport_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `errorlog`
+--
+
+CREATE TABLE IF NOT EXISTS `errorlog` (
+  `log_id` int(11) NOT NULL AUTO_INCREMENT,
+  `page` varchar(100) NOT NULL,
+  `error_msg` text NOT NULL,
+  PRIMARY KEY (`log_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
