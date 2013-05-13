@@ -43,5 +43,9 @@ class validator{
         
         return true;
     }
+    
+    static function validateCaptcha($input, $hash){
+        return ((sha1(strtolower($input) ."iuherkdjcby8rhb") == $hash));
+    }
 }
 ?>

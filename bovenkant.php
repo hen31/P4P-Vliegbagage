@@ -6,11 +6,6 @@
        <link href="style.css" type="text/css" rel="stylesheet"/>
     </head>
     <body>
-    <?php
-    if($_SERVER["REQUEST_METHOD"] == "POST"){
-        print_r($_POST);
-    }
-    ?>
     <div id="container">
         <div id="header"></div>
         <div class="name">
