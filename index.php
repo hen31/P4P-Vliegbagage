@@ -1,6 +1,5 @@
 <?php
 //Alle data classes includen
-<<<<<<< HEAD
 require_once("data/includeAll.php");
 ?>
 
@@ -30,7 +29,6 @@ require("data/includeAll.php");
 require_once("bovenkant.php");
 ?>
 
->>>>>>> 177ea0e029ef7852bb9e25ad16113226f96f5a0a
             <h2>Wat kost het vervoer van mijn koffer?</h2>
             <p>
                 Iedere luchtvaartmaatschappij hanteert tarieven voor het vervoer van reizigers;<br/> wat kost het vervoer van de bagage en wat mag je  meenemen?
@@ -56,7 +54,7 @@ require_once("bovenkant.php");
                 
                 </div>
             </div>
-<<<<<<< HEAD
+
 <div id="footer">
 www.vliegbagage.nl - info@vliegbagage.nl<br/>
 </div>
@@ -99,4 +97,3 @@ www.vliegbagage.nl - info@vliegbagage.nl<br/>
 <?php
 require_once("onderkant.php");
 ?>
->>>>>>> 177ea0e029ef7852bb9e25ad16113226f96f5a0a
