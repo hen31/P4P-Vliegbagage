@@ -15,9 +15,9 @@ require_once("bovenkant.php");
                 <form action="index.php" method="post">
                 <div class="ui-widget">
                   <label for="beginPunt">Beginpunt: </label>
-                  <input id="beginPunt" />
+                  <input id="beginPunt" autocomplete="off"/>
                   <label for="eindPunt">Eindpunt: </label>
-                  <input id="eindPunt" />
+                  <input id="eindPunt" autocomplete="off" />
                 </div>
                 <div>
              
@@ -52,7 +52,7 @@ www.vliegbagage.nl - info@vliegbagage.nl<br/>
     
             echo $airports[$i]->Naam;
         }
-    else
+        else
         {        
          echo $airports[$i]->Naam.",";
         }
