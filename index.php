@@ -1,7 +1,7 @@
 <?php
 //Alle data classes includen
 require_once("data/includeAll.php");
-
+$titel = "Home";
 require_once("bovenkant.php");
 ?>
 
@@ -29,17 +29,12 @@ require_once("bovenkant.php");
                 <div class="results">
                     <table id="list4"></table>
                 </div>
-            </div>
-
-<div id="footer">
-www.vliegbagage.nl - info@vliegbagage.nl<br/>
-</div>
-</div>
+                </div>
 
 <script src="js/jquery.js"></script>
 <script src="js/javascript.js"></script>
 <script src="js/jquery-ui.js"></script>
-<script src="js/grid.locale-en.js" type="text/javascript"></script>
+<script src="js/grid.locale-nl.js" type="text/javascript"></script>
 <script src="js/jquery.jqGrid.min.js" type="text/javascript"></script>
 <script type="text/javascript">
 jQuery("#list4").jqGrid({
@@ -64,7 +59,7 @@ var kelr = jQuery('#list4').jqGrid('getCell', selr, 'id');
 }
 });
 var mydata = [
-		{id:"1",invdate:"2007-10-01",name:"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00"},
+		{id:"1",invdate:"2007-10-01",name:"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00",},
 		{id:"2",invdate:"2007-10-02",name:"test2",note:"note2",amount:"300.00",tax:"20.00",total:"320.00"},
 		{id:"3",invdate:"2007-09-01",name:"test3",note:"note3",amount:"400.00",tax:"30.00",total:"430.00"},
 		{id:"11",invdate:"2007-10-04",name:"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00"},
@@ -85,16 +80,16 @@ for(var i=0;i<=mydata.length;i++)
   $(function() {
     var availableTags = [
     <?php
-     $airports = Airports::GetAirports();
-     for ($i = 0; $i <= count($airports); $i++) {
+     $airports = airports::GetAirports();
+     for ($i = 0; $i < count($airports); $i++) {
      if($i==count($airports)-1)
         {
     
-            echo $airports[$i]->Naam;
+            echo '"'.  $airports[$i]->AirportName.'"';
         }
         else
-        {        
-         echo $airports[$i]->Naam.",";
+        {      
+         echo '"'.$airports[$i]->AirportName.'"'.",";
         }
       }?>
     ];
@@ -106,8 +101,7 @@ for(var i=0;i<=mydata.length;i++)
     });
   });
   </script>
-</body>
-</html>            
+          
 <?php
 require_once("onderkant.php");
 ?>

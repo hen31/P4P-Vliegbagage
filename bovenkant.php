@@ -2,9 +2,10 @@
 <html>
     <head>
 	   <meta http-equiv="content-type" content="text/html" />
-	   <title>Vliegbagage.nl | Home</title>
+	   <title>Vliegbagage.nl |<?php echo $titel;?></title>
        <link href="style.css" type="text/css" rel="stylesheet"/>
        <link rel="stylesheet" type="text/css" media="screen" href="css/ui.jqgrid.css" />
+       <link rel="stylesheet" type="text/css" media="screen" href="jquery-ui-1.10.3.custom.css" />
     </head>
     <body>
     <div id="container">
