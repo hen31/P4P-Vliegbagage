@@ -24,6 +24,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     else{
         $error["base"] = "<span style=\"color:red\">Niet alle velden zijn ingevuld.</span><br /><br />";
     }
+    unset($_SESSION["hash"]);
 }
 require_once("bovenkant.php");
 ?>

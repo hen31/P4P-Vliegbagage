@@ -8,7 +8,7 @@ require("includeAll.php");
 class  DbHandler
 {
     
-    static public function Query($sql, $parameters)
+    static public function Query($sql, $parameters = null)
     {    
         
       try
@@ -50,7 +50,7 @@ class  DbHandler
             return array('null' => null);
         }
     }  
-      static public function NonQuery($sql, $parameters)
+      static public function NonQuery($sql, $parameters = null)
     {    
         
       try
@@ -83,7 +83,7 @@ class  DbHandler
             return array('null' => null);
         }
     }
-    public static function QueryScalar($sql, $parameters)
+    public static function QueryScalar($sql, $parameters = null)
     {
         try
         {
