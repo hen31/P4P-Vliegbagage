@@ -9,8 +9,8 @@ require("data/includeAll.php");
         
         public function SetProperties($Name, $id)
         {
-            $AirportID = $id;
-            $AirportName = $Name; 
+            $this->AirportID = $id;
+            $this->AirportName = $Name; 
         }
         
         public static function AddItem($Name) 
