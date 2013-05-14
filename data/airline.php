@@ -124,8 +124,36 @@ class airline{
         DbHandler::NonQuery("DELETE FROM `airlineclass` WHERE `airline` = :id", array("id" => $airline_id));
     }
     
-    public static function edit_airline()
-    {
+    public static function edit_airline($airline){
+        $airline_update = "";
+        $airlineclass_update = "";
+        $airline_array;
+        $airlineclass_array;
+        $count = 1;
+        foreach($airline as $property => $value){
+            if($count != 1 && $count != 8){
+                if($count < 8){
+                    $airline_update .= " `" .$property ."` = :" .$property .",";
+                    $airline_array[$property] = $value;
+                }
+                else{
+                    $airlineclass_update .= " `" .$property ."` = :" .$property. ",";
+                    $airlineclass_array[$property] = $value;
+                }
+            }            
+            $count++;
+        }
+        $airline_update = rtrim($airline_update, ",");
+        $airlineclass_update = rtrim($airlineclass_update, ",");
+        
+        $airline_array["airline_id"] = $airline->airline_id;
+        $airlineclass_array["class_id"] = $airline->class_id;
+
+        DbHandler::NonQuery("UPDATE `airline` SET" .$airline_update ." WHERE `airline_id` = :airline_id", $airline_array);
+        DbHandler::NonQuery("UPDATE `airlineclass` SET" .$airlineclass_update ." WHERE `class_id` = :class_id", $airlineclass_array);
+    }
+    
+    public static function add_airline(){
         
     }
 }
