@@ -17,7 +17,7 @@ require("data/includeAll.php");
         { 
             if (empty($Name) == false)
             {
-                $id =  DbHandler::QueryScalar("INSERT INTO airports VALUES (:Name); SELECT airport_ID FROM airports WHERE name = (:Name;);", array("Name" => $Name));
+                $id =  DbHandler::QueryScalar("INSERT INTO airports VALUES (:Name); SELECT airport_ID FROM airports WHERE name = (:Name);", array("Name" => $Name));
             }
             
             $ClassObject = new airports();
@@ -81,7 +81,7 @@ require("data/includeAll.php");
                foreach($Query as $result)
                {
                     $AirportObject = new airports();
-                    $AirportObject -> SetProperties($result["name"], $result["airline_id"]);
+                    $AirportObject -> SetProperties($result["name"], $result["airport_id"]);
                     array_push($AirportCOllection, $AirportObject);
                }
                
