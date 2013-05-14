@@ -1,5 +1,5 @@
 <?php
-require("data/includeAll.php");
+require("includeAll.php");
 /**
  * @Auteur Hendrik de Jonge
  * @Datum 13-5-2013
