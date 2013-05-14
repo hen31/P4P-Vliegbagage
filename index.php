@@ -27,7 +27,7 @@ require_once("bovenkant.php");
                 </form>          
                 
                 <div class="results">
-                    <table id="list4"></table>
+                    <table id="list4" ></table>
                 </div>
                 </div>
 
@@ -40,10 +40,11 @@ require_once("bovenkant.php");
 <script type="text/javascript">
 jQuery("#list4").jqGrid({
 	datatype: "local",
-	height: 250,
+	height: 500,
+    width: 875,
    	colNames:['Inv No','Date', 'Client', 'Amount','Tax','Total','Notes'],
    	colModel:[
-   		{name:'id',index:'id', width:60, sorttype:"int"},
+   		{name:'id',index:'id', width:150, sorttype:"int"},
    		{name:'invdate',index:'invdate', width:90, sorttype:"date"},
    		{name:'name',index:'name', width:100},
    		{name:'amount',index:'amount', width:80, align:"right",sorttype:"float"},
@@ -52,7 +53,7 @@ jQuery("#list4").jqGrid({
    		{name:'note',index:'note', width:150, sortable:false}		
    	],
    	multiselect: false,
-   	caption: "Manipulating Array Data",
+   	caption: "Zoekresultaten",
     onSelectRow: function (id) {
         var selr = jQuery('#list4').jqGrid('getGridParam', 'selrow')
 var kelr = jQuery('#list4').jqGrid('getCell', selr, 'id');
@@ -60,7 +61,7 @@ var kelr = jQuery('#list4').jqGrid('getCell', selr, 'id');
 }
 });
 var mydata = [
-		{id:"1",invdate:"2007-10-01",name:"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00",},
+		{id:"<img src=\"http://www.chrverwer.nl/images/ChristiaanVerwer.jpg\"/>",invdate:"2007-10-01",name:"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00",},
 		{id:"2",invdate:"2007-10-02",name:"test2",note:"note2",amount:"300.00",tax:"20.00",total:"320.00"},
 		{id:"3",invdate:"2007-09-01",name:"test3",note:"note3",amount:"400.00",tax:"30.00",total:"430.00"},
 		{id:"11",invdate:"2007-10-04",name:"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00"},
