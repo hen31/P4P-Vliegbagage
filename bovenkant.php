@@ -4,6 +4,7 @@
 	   <meta http-equiv="content-type" content="text/html" />
 	   <title>Vliegbagage.nl | Home</title>
        <link href="style.css" type="text/css" rel="stylesheet"/>
+       <link rel="stylesheet" type="text/css" media="screen" href="css/ui.jqgrid.css" />
     </head>
     <body>
     <div id="container">
