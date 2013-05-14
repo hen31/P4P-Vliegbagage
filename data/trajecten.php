@@ -8,9 +8,9 @@
 require("includeAll.php");
 class trajecten
 {
-    $TrajectID;
-    $Airport1;
-    $Airport2;
+    public $TrajectID;
+    public $Airport1;
+    public $Airport2;
     
     public function AddItem($startAirport, $stopAirport)
     {
@@ -22,12 +22,12 @@ class trajecten
     
     public function RemoveItem($trajectId)
     {
-        DbHandler::NonQuery("DELETE FROM traject WHERE traject_id = :trajectId", array("trajectId" => $trajectId);
+        DbHandler::NonQuery("DELETE FROM traject WHERE traject_id = :trajectId", array("trajectId" => $trajectId));
     }
     
     public function GetTraject($trajectId)
     {
-        DbHandler::QueryScalar()
+        DbHandler::QueryScalar();
     }
 }
 

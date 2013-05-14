@@ -13,7 +13,7 @@ class airline{
     public $logo;
     public $OverweightChargeG;
     public $OverweightChargeBag;
-    public $OverweightExtraBag;
+    public $ChargeExtraBag;
     public $OversizeCharge;
     
     public $class_id;
@@ -52,63 +52,81 @@ class airline{
     public $DeclarationOfValue;
     public $MaxDeclarationOfValue;
     
-    public function __construct($airline_id,$name,$logo,$OverweightChargeG,$OverweightChargeBag,$OverweightExtraBag,$OversizeCharge,$class_id,$airline,$classnumber,$pcsHL,$MaxWeightHL,$sizeLenghtHL,$sizeHeightHL,$SizeWidthHL,$sizeTotalHL,$LaptopAllowedHL,$pcsInfantHL,$strollerAllowedHL,$pcsLuggageInfant,$pcsLuggageInfantMaxWeight,$pcsLuggage,$maxWeightLuggage,$LoyaltyProgramme,$LPextraPcsLuggage,$LPextraWeightLuggage,$AbsoluteMaxPerItem,$sizeLenghtPerItem,$sizeHeightPerItem,$sizeWidthPerItem,$sizeTotalPerItem,$Pooling,$FreeWheelChair,$FreeServiceDog,$PetsAllowed,$MaxWeightPet,$sizeLenghtPet,$sizeHeightPet,$sizeWidthPet,$sizeTotalPet,$DeclarationOfValue,$MaxDeclarationOfValue){
-        $this->airline_id = $airline_id;
-        $this->name = $name;
-        $this->logo = $logo;
-        $this->$OverweightChargeG = $OverweightChargeG;
-        $this->OverweightChargeBag = $OverweightChargeBag;
-        $this->OverweightExtraBag = $OverweightExtraBag;
-        $this->OversizeCharge = $OversizeCharge;
-        $this->class_id = $class_id;
-        $this->airline = $airline;
-        $this->classnumber = $classnumber;
-        $this->pcsHL = $pcsHL;
-        $this->MaxWeightHL = $MaxWeightHL;
-        $this->sizeLenghtHL = $sizeLenghtHL;
-        $this->sizeHeightHL = $sizeHeightHL;
-        $this->SizeWidthHL = $SizeWidthHL;
-        $this->sizeTotalHL = $sizeTotalHL;
-        $this->LaptopAllowedHL = $LaptopAllowedHL;
-        $this->pcsInfantHL = $pcsInfantHL;
-        $this->strollerAllowedHL = $strollerAllowedHL;
-        $this->pcsLuggageInfant = $pcsLuggageInfant;
-        $this->pcsLuggageInfantMaxWeight = $pcsLuggageInfantMaxWeight;
-        $this->pcsLuggage = $pcsLuggage;
-        $this->maxWeightLuggage = $maxWeightLuggage;
-        $this->LoyaltyProgramme = $LoyaltyProgramme;
-        $this->LPextraPcsLuggage = $LPextraPcsLuggage;
-        $this->LPextraWeightLuggage = $LPextraWeightLuggage;
-        $this->AbsoluteMaxPerItem = $AbsoluteMaxPerItem;
-        $this->sizeLenghtPerItem = $sizeLenghtPerItem;
-        $this->sizeHeightPerItem = $sizeHeightPerItem;
-        $this->sizeWidthPerItem = $sizeWidthPerItem;
-        $this->sizeTotalPerItem = $sizeTotalPerItem;
-        $this->Pooling = $Pooling;
-        $this->FreeWheelChair = $FreeWheelChair;
-        $this->FreeServiceDog = $FreeServiceDog;
-        $this->PetsAllowed = $PetsAllowed;
-        $this->MaxWeightPet = $MaxWeightPet;
-        $this->sizeLenghtPet = $sizeLenghtPet;
-        $this->sizeHeightPet = $sizeHeightPet;
-        $this->sizeWidthPet = $sizeWidthPet;
-        $this->sizeTotalPet = $sizeTotalPet;
-        $this->DeclarationOfValue = $DeclarationOfValue;
-        $this->MaxDeclarationOfValue = $MaxDeclarationOfValue;
+    public function __construct($airline){
+        $this->airline_id = $airline["airline_id"];
+        $this->name = $airline["name"];
+        $this->logo = $airline["logo"];
+        $this->OverweightChargeG = $airline["OverweightChargeG"];
+        $this->OverweightChargeBag = $airline["OverweightChargeBag"];
+        $this->ChargeExtraBag = $airline["ChargeExtraBag"];
+        $this->OversizeCharge = $airline["OversizeCharge"];
+        $this->class_id = $airline["class_id"];
+        $this->airline = $airline["airline"];
+        $this->classnumber = $airline["classnumber"];
+        $this->pcsHL = $airline["pcsHL"];
+        $this->MaxWeightHL = $airline["MaxWeightHL"];
+        $this->sizeLenghtHL = $airline["sizeLenghtHL"];
+        $this->sizeHeightHL = $airline["sizeHeightHL"];
+        $this->SizeWidthHL = $airline["SizeWidthHL"];
+        $this->sizeTotalHL = $airline["sizeTotalHL"];
+        $this->LaptopAllowedHL = $airline["LaptopAllowedHL"];
+        $this->pcsInfantHL = $airline["pcsInfantHL"];
+        $this->strollerAllowedHL = $airline["strollerAllowedHL"];
+        $this->pcsLuggageInfant = $airline["pcsLuggageInfant"];
+        $this->pcsLuggageInfantMaxWeight = $airline["pcsLuggageInfantMaxWeight"];
+        $this->pcsLuggage = $airline["pcsLuggage"];
+        $this->maxWeightLuggage = $airline["maxWeightLuggage"];
+        $this->LoyaltyProgramme = $airline["LoyaltyProgramme"];
+        $this->LPextraPcsLuggage = $airline["LPextraPcsLuggage"];
+        $this->LPextraWeightLuggage = $airline["LPextraWeightLuggage"];
+        $this->AbsoluteMaxPerItem = $airline["AbsoluteMaxPerItem"];
+        $this->sizeLenghtPerItem = $airline["sizeLenghtPerItem"];
+        $this->sizeHeightPerItem = $airline["sizeHeightPerItem"];
+        $this->sizeWidthPerItem = $airline["sizeWidthPerItem"];
+        $this->sizeTotalPerItem = $airline["sizeTotalPerItem"];
+        $this->Pooling = $airline["Pooling"];
+        $this->FreeWheelChair = $airline["FreeWheelChair"];
+        $this->FreeServiceDog = $airline["FreeServiceDog"];
+        $this->PetsAllowed = $airline["PetsAllowed"];
+        $this->MaxWeightPet = $airline["MaxWeightPet"];
+        $this->sizeLenghtPet = $airline["sizeLenghtPet"];
+        $this->sizeHeightPet = $airline["sizeHeightPet"];
+        $this->sizeWidthPet = $airline["sizeWidthPet"];
+        $this->sizeTotalPet = $airline["sizeTotalPet"];
+        $this->DeclarationOfValue = $airline["DeclarationOfValue"];
+        $this->MaxDeclarationOfValue = $airline["MaxDeclarationOfValue"];
     }
     
-    public static function get_airline($airline_id, $classnumber){
-        $airline = DbHandler::QueryScalar("SELECT * FROM `airline` WHERE `airline_id` = :id", array("id" => $airline_id));
-        $airline_class = DbHandler::QueryScalar("SELECT * FROM `airlineclass` WHERE `classnumber` = :id AND `airline` = :airline_id", array("id" => $classnumber, "airline_id" => $airline_id));
-        
-        print_r($airline);
-        print_r($airline_class);
-        
-        if(count($airline) == 0 || count($airline_class) == 0){
+    public static function get_airline($airline_id, $class_number){
+        $airline = DbHandler::Query("SELECT * FROM `airline`,`airlineclass` WHERE `airline`.`airline_id` = :airline_id AND `airlineclass`.`airline` = :airline_id AND `airlineclass`.`classnumber` = :class_number;", array("airline_id" => $airline_id, "class_number" => $class_number));
+  
+        if(count($airline) == 0){
             return null;
         }
         
-        return new airline($airline["airline_id"],$airline["name"],$airline["logo"],$airline["OverweightChargeG"],$airline["OverweightChargeBag"],$airline["OverweightExtraBag"],$airline["OversizeCharge"],$airline_class["class_id"],$airline_class["airline"],$airline_class["classnumber"],$airline_class["pcsHL"],$airline_class["MaxWeightHL"],$airline_class["sizeLenghtHL"],$airline_class["sizeHeightHL"],$airline_class["SizeWidthHL"],$airline_class["sizeTotalHL"],$airline_class["LaptopAllowedHL"],$airline_class["pcsInfantHL"],$airline_class["strollerAllowedHL"],$airline_class["pcsLuggageInfant"],$airline_class["pcsLuggageInfantMaxWeight"],$airline_class["pcsLuggage"],$airline_class["maxWeightLuggage"],$airline_class["LoyaltyProgramme"],$airline_class["LPextraPcsLuggage"],$airline_class["LPextraWeightLuggage"],$airline_class["AbsoluteMaxPerItem"],$airline_class["sizeLenghtPerItem"],$airline_class["sizeHeightPerItem"],$airline_class["sizeWidthPerItem"],$airline_class["sizeTotalPerItem"],$airline_class["Pooling"],$airline_class["FreeWheelChair"],$airline_class["FreeServiceDog"],$airline_class["PetsAllowed"],$airline_class["MaxWeightPet"],$airline_class["sizeLenghtPet"],$airline_class["sizeHeightPet"],$airline_class["sizeWidthPet"],$airline_class["sizeTotalPet"],$airline_class["DeclarationOfValue"],$airline_class["MaxDeclarationOfValue"]);
+        return new airline($airline[0]);
+    }
+    
+    public static function get_airlines(){
+        $result_airlines = DbHandler::Query("SELECT * FROM `airline`,`airlineclass` WHERE `airline`.`airline_id` = `airlineclass`.`airline`");
+        if(count($result_airlines) == 0){
+            return null;
+        }
+        $airlines = array();
+        foreach($result_airlines as $airline){
+            $airlines[] = new airline($airline);
+        }
+        return $airlines;
+    }
+    
+    public static function remove_airline($airline_id){
+        DbHandler::NonQuery("DELETE FROM `airline` WHERE `airline_id` = :id", array("id" => $airline_id));
+        DbHandler::NonQuery("DELETE FROM `airlineclass` WHERE `airline` = :id", array("id" => $airline_id));
+    }
+    
+    public static function edit_airline()
+    {
+        
     }
 }
 ?>
