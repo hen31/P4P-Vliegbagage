@@ -3,11 +3,12 @@ require("includeAll.php");
 /**
  * @Auteur Hendrik de Jonge
  * @Datum 13-5-2013
+ * @uses Wordt gebruikt om queries uit te voeren op de database
  */
  
 class  DbHandler
 {
-    
+    //een query uitvoeren en het resultaat terug geven
     static public function Query($sql, $parameters = null)
     {    
         
@@ -50,6 +51,7 @@ class  DbHandler
             return array('null' => null);
         }
     }  
+    //wordt gebruikt om een query uit te voeren zonder dat er resultaat terug komt.
       static public function NonQuery($sql, $parameters = null)
     {    
         
@@ -83,6 +85,7 @@ class  DbHandler
             return array('null' => null);
         }
     }
+    //wordt gebruikt om een query uit te voeren en er komt een colum aan resultaten terug.
     public static function QueryScalar($sql, $parameters = null)
     {
         try

@@ -15,9 +15,9 @@ require_once("bovenkant.php");
                 <form action="index.php" method="post">
                 <div class="ui-widget">
                   <label for="beginPunt">Beginpunt: </label>
-                  <input id="beginPunt" autocomplete="off"/>
+                  <input id="beginPunt" />
                   <label for="eindPunt">Eindpunt: </label>
-                  <input id="eindPunt" autocomplete="off" />
+                  <input id="eindPunt"  />
                 </div>
                 <div>
              
@@ -31,11 +31,12 @@ require_once("bovenkant.php");
                 </div>
                 </div>
 
-<script src="js/jquery.js"></script>
-<script src="js/javascript.js"></script>
+<script src="js/jquery-1.9.0.min.js"></script>
 <script src="js/jquery-ui.js"></script>
 <script src="js/grid.locale-nl.js" type="text/javascript"></script>
 <script src="js/jquery.jqGrid.min.js" type="text/javascript"></script>
+<script src="js/javascript.js"></script>
+
 <script type="text/javascript">
 jQuery("#list4").jqGrid({
 	datatype: "local",
