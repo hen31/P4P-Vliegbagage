@@ -100,7 +100,7 @@ class  DbHandler
 
 
                 /* bind parameters for markers */
-                if ($parameters)
+                 if ($parameters != null)
                 {
                     foreach ($parameters as $key => &$value)
                     {
