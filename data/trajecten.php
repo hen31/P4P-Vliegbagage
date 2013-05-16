@@ -17,7 +17,7 @@ class trajecten
 		$startAirportId = DbHandler::QueryScalar("SELECT airport_id FROM airports WHERE name = :startAirport", array("startAirport" => $startAirport));
 		$endAirportId = DbHandler::QueryScalar("SELECT airport_id FROM airports WHERE name = :endAirport", array("endAirport" => $endAirport));
 		
-		DbHandler::NonQuery("INSERT INTO traject (airport_start_id, airport_end_id) VALUES(startAirportId, endAirportId)", array("startAirportId" => $startAirportId, "endAirportId" => $endAirportId));
+		DbHandler::NonQuery("INSERT INTO traject (airport_start_id, airport_end_id) VALUES(:startAirportId, :endAirportId)", array("startAirportId" => $startAirportId, "endAirportId" => $endAirportId));
 	}
 	
 	public function RemoveItem($trajectId)
