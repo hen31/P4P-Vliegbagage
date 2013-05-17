@@ -47,11 +47,25 @@ class trajecten
 		$resultAirport1ID = DbHandler::QueryScalar("SELECT airport_id FROM airports WHERE name = :startAirport", array("startAirport" => $airport1Name));
 		$resultAirport2ID = DbHandler::QueryScalar("SELECT airport_id FROM airports WHERE name = :stopAirport", array("stopAirport" => $airport2Name));
 		
-		$resultTraject = DbHandler::QueryScalar("SELECT * FROM trajecten WHERE (airport_start_id = :resultAirport1ID AND airport_stop_id = :resultAirport2ID)", array("resultAirport1ID" => $resultAirport1ID,"resultAirport2ID" => $resultAirport2ID));
-		
-		$traject = new trajecten();
-		$traject->TrajectID = $resultTraject[0]["traject_id"];
-		return $traject;
+		if($resultAirport1ID == null || $resultAirport2ID == null)
+		{
+			return null;
+		}
+		else
+		{
+			$resultTraject = DbHandler::QueryScalar("SELECT * FROM trajecten WHERE (airport_start_id = :resultAirport1ID AND airport_stop_id = :resultAirport2ID)", array("resultAirport1ID" => $resultAirport1ID,"resultAirport2ID" => $resultAirport2ID));
+			
+			if($resultTraject == null)
+			{
+				return null;	
+			}
+			else
+			{
+				$traject = new trajecten();
+				$traject->TrajectID = $resultTraject[0]["traject_id"];
+				return $traject;	
+			}
+		}
 	}
 }
 
