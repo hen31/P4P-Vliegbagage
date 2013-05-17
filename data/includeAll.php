@@ -1,6 +1,7 @@
 <?php
 require_once("conf.php");
 require_once("airline.php");
+require_once("airlineclass.php");
 require_once("airports.php");
 require_once("DbHandler.php");
 require_once("specialluggage.php");
