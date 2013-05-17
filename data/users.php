@@ -7,6 +7,7 @@ class user
     public $id;
     public $userName;
 
+    //Een check die kijkt of de username al bestaat. Geeft true of false terug.
     private static function UsernameExists($username)
     {
         $userExist = DbHandler::Query("SELECT username FROM user WHERE username = :username", array("username"=> $username));
@@ -19,6 +20,7 @@ class user
       }
     }
     
+    //Kan een nieuwe gebruiker aanmaken met wachtwoord.
     public static function createUser($username,$userPassword)
     {   
         $check = user::UserNameExists($username);
@@ -28,19 +30,21 @@ class user
             array("Name" => $username, "userPassword" => $userPassword));
         }                                
     }
+    
+    //Een gebruiker verwijderen.
     public static function deleteUser($userid)
     {        
         $userId;
         DbHandler::NonQuery("DELETE FROM user WHERE user_id =:ID;", array("ID" => $userid));                            
     }
     
+    //Gebruikersnaam en/of wachtwoord veranderen.
     public static function changeUser($userid,$username,$userPassword)
     {
         $check = user::UsernameExists($username);
         $user =user::GetUser($userid);
         if($check == false|| $user->userName == $username )
         {
-            echo "change";
            DbHandler::NonQuery("UPDATE user SET username=:Name, password = :password WHERE user_id = :ID;", 
            array("Name" => $username, "ID" => $userid, "password" => $userPassword));
         }
