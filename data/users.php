@@ -14,20 +14,19 @@ class user
     }
     
     public static function createUser($username,$userPassword)
-    {
+    {   
+        $userId;
         $check = UserNameExists($username);
         if(check != true)
         {
-            //gebruiker aanmaken
-        }
-        $userId;
-                                 
+            DbHandler::Query("INSERT INTO user(username,userPassword) VALUES (:Name:), (:userPassword:)", 
+            array("Name" => $username, "userPassword" => $userPassword));
+        }                                
     }
     public static function deleteUser($userid)
-    {
-        
+    {        
         $userId;
-                               
+        DbHandler::NonQuery("DELETE FROM user WHERE userid = (:ID:)", array("ID" => $userid));                            
     }
     
     public static function changeUser($userid,$username,$userPassword)
@@ -36,11 +35,11 @@ class user
         $user =GetUser($userid);
         if(check == false|| $user->userName == $username )
         {
-           
+           DbHandler::Query("UPDATE user SET username = (:Name;), userPassword = (:password:) WHERE userid = (:ID)", array("Name" => $username, "ID" => $userid, "password" => $userPassword));
         }
-        $userId;
-                               
+        $userId;                               
     }
+    
     //Gebruiker ophalen aan de hand van de id die wordt opgegeven
     public static function GetUser($userid)
     {
@@ -56,9 +55,9 @@ class user
         else
         {
             return null;
-        }
-                               
+        }                               
     }
+    
     //Alle gebruikers die in de database staan terug geven afhankelijk van de zoekterm en de hoeveelste gebruikers
     public static function GetUsers($searchTerm, $start,$end)
     {
@@ -83,6 +82,7 @@ class user
             return null;
         }                       
     }
+    
     //fucntie om te checken of het een geldige login is. 
     //als dit het geval is dan wordt er een object van gebruiker terug gegeven.
     public static function login($username,$userPassword)
