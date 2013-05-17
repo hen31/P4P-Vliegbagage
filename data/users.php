@@ -15,31 +15,28 @@ class user
     
     public static function createUser($username,$userPassword)
     {
-        $check = UserNameExists();
-        if(check == true)
+        $check = UserNameExists($username);
+        if(check != true)
         {
-            echo 'Gebruikernaam bestaat al';
+            //gebruiker aanmaken
         }
         $userId;
                                  
     }
     public static function deleteUser($userid)
     {
-        $check = UserNameExists();
-        if(check == false)
-        {
-            echo 'Gebruikersnaam bestaat niet';
-        }
+        
         $userId;
                                
     }
     
     public static function changeUser($userid,$username,$userPassword)
     {
-        $check = UserNameExist();
-        if(check == false)
+        $check = UserNameExist($username);
+        $user =GetUser($userid);
+        if(check == false|| $user->userName == $username )
         {
-            echo 'Gebruikersnaam bestaat niet';
+           
         }
         $userId;
                                
@@ -59,11 +56,7 @@ class user
     
     public static function login($username,$userPassword)
     {
-        $check = UserNameExist();
-        if(check == false)
-        {
-            echo 'Username bestaat niet';
-        }
+     
     }   
 }
 ?>

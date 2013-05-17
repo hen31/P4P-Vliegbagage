@@ -117,7 +117,6 @@ class  DbHandler
 
                 $statement = null;
             }
-            var_dump($result);
             $keys =array_keys($result);
             $row = $result[$keys[0]];
               $keys =array_keys($row);
