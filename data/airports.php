@@ -1,6 +1,6 @@
 <?php
 
-require("data/includeAll.php");
+require("includeAll.php");
 
     class airports
     {
@@ -16,9 +16,10 @@ require("data/includeAll.php");
         public static function AddItem($Name) 
         { 
             if (empty($Name) == false)
-            {
-                $id =  DbHandler::QueryScalar("INSERT INTO airports VALUES (:Name); SELECT airport_ID FROM airports WHERE name = (:Name);", array("Name" => $Name));
-            }
+            {   
+                $id =  DbHandler::Query("INSERT INTO airports(name) VALUES (:Name); ", array("Name" => $Name));
+                var_dump($id);
+            }   
             
             $ClassObject = new airports();
             $ClassObject -> SetProperties($id, $Name);
@@ -75,7 +76,7 @@ require("data/includeAll.php");
     
         public static function GetAirports()
         {
-            $Query =  DbHandler::Query("SELECT * FROM airports", array());
+            $Query =  DbHandler::Query("SELECT * FROM airports", null);
             $AirportCOllection = array();
                
                foreach($Query as $result)
