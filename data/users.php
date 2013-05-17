@@ -9,33 +9,40 @@ class user
 
     private static function UsernameExists($username)
     {
-        $userExist = DbHandler::Query("SELECT username FROM users WHERE username = '$username'");
-        return $userExist;
+        $userExist = DbHandler::Query("SELECT username FROM user WHERE username = :username", array("username"=> $username));
+     if($userExist !=null && $userExist[0]["username"] == $username){
+        return true;
+      }
+      else
+      {
+       return false; 
+      }
     }
     
     public static function createUser($username,$userPassword)
     {   
-        $userId;
-        $check = UserNameExists($username);
-        if(check != true)
+        $check = user::UserNameExists($username);
+        if($check != true)
         {
-            DbHandler::Query("INSERT INTO user(username,userPassword) VALUES (:Name:), (:userPassword:)", 
+            DbHandler::Query("INSERT INTO user(username,password) VALUES (:Name,:userPassword);", 
             array("Name" => $username, "userPassword" => $userPassword));
         }                                
     }
     public static function deleteUser($userid)
     {        
         $userId;
-        DbHandler::NonQuery("DELETE FROM user WHERE userid = (:ID:)", array("ID" => $userid));                            
+        DbHandler::NonQuery("DELETE FROM user WHERE user_id =:ID;", array("ID" => $userid));                            
     }
     
     public static function changeUser($userid,$username,$userPassword)
     {
-        $check = UserNameExist($username);
-        $user =GetUser($userid);
-        if(check == false|| $user->userName == $username )
+        $check = user::UsernameExists($username);
+        $user =user::GetUser($userid);
+        if($check == false|| $user->userName == $username )
         {
-           DbHandler::Query("UPDATE user SET username = (:Name;), userPassword = (:password:) WHERE userid = (:ID)", array("Name" => $username, "ID" => $userid, "password" => $userPassword));
+            echo "change";
+           DbHandler::NonQuery("UPDATE user SET username=:Name, password = :password WHERE user_id = :ID;", 
+           array("Name" => $username, "ID" => $userid, "password" => $userPassword));
         }
         $userId;                               
     }
