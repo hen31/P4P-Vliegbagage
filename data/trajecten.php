@@ -42,10 +42,10 @@ class trajecten
 			return $traject;
 		}
 	}
-	public function GetTrajectByCity($airport1ID, $airport2ID)
+	public function GetTrajectByCity($airport1Name, $airport2Name)
 	{	
-		$resultAirport1ID = DbHandler::QueryScalar("SELECT airport_id FROM airports WHERE name = :startAirport", array("startAirport" => $airport1ID));
-		$resultAirport2ID = DbHandler::QueryScalar("SELECT airport_id FROM airports WHERE name = :stopAirport", array("stopAirport" => $airport2ID));
+		$resultAirport1ID = DbHandler::QueryScalar("SELECT airport_id FROM airports WHERE name = :startAirport", array("startAirport" => $airport1Name));
+		$resultAirport2ID = DbHandler::QueryScalar("SELECT airport_id FROM airports WHERE name = :stopAirport", array("stopAirport" => $airport2Name));
 		
 		$resultTraject = DbHandler::QueryScalar("SELECT * FROM trajecten WHERE (airport_start_id = :resultAirport1ID AND airport_stop_id = :resultAirport2ID)", array("resultAirport1ID" => $resultAirport1ID,"resultAirport2ID" => $resultAirport2ID));
 		
