@@ -8,10 +8,6 @@
 require("includeAll.php");
 class trajecten
 {
-	public $TrajectID;//int
-	public $Airport1;//airport
-	public $Airport2;//airport
-	
 	public function AddItem($startAirport, $stopAirport)
 	{
 		$startAirportId = DbHandler::QueryScalar("SELECT airport_id FROM airports WHERE name = :startAirport", array("startAirport" => $startAirport));
@@ -43,28 +39,18 @@ class trajecten
 		}
 	}
 	public function GetTrajectByCity($airport1Name, $airport2Name)
-	{	
-		$resultAirport1ID = DbHandler::QueryScalar("SELECT airport_id FROM airports WHERE name = :startAirport", array("startAirport" => $airport1Name));
-		$resultAirport2ID = DbHandler::QueryScalar("SELECT airport_id FROM airports WHERE name = :stopAirport", array("stopAirport" => $airport2Name));
+	{
+		$result = DbHandler::QueryScalar("SELECT * FROM trajecten WHERE trajecten.airport_start_id = (SELECT airport_id FROM airports WHERE name = :airport2Name) AND airport_stop_id = (SELECT airport_id FROM airports WHERE name = :airport2Name);", array("airport1Name" => $airport1Name,"airport2Name" => $airport2Name));
 		
-		if($resultAirport1ID == null || $resultAirport2ID == null)
+		if($result == null)
 		{
-			return null;
+			return null;	
 		}
 		else
 		{
-			$resultTraject = DbHandler::QueryScalar("SELECT * FROM trajecten WHERE (airport_start_id = :resultAirport1ID AND airport_stop_id = :resultAirport2ID)", array("resultAirport1ID" => $resultAirport1ID,"resultAirport2ID" => $resultAirport2ID));
-			
-			if($resultTraject == null)
-			{
-				return null;	
-			}
-			else
-			{
-				$traject = new trajecten();
-				$traject->TrajectID = $resultTraject[0]["traject_id"];
-				return $traject;	
-			}
+			$traject = new trajecten();
+			$traject->TrajectID = $result[0]["traject_id"];
+			return $traject;
 		}
 	}
 }
