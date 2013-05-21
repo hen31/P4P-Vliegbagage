@@ -15,16 +15,19 @@ class trajecten
 	//Add a new traject.
 	public function AddItem($startAirport, $stopAirport)
 	{
-		$startAirportId = DbHandler::QueryScalar("SELECT airport_id FROM airports WHERE name = :startAirport", array("startAirport" => $startAirport));
-		$endAirportId = DbHandler::QueryScalar("SELECT airport_id FROM airports WHERE name = :endAirport", array("endAirport" => $endAirport));
+		$start = airports::GetAirportByName($startAirport);
+		$startAirportId = $start->AirportID;
 		
-		DbHandler::NonQuery("INSERT INTO traject (airport_start_id, airport_end_id) VALUES(:startAirportId, :endAirportId)", array("startAirportId" => $startAirportId, "endAirportId" => $endAirportId));
+		$stop = airports::GetAirportByName($stopAirport);
+		$stopAirportId = $stop->AirportID;
+		
+		DbHandler::NonQuery("INSERT INTO traject (airport_start_id, airport_end_id) VALUES(:startAirportId, :stopAirportId);", array("startAirportId" => $startAirportId, "stopAirportId" => $stopAirportId));
 	}
 	
 	//Remove an existing traject.
 	public function RemoveItem($trajectId)
 	{
-		DbHandler::NonQuery("DELETE FROM traject WHERE traject_id = :trajectId", array("trajectId" => $trajectId));
+		DbHandler::NonQuery("DELETE FROM traject WHERE traject_id = :trajectId;", array("trajectId" => $trajectId));
 	}
 	
 	//Get traject by Id.
@@ -33,7 +36,7 @@ class trajecten
 		$traject = new trajecten();
 		$traject->TrajectID = $trajectId;
 		
-		$result = DbHandler::Query("SELECT * FROM traject WHERE traject_id = :trajectId", array("trajectId" => $trajectId));
+		$result = DbHandler::Query("SELECT * FROM traject WHERE traject_id = :trajectId;", array("trajectId" => $trajectId));
 		if($result == null)
 		{
 			return null;
