@@ -1,12 +1,12 @@
 <?php
-require_once("data/conf.php");
-require_once("data/airline.php");
-require_once("data/airlineclass.php");
-require_once("data/airports.php");
-require_once("data/DbHandler.php");
-require_once("data/specialluggage.php");
-require_once("data/trajecten.php");
-require_once("data/users.php");
-require_once("data/validator.php");
-require_once("data/ErrorLog.php");
+require_once(dirname(__FILE__) ."/conf.php");
+require_once(dirname(__FILE__) ."/airline.php");
+require_once(dirname(__FILE__) ."/airlineclass.php");
+require_once(dirname(__FILE__) ."/airports.php");
+require_once(dirname(__FILE__) ."/DbHandler.php");
+require_once(dirname(__FILE__) ."/specialluggage.php");
+require_once(dirname(__FILE__) ."/trajecten.php");
+require_once(dirname(__FILE__) ."/users.php");
+require_once(dirname(__FILE__) ."/validator.php");
+require_once(dirname(__FILE__) ."/ErrorLog.php");
 ?>
