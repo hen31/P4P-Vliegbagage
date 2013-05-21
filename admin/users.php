@@ -1,19 +1,13 @@
 <?php
-require_once("includeAll.php");
-class user
-{
-public $id;
-public $userName;
-    public static function createUser($username,$userPassword)
-    {
-        $userId;
-                               
-    }
-    
-    public static function login()
-    {
-                
-    }   
-}
+//Alle data classes includen
+require_once("data/includeAllAdmin.php");
+$titel = "Gebruikers";
+require_once("bovenkant.php");
+?>
+<!-- Hier alles neerzetten-->
 
+
+
+<?php
+require_once("onderkant.php");
 ?>
