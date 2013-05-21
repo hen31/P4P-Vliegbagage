@@ -45,7 +45,7 @@ Password: <br>
 
 </form>
 
-//Als 1 van de velden leeg is wordt dit op het scherm getoond.
+
 <?php
 if($fatalerror)
 {
