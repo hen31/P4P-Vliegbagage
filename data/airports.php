@@ -1,5 +1,10 @@
 <?php
 
+/**
+* @Auteur Teake Otter
+* @Datum 21-5-2013
+*/
+
 require("includeAll.php");
 
     class airports
@@ -36,7 +41,7 @@ require("includeAll.php");
         
         public static function RemoveItem ($id)
         {
-            DbHandler::NonQuery("DELETE From airports WHERE airport_id = (:ID)", array("ID" => $id)); 
+            DbHandler::NonQuery("DELETE From airports WHERE airport_id = (:ID)", array("ID" => $id));
         }
         
         public static function GetAirportByID($id)
