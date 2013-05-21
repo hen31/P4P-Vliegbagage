@@ -57,7 +57,7 @@ require("includeAll.php");
            
            //klopt niet 
             $ClassObject = new airports();
-            $ClassObject -> SetProperties($id, $Query[1]["name"]);
+            $ClassObject -> SetProperties($id, $Query[0]["name"]);
             
             return $ClassObject;
         }

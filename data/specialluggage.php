@@ -62,12 +62,17 @@ class SpecialLuggage
         }
     }
     
-    public static function RemoveItem($Specialluggage_id)
+    public static function RemoveSpecialLuggage($Specialluggage_id)
     {
-        DbHandler::NonQuery("DELETE From specialluggage WHERE specialluggage_id = :ID", array("ID" => $Specialluggage_id));
-        DbHandler::NonQuery("DELETE From airlinespecialluggage WHERE specialluggage_id = :ID", array("ID" => $Specialluggage_id));
+        DbHandler::NonQuery("DELETE FROM specialluggage WHERE specialluggage_id = :ID", array("ID" => $Specialluggage_id));
+        DbHandler::NonQuery("DELETE FROM airlinespecialluggage WHERE specialluggage_id = :ID", array("ID" => $Specialluggage_id));
     }
     
+    public static function RemoveAirLineSpecialLuggage($SpecialLuggage_id, $AirlineID)
+    {
+        DbHandler::NonQuery("DELETE FROM airlinespeciallluggage WHERE speciallugage_id = :SID "
+        
+    }    
     public static function GetSpecialLuggageID($ID)
     {
         $Result = DbHandler::Query("SELECT * FROM specialluggage WHERE specialluggage_id = :ID ;", array("ID" => $ID));   
@@ -93,7 +98,19 @@ class SpecialLuggage
         return $ClassObject;
     }
     
-    
+    public static function GetSpecialLuggageList()
+    {
+        $Query = DbHandler::Query("SELECT * FROM SPECIALLUGGAGE", null);
+        $SpecialLuggageCollection = array();
+        
+        foreach($Query as $result)
+               {
+                    $SpecialLuggageObject = new SpecialLuggage();
+                    $SpecialLuggageObject -> SetProperties($result["specialluggage_id"], 0, $result["name"], "");
+                    array_push($SpecialLuggageCollection, $SpecialLuggageObject);
+               }
+        return $SpecialLuggageCollection;
+    }
 }
 
 
