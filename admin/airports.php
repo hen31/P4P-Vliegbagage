@@ -1,7 +1,7 @@
 <?php
 //Alle data classes includen
-require_once("data/includeAll.php");
-$titel = "Gebruikers";
+require_once("../data/includeAll.php");
+$titel = "Vliegvelden";
 require_once("bovenkant.php");
 ?>
 <!-- Hier alles neerzetten-->
