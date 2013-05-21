@@ -17,8 +17,8 @@ require("includeAll.php");
         { 
             if (empty($Name) == false)
             {   
-                $id =  DbHandler::Query("INSERT INTO airports(name) VALUES (:Name); ", array("Name" => $Name));
-                var_dump($id);
+                DbHandler::NonQuery("INSERT INTO airports(name) VALUES (:Name); ", array("Name" => $Name));
+                $id =  DbHandler::Query("SELECT airport_ID FROM airports WHERE name = (:Name);", array("Name" => $Name));
             }   
             
             $ClassObject = new airports();
@@ -31,7 +31,7 @@ require("includeAll.php");
         {
             if (empty($id) == false)            
             {
-                DbHandler::Query("UPDATE airports SET name = (:Name;) WHERE airport_id = (:ID)", array("Name" => $Name, "ID" => $ID));
+                DbHandler::Query("UPDATE airports SET name = (:Name) WHERE airport_id = (:ID)", array("Name" => $Name, "ID" => $ID));
             }
             
             $ClassObject = new airports();
@@ -54,9 +54,10 @@ require("includeAll.php");
             {
                $Query =  DbHandler::Query("SELECT * FROM airports WHERE airport_id = (:ID) lIMIT 1", array("ID" => $id));
             }
-            
+           
+           //klopt niet 
             $ClassObject = new airports();
-            $ClassObject -> SetProperties($Query[0], $Query[1]);
+            $ClassObject -> SetProperties($id, $Query[1]["name"]);
             
             return $ClassObject;
         }

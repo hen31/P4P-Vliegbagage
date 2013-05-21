@@ -3,6 +3,8 @@
 require_once("data/includeAll.php");
 $titel = "Home";
 require_once("bovenkant.php");
+
+var_dump (SpecialLuggage::AddItem(1, "Testluggage", "Testbeschrijving"));
 ?>
 
             <h2>Wat kost het vervoer van mijn koffer?</h2>
@@ -11,7 +13,7 @@ require_once("bovenkant.php");
                 <br/><br/>
                 Deze website geeft het antwoord op deze vraag<br />
             </p>
-            
+                
                 <form action="index.php" method="post">
                 <div class="ui-widget">
                   <label for="beginPunt">Beginpunt: </label>
