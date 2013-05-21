@@ -8,6 +8,10 @@
 require("includeAll.php");
 class trajecten
 {
+	public $TrajectID;
+	public $StartAirport;
+	public $StopAirport;
+	
 	//Add a new traject.
 	public function AddItem($startAirport, $stopAirport)
 	{
