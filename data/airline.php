@@ -15,6 +15,7 @@ class airline{
     public $OverweightChargeBag;
     public $ChargeExtraBag;
     public $OversizeCharge;
+    public $iata;
     
     public $classes;
     
@@ -26,6 +27,7 @@ class airline{
         $this->OverweightChargeBag = $airline["OverweightChargeBag"];
         $this->ChargeExtraBag = $airline["ChargeExtraBag"];
         $this->OversizeCharge = $airline["OversizeCharge"];
+        $this->iata = $airline["iata"];
         
         if(count($classes) > 0){
             foreach($classes as $class){
@@ -83,18 +85,18 @@ class airline{
         return false;
     }
     
-    public static function add_airline_without_class($name,$logo,$OverweightChargeG,$OverweightChargeBag,$ChargeExtraBag,$OversizeCharge){
+    public static function add_airline_without_class($name,$logo,$OverweightChargeG,$OverweightChargeBag,$ChargeExtraBag,$OversizeCharge,$iata){
         if(airline::airline_name_exists($name)){
             return false;
         }
-        DbHandler::NonQuery("INSERT INTO `airline` (`name`, `logo`, `OverweightChargeG`, `OverweightChargeBag`, `ChargeExtraBag`, `OversizeCharge`) VALUES(:name, :logo, :OverweightChargeG, :OverweightChargeBag, :ChargeExtraBag, :OversizeCharge)", array("name" => $name, "logo" => $logo, "OverweightChargeG" => $OverweightChargeG, "OverweightChargeBag" => $OverweightChargeBag, "ChargeExtraBag" => $ChargeExtraBag, "OversizeCharge" => $OversizeCharge));
+        DbHandler::NonQuery("INSERT INTO `airline` (`name`, `logo`, `OverweightChargeG`, `OverweightChargeBag`, `ChargeExtraBag`, `OversizeCharge`, `iata`) VALUES(:name, :logo, :OverweightChargeG, :OverweightChargeBag, :ChargeExtraBag, :OversizeCharge, :iata)", array("name" => $name, "logo" => $logo, "OverweightChargeG" => $OverweightChargeG, "OverweightChargeBag" => $OverweightChargeBag, "ChargeExtraBag" => $ChargeExtraBag, "OversizeCharge" => $OversizeCharge, "iata" => $iata));
     }
     
-    public static function add_airline_with_class($name,$logo,$OverweightChargeG,$OverweightChargeBag,$ChargeExtraBag,$OversizeCharge,$classnumber,$pcsHL,$MaxWeightHL,$sizeLenghtHL,$sizeHeightHL,$SizeWidthHL,$sizeTotalHL,$LaptopAllowedHL,$pcsInfantHL,$strollerAllowedHL,$pcsLuggageInfant,$pcsLuggageInfantMaxWeight,$pcsLuggage,$maxWeightLuggage,$LoyaltyProgramme,$LPextraPcsLuggage,$LPextraWeightLuggage,$AbsoluteMaxPerItem,$sizeLenghtPerItem,$sizeHeightPerItem,$sizeWidthPerItem,$sizeTotalPerItem,$Pooling,$FreeWheelChair,$FreeServiceDog,$PetsAllowed,$MaxWeightPet,$sizeLenghtPet,$sizeHeightPet,$sizeWidthPet,$sizeTotalPet,$DeclarationOfValue,$MaxDeclarationOfValue){
+    public static function add_airline_with_class($name,$logo,$OverweightChargeG,$OverweightChargeBag,$ChargeExtraBag,$OversizeCharge,$iata,$classnumber,$pcsHL,$MaxWeightHL,$sizeLenghtHL,$sizeHeightHL,$SizeWidthHL,$sizeTotalHL,$LaptopAllowedHL,$pcsInfantHL,$strollerAllowedHL,$pcsLuggageInfant,$pcsLuggageInfantMaxWeight,$pcsLuggage,$maxWeightLuggage,$LoyaltyProgramme,$LPextraPcsLuggage,$LPextraWeightLuggage,$AbsoluteMaxPerItem,$sizeLenghtPerItem,$sizeHeightPerItem,$sizeWidthPerItem,$sizeTotalPerItem,$Pooling,$FreeWheelChair,$FreeServiceDog,$PetsAllowed,$MaxWeightPet,$sizeLenghtPet,$sizeHeightPet,$sizeWidthPet,$sizeTotalPet,$DeclarationOfValue,$MaxDeclarationOfValue){
         if(airline::airline_name_exists($name)){
             return false;
         }
-        DbHandler::NonQuery("INSERT INTO `airline` (`name`, `logo`, `OverweightChargeG`, `OverweightChargeBag`, `ChargeExtraBag`, `OversizeCharge`) VALUES(:name, :logo, :OverweightChargeG, :OverweightChargeBag, :ChargeExtraBag, :OversizeCharge)", array("name" => $name, "logo" => $logo, "OverweightChargeG" => $OverweightChargeG, "OverweightChargeBag" => $OverweightChargeBag, "ChargeExtraBag" => $ChargeExtraBag, "OversizeCharge" => $OversizeCharge));
+        DbHandler::NonQuery("INSERT INTO `airline` (`name`, `logo`, `OverweightChargeG`, `OverweightChargeBag`, `ChargeExtraBag`, `OversizeCharge`, `iata`) VALUES(:name, :logo, :OverweightChargeG, :OverweightChargeBag, :ChargeExtraBag, :OversizeCharge, :iata)", array("name" => $name, "logo" => $logo, "OverweightChargeG" => $OverweightChargeG, "OverweightChargeBag" => $OverweightChargeBag, "ChargeExtraBag" => $ChargeExtraBag, "OversizeCharge" => $OversizeCharge, "iata" => $iata));
         
         $id = DbHandler::Query("SELECT `airline_id` FROM `airline` WHERE `name` = :name", array("name" => $name));
         
