@@ -12,8 +12,11 @@
     <div id="container">
         <div id="header"></div>
         <div class="name">
-            <a href="index.php">Home</a>
-            <a href="contact.php">Contact</a>
+            <a href="admin.php">Administratie</a>
+            <a href="airline.php">Vliegmaatschappijen</a>
+            <a href="airports.php">Vliegvelden</a>
+            <a href="specialluggage.php">Speciale bagage</a>
+            <a href="users.php">Gebruikers</a>
             <h1>VLIEGBAGAGE.NL</h1>
         </div>
         <div id="content">
