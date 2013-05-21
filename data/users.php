@@ -6,7 +6,7 @@ class user
 {
     public $id;
     public $userName;
-
+    private static $SALT = "iefoafinfawhq91q9h''''aoiash[][]{}}{";
     //Een check die kijkt of de username al bestaat. Geeft true of false terug.
     private static function UsernameExists($username)
     {
@@ -23,6 +23,7 @@ class user
     //Kan een nieuwe gebruiker aanmaken met wachtwoord.
     public static function createUser($username,$userPassword)
     {   
+        $userPassword = sha1($userPassword . user::$SALT);
         $check = user::UserNameExists($username);
         if($check != true)
         {
@@ -43,6 +44,7 @@ class user
     {
         $check = user::UsernameExists($username);
         $user =user::GetUser($userid);
+        $userPassword = sha1($userPassword . user::$SALT);
         if($check == false|| $user->userName == $username )
         {
            DbHandler::NonQuery("UPDATE user SET username=:Name, password = :password WHERE user_id = :ID;", 

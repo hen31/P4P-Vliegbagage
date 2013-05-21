@@ -6,20 +6,20 @@
  */
  
 class validator{
-    
+    //kijken of het een nummer is
     static function isInt($getal){
         return is_int($getal);
     }
-    
+    //kijken of het een string is
     static function isString($string){
         return is_string($string);
     }
-    
+    //kijken of het een valide email adres is
     static function isEmail($email){
         $regex = "/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/";
         return preg_match($regex, $email);
     }
-    
+    //checken hoelang een string is geworden
     static function stringLimit($min, $max, $string){
         $strlen = strlen($string);
         if($strlen < $min){
@@ -30,7 +30,7 @@ class validator{
         }
         return true;
     }
-    
+    //Kijken of het een float is
     static function isValuta($bedrag){
         if(!is_float($bedrag)){
             return false;
@@ -43,7 +43,7 @@ class validator{
         
         return true;
     }
-    
+    //kijken of de captha klopt
     static function validateCaptcha($input, $hash){
         return ((sha1(strtolower($input) ."iuherkdjcby8rhb") == $hash));
     }

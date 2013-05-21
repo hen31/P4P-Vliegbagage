@@ -1,3 +1,4 @@
+</div>
 <div id="footer">
 www.vliegbagage.nl - info@vliegbagage.nl<br/>
 </div>

@@ -1,6 +1,7 @@
 <?php
 //Alle data classes includen
 require_once("data/includeAll.php");
+require_once("data/frontend.php");
 $titel = "Home";
 require_once("bovenkant.php");
 
@@ -13,15 +14,26 @@ var_dump (SpecialLuggage::AddItem(1, "Testluggage", "Testbeschrijving"));
                 <br/><br/>
                 Deze website geeft het antwoord op deze vraag<br />
             </p>
+<<<<<<< HEAD
                 
                 <form action="index.php" method="post">
+=======
+            
+                <form action="index.php" method="get">
+>>>>>>> FrontEnd
                 <div class="ui-widget">
                   <label for="beginPunt">Beginpunt: </label>
-                  <input id="beginPunt" />
+                  <input name="beginPunt" id="beginPunt" />
                   <label for="eindPunt">Eindpunt: </label>
-                  <input id="eindPunt"  />
+                  <input name="eindPunt" id="eindPunt"  />
                 </div>
-                <div>
+                <label for="classSel">Klasse</label>
+                <select name="class" id="classSel">
+                <option value="0">Economy</option>
+                <option value="1">Eerste klas</option>
+                <option value="2">Business klas</option>
+                </select>
+                                <div>
              
                 
                 </div>
@@ -46,7 +58,7 @@ jQuery("#list4").jqGrid({
     width: 875,
    	colNames:['Inv No','Date', 'Client', 'Amount','Tax','Total','Notes'],
    	colModel:[
-   		{name:'id',index:'id', width:150, sorttype:"int"},
+   		{name:'identifier',index:'identifier', width:150, sorttype:"int"},
    		{name:'invdate',index:'invdate', width:90, sorttype:"date"},
    		{name:'name',index:'name', width:100},
    		{name:'amount',index:'amount', width:80, align:"right",sorttype:"float"},
@@ -63,15 +75,15 @@ var kelr = jQuery('#list4').jqGrid('getCell', selr, 'id');
 }
 });
 var mydata = [
-		{id:"<img src=\"http://www.chrverwer.nl/images/ChristiaanVerwer.jpg\"/>",invdate:"2007-10-01",name:"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00",},
-		{id:"2",invdate:"2007-10-02",name:"test2",note:"note2",amount:"300.00",tax:"20.00",total:"320.00"},
-		{id:"3",invdate:"2007-09-01",name:"test3",note:"note3",amount:"400.00",tax:"30.00",total:"430.00"},
-		{id:"11",invdate:"2007-10-04",name:"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00"},
-		{id:"5",invdate:"2007-10-05",name:"test2",note:"note2",amount:"300.00",tax:"20.00",total:"320.00"},
-		{id:"6",invdate:"2007-09-06",name:"test3",note:"note3",amount:"400.00",tax:"30.00",total:"430.00"},
-		{id:"7",invdate:"2007-10-04",name:"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00"},
-		{id:"8",invdate:"2007-10-03",name:"test2",note:"note2",amount:"300.00",tax:"20.00",total:"320.00"},
-		{id:"9",invdate:"2007-09-01",name:"test3",note:"note3",amount:"400.00",tax:"30.00",total:"430.00"}
+		{identifier:"120",invdate:"2007-10-01",name:"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00",},
+		{identifier:"2",invdate:"2007-10-02",name:"test2",note:"note2",amount:"300.00",tax:"20.00",total:"320.00"},
+		{identifier:"3",invdate:"2007-09-01",name:"test3",note:"note3",amount:"400.00",tax:"30.00",total:"430.00"},
+		{identifier:"11",invdate:"2007-10-04",name:"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00"},
+		{identifier:"5",invdate:"2007-10-05",name:"test2",note:"note2",amount:"300.00",tax:"20.00",total:"320.00"},
+		{identifier:"6",invdate:"2007-09-06",name:"test3",note:"note3",amount:"400.00",tax:"30.00",total:"430.00"},
+		{identifier:"7",invdate:"2007-10-04",name:"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00"},
+		{identifier:"8",invdate:"2007-10-03",name:"test2",note:"note2",amount:"300.00",tax:"20.00",total:"320.00"},
+		{identifier:"9",invdate:"2007-09-01",name:"test3",note:"note3",amount:"400.00",tax:"30.00",total:"430.00"}
 		];
 for(var i=0;i<=mydata.length;i++)
 	jQuery("#list4").jqGrid('addRowData',i+1,mydata[i]);
@@ -84,7 +96,7 @@ for(var i=0;i<=mydata.length;i++)
   $(function() {
     var availableTags = [
     <?php
-     $airports = airports::GetAirports();
+     $airports = frontend::GetAirports();
      for ($i = 0; $i < count($airports); $i++) {
      if($i==count($airports)-1)
         {
