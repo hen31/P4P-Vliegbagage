@@ -1,13 +1,14 @@
 <?php
 
 /**
- * @author 
+ * @author Wim Dalof
  * @copyright 2013
  */
 
 require("includeAll.php");
 class trajecten
 {
+	//Add a new traject.
 	public function AddItem($startAirport, $stopAirport)
 	{
 		$startAirportId = DbHandler::QueryScalar("SELECT airport_id FROM airports WHERE name = :startAirport", array("startAirport" => $startAirport));
@@ -16,11 +17,13 @@ class trajecten
 		DbHandler::NonQuery("INSERT INTO traject (airport_start_id, airport_end_id) VALUES(:startAirportId, :endAirportId)", array("startAirportId" => $startAirportId, "endAirportId" => $endAirportId));
 	}
 	
+	//Remove an existing traject.
 	public function RemoveItem($trajectId)
 	{
 		DbHandler::NonQuery("DELETE FROM traject WHERE traject_id = :trajectId", array("trajectId" => $trajectId));
 	}
 	
+	//Get traject by Id.
 	public function GetTraject($trajectId)
 	{
 		$traject = new trajecten();
@@ -38,9 +41,11 @@ class trajecten
 			return $traject;
 		}
 	}
-	public function GetTrajectByCity($airport1Name, $airport2Name)
+	
+	//Get traject by airports.
+	public function GetTrajectByCity($startAirport, $stopAirport)
 	{
-		$result = DbHandler::QueryScalar("SELECT * FROM trajecten WHERE trajecten.airport_start_id = (SELECT airport_id FROM airports WHERE name = :airport2Name) AND airport_stop_id = (SELECT airport_id FROM airports WHERE name = :airport2Name);", array("airport1Name" => $airport1Name,"airport2Name" => $airport2Name));
+		$result = DbHandler::QueryScalar("SELECT * FROM trajecten WHERE trajecten.airport_start_id = (SELECT airport_id FROM airports WHERE name = :startAirport) AND airport_stop_id = (SELECT airport_id FROM airports WHERE name = :stopAirport);", array("startAirport" => $startAirport,"stopAirport" => $stopAirport));
 		
 		if($result == null)
 		{
