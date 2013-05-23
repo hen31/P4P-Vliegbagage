@@ -4,8 +4,6 @@ require_once("data/includeAll.php");
 require_once("data/frontend.php");
 $titel = "Home";
 require_once("bovenkant.php");
-
-var_dump (SpecialLuggage::AddItem(1, "Testluggage", "Testbeschrijving"));
 ?>
 
             <h2>Wat kost het vervoer van mijn koffer?</h2>
@@ -14,13 +12,10 @@ var_dump (SpecialLuggage::AddItem(1, "Testluggage", "Testbeschrijving"));
                 <br/><br/>
                 Deze website geeft het antwoord op deze vraag<br />
             </p>
-<<<<<<< HEAD
                 
                 <form action="index.php" method="post">
-=======
             
                 <form action="index.php" method="get">
->>>>>>> FrontEnd
                 <div class="ui-widget">
                   <label for="beginPunt">Beginpunt: </label>
                   <input name="beginPunt" id="beginPunt" />
