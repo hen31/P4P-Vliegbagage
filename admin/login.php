@@ -1,6 +1,6 @@
 <?php
 //Alle data classes includen
-//require_once("../data/includeAll.php");
+require_once("../data/includeAll.php");
 
 $fatalerror = false;
 if(isset($_POST["uname"]))
