@@ -43,9 +43,14 @@ class validator{
         
         return true;
     }
-    //kijken of de captha klopt
+    //kijken of de captcha klopt
     static function validateCaptcha($input, $hash){
         return ((sha1(strtolower($input) ."iuherkdjcby8rhb") == $hash));
+    }
+    
+    //Kijken of het een url is
+    static function isUrl($url){
+        return filter_var($url, FILTER_VALIDATE_URL);
     }
 }
 ?>
