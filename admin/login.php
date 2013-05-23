@@ -5,7 +5,7 @@ require_once("../data/includeAll.php");
 $fatalerror = false;
 if(isset($_POST["uname"]))
 {
-    $user = users::login($_POST["uname"],$_POST["pword"]);
+    $user = user::login($_POST["uname"],$_POST["pword"]);
     if($user == null)
     {
         $fatalerror = true;
@@ -17,12 +17,11 @@ if(isset($_POST["uname"]))
         header("Location: admin.php");
         exit;
     }
-    
-    $titel = "Admin login";
-    require_once("../bovenkant.php");
 //if gepost
 
 }
+    $titel = "Admin login";
+    require_once("bovenkant.php");
 ?>
 <html>
 <head>
