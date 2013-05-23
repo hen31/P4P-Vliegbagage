@@ -157,8 +157,14 @@ form {margin-left:15px;}
 #form{
     margin-top: 20px;
 }
-#form label{
-    clear: left;
-	float: left;
-	width: 10em;
+#form label {
+	display: block;
+	margin-bottom: -1em;
+}
+
+#form input {
+	display: block;
+	position: relative;
+	left: 10em;
+	top: -0.5em;
 }
