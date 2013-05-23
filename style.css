@@ -130,3 +130,30 @@ form {
 	color: #666;
 }
 form {margin-left:15px;}
+
+#menu{
+    margin-left: 20px;
+}
+
+#menu ul{
+    list-style-type: none;
+}
+
+#menu li{
+    float: left;
+    margin-left: 10px;
+}
+
+#menu a{
+    color: #006388;
+}
+#menu a:visited{
+    color: #006388;
+}
+#menu a:hover{
+    text-decoration: none;
+}
+
+#menu .active{
+    color: black;
+}

@@ -46,10 +46,16 @@ class airline{
         return new airline($airline[0], $classes);
     }
     
-    public static function get_airlines(){
-        $result_airlines = DbHandler::Query("SELECT * FROM `airline`");
+    public static function get_airlines($searchTerm, $start = null, $count = null){
+        if(is_int($start) && is_int($count)){
+            $result_airlines = DbHandler::Query("SELECT * FROM `airline` WHERE `name` LIKE :searchterm LIMIT " .$start .", " .$count, array("searchterm" => "%" .$searchTerm ."%"));
+            var_dump($result_airlines);
+        }
+        else{
+            $result_airlines = DbHandler::Query("SELECT * FROM `airline` WHERE `name` LIKE :searchterm", array("searchterm" => "%" .$searchTerm ."%"));
+        }
         if(count($result_airlines) == 0){
-            return null;
+            return array();
         }
         $airlines = array();
         foreach($result_airlines as $airline){
