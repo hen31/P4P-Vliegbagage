@@ -26,25 +26,24 @@ require_once ("bovenkant.php");
 trajecten::GetAllTrajecten();
 
 if (!empty($_SERVER['QUERY_STRING'])) {
-    if (isset($_GET['remove'])) {
-        $remove = $_GET['remove'];
+	if (isset($_GET['remove'])) {
+		$remove = $_GET['remove'];
 
-        trajecten::RemoveItem($remove);
-    }
+		trajecten::RemoveItem($remove);
+	}
 }
 
-$amount = trajecten::GetTrajectAmount();
+$result = trajecten::GetAllTrajecten();
+$count = count($result);
 
-if ($amount != 0) {
+if (count($result) != 0) {
 ?>
-
-<td>Beginpunt</td>
-<td>Eindpunt</td>
-<td>Actie</td>
+	<td>Beginpunt</td>
+	<td>Eindpunt</td>
+	<td>Actie</td>
 <?php
-for ($i = 0; $i < count($amount - 1); $i++)
+for ($i = 0; $i < $count; $i++)
 {
-    $result = trajecten::GetAllTrajecten();
 ?>
 <tr>
 <td><?php echo ($result[$i]['airport_start_id']->AirportName); ?></td>
@@ -54,7 +53,7 @@ for ($i = 0; $i < count($amount - 1); $i++)
 <?php
 }
 } else {
-    echo ("Er zijn geen trajecten aanwezig.");
+	echo ("Er zijn geen trajecten aanwezig.");
 }
 ?>
 </table>
@@ -68,15 +67,15 @@ for ($i = 0; $i < count($amount - 1); $i++)
   $(function() {
     var availableTags = [
     <?php
-$airports = airports::GetAirports();
-for ($i = 0; $i < count($airports); $i++) {
-    if ($i == count($airports) - 1) {
+    $airports = airports::GetAirports();
+    for ($i = 0; $i < count($airports); $i++) {
+    	if ($i == count($airports) - 1) {
 
-        echo '"' . $airports[$i]->AirportName . '"';
-    } else {
-        echo '"' . $airports[$i]->AirportName . '"' . ",";
-    }
-} ?>
+    		echo '"' . $airports[$i]->AirportName . '"';
+    	} else {
+    		echo '"' . $airports[$i]->AirportName . '"' . ",";
+    	}
+    } ?>
     ];
     $( "#beginPunt" ).autocomplete({
       source: availableTags
@@ -91,21 +90,21 @@ require_once ("onderkant.php");
 ?>
 <?php
 if ((isset($_POST["checkPosted"]))) {
-    if (($_POST["beginPunt"] == $_POST["eindPunt"])) {
-        echo '<script type="text/javascript"> window.alert("Beginpunt en eindpunt mogen niet gelijk zijn.")</script>';
-    }
-    if (!($_POST["beginPunt"] == $_POST["eindPunt"])) {
-        if ((!$_POST["beginPunt"] || !$_POST["eindPunt"])) {
-            echo '<script type="text/javascript"> window.alert("Beginpunt en eindpunt mogen niet leeg zijn.")</script>';
-        } else {
-            try {
-                trajecten::AddItem($_POST["beginPunt"], $_POST["eindPunt"]);
-                echo '<script type="text/javascript"> window.alert("Traject is met success toegevoegd.")</script>';
-            }
-            catch (exception $e) {
-                echo '<script type="text/javascript"> window.alert("Er ging iets mis met het toevoegen van het traject. Probeer het opnieuw altublieft.")</script>';
-            }
-        }
-    }
+	if (($_POST["beginPunt"] == $_POST["eindPunt"])) {
+		echo '<script type="text/javascript"> window.alert("Beginpunt en eindpunt mogen niet gelijk zijn.")</script>';
+	}
+	if (!($_POST["beginPunt"] == $_POST["eindPunt"])) {
+		if ((!$_POST["beginPunt"] || !$_POST["eindPunt"])) {
+			echo '<script type="text/javascript"> window.alert("Beginpunt en eindpunt mogen niet leeg zijn.")</script>';
+		} else {
+			try {
+				trajecten::AddItem($_POST["beginPunt"], $_POST["eindPunt"]);
+				echo '<script type="text/javascript"> window.alert("Traject is met success toegevoegd.")</script>';
+			}
+			catch (exception $e) {
+				echo '<script type="text/javascript"> window.alert("Er ging iets mis met het toevoegen van het traject. Probeer het opnieuw altublieft.")</script>';
+			}
+		}
+	}
 }
 ?>
