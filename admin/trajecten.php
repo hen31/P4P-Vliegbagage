@@ -23,7 +23,7 @@ require_once ("bovenkant.php");
 <table width="100%" border="0">
 <?php
 
-trajecten::GetAllTrajecten();
+#trajecten::GetAllTrajecten();
 
 if (!empty($_SERVER['QUERY_STRING'])) {
 	if (isset($_GET['remove'])) {
@@ -33,7 +33,30 @@ if (!empty($_SERVER['QUERY_STRING'])) {
 	}
 }
 
-$result = trajecten::GetAllTrajecten();
+if (!empty($_SERVER['QUERY_STRING'])) {
+	if (isset($_GET['resultid'])) {
+		$id = $_GET['resultid'];
+		$begin = $_GET['resultid'] * 5;
+		$end = ($begin + 5);	
+	}
+}
+else{
+	$id = 0;
+	$begin = $id;
+	$end = ($begin + 5);
+}
+
+$idmin = $id -1;
+$idplus = $id +1;
+
+/**
+ * if($idmin < 0){
+ *     
+ *     $idmin = 0;
+ * }
+ */
+
+$result = trajecten::GetAllTrajecten($begin);
 $count = count($result);
 
 if (count($result) != 0) {
@@ -45,7 +68,7 @@ if (count($result) != 0) {
 for ($i = 0; $i < $count; $i++)
 {
 ?>
-<tr>
+	<tr>
 <td><?php echo ($result[$i]['airport_start_id']->AirportName); ?></td>
 <td><?php echo ($result[$i]['airport_stop_id']->AirportName); ?></td>
 <td><a href="trajecten.php?remove=<?php echo $result[$i]['traject_id'] ?>">Verwijder</a></td>
@@ -57,6 +80,16 @@ for ($i = 0; $i < $count; $i++)
 }
 ?>
 </table>
+<?php
+if($idmin > 0 || $idmin == 0)
+{
+?>
+	<a href="trajecten.php?resultid=<?php echo $idmin ?>">Vorige</a>
+	<?php
+}
+?>
+
+<a href="trajecten.php?resultid=<?php echo $idplus ?>">Volgende</a>
 
 <script src="../js/jquery-1.9.0.min.js"></script>
 <script src="../js/jquery-ui.js"></script>

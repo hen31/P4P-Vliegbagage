@@ -39,9 +39,10 @@ class trajecten
         return $result;
     }
     
-     public function GetAllTrajecten()
+     public function GetAllTrajecten($begin)
      {
-         $result = DbHandler::Query("SELECT * FROM traject", null);
+#         $result = DbHandler::Query("SELECT * FROM traject LIMIT :begin, :end;", array("begin" => $begin, "end" => $end));
+          $result = DbHandler::Query("SELECT * FROM traject LIMIT " . $begin . ", 5", null);
          
          for($i = 0; $i < count($result); $i++)
          {
