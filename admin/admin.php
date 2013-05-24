@@ -1,11 +1,7 @@
 <?php
 //Alle data classes includen
 require_once("../data/includeAll.php");
-if(!isset($_SESSION["user"]) || $_SESSION["user"]==null)
-{
-    header("Location: login.php");
-    exit();
-}
+
 $titel = "Administratie";
 require_once("bovenkant.php");
 ?>

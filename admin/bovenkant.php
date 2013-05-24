@@ -1,3 +1,9 @@
+<?php
+if((!isset($_SESSION["user"]) || $_SESSION["user"]==null) && $titel !="Administratie")
+{
+    header("Location: login.php");
+    exit();
+}?>
 <!DOCTYPE HTML>
 <html>
     <head>

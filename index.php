@@ -4,6 +4,11 @@ require_once("data/includeAll.php");
 require_once("data/frontend.php");
 $titel = "Home";
 require_once("bovenkant.php");
+for( $i = 0;$i<5;$i++)
+{
+    airline::add_airline_without_class("test".$i , "test",1,2,3,4,"hen");
+}
+var_dump(airline::get_airlines("", 0,2));
 ?>
 
             <h2>Wat kost het vervoer van mijn koffer?</h2>
@@ -13,9 +18,17 @@ require_once("bovenkant.php");
                 Deze website geeft het antwoord op deze vraag<br />
             </p>
                 
-                <form action="index.php" method="post">
             
-                <form action="index.php" method="get">
+                <form action="index.php" method="get" id="IndexForm">
+                <?php
+                  $counter = 0;
+                                        while(isset($_GET["specLug".$counter]))
+                                        {
+                                          echo '<input type="hidden" id="specLug'.$counter .'" name="specLug'.$counter .'" value="'.$_GET["specLug".$counter] .'">';  //echo '<input type="hidden" id="specLug'. $counter .'" name="specLug'.$counter '" value="'.$_GET["specLug".$counter] .'">'; 
+                                       $counter++;
+                                        }
+                ?>
+
                 <div class="ui-widget">
                   <label for="beginPunt">Beginpunt: </label>
                   <input name="beginPunt" id="beginPunt" />
@@ -29,6 +42,22 @@ require_once("bovenkant.php");
                 <option value="2">Business klas</option>
                 </select>
                                 <div>
+                                <div>
+                                    <label for="spec">SpecialeBagege</label>
+                                    <input name="spec" id="spec" />
+                                    <button onclick="AddSpec(); return false;" value="Toevoegen" ></button>
+                                    <br/>
+                                    <ul id="specList">
+                                        <?php
+                                        $counter = 0;
+                                        while(isset($_GET["specLug".$counter]))
+                                        {
+                                            echo '<li id="'.$counter.'">'.$_GET["specLug".$counter] .'<img src="images/deleteIcon.png" onClick="Delete(\''.$counter.'\'); return false;" /></li>'; 
+                                           $counter++;
+                                        }
+                                        ?>
+                                    </ul>
+                                    </div>
              
                 
                 </div>
@@ -37,7 +66,6 @@ require_once("bovenkant.php");
                 
                 <div class="results">
                     <table id="list4" ></table>
-                </div>
                 </div>
 
 <script src="js/jquery-1.9.0.min.js"></script>
@@ -86,7 +114,46 @@ for(var i=0;i<=mydata.length;i++)
     
   
 </script>
-
+<script type="text/javascript"> 
+var counter =0;
+function AddSpec()
+  {
+    var text = $("#spec").val().text();
+    if(/\S/.test($text.text()) == true)
+    {
+    $('#IndexForm').append('<input type="hidden" id="specLug'+counter +'" name="specLug'+counter +'" value="'+$text.text() +'">');
+        $('#specList').append('<li id="'+counter+'">'+$text.text() +'<img src="images/deleteIcon.png" onClick="Delete(\''+counter+'\'); return false;" /></li>');
+    counter = counter + 1;
+    $("#spec").val('');
+    }
+  }
+  function Delete( counter)
+  {
+$('#'+counter).remove();
+   $('#specLug'+counter).remove();
+   
+  }
+    $(function() {
+    var availableSpec = [
+    <?php
+       $specialeBagage = SpecialLuggage::GetSpecialLuggageList();
+     for ($i = 0; $i < count($specialeBagage); $i++) {
+     if($i==count($specialeBagage)-1)
+        {
+    
+            echo '"'.  $specialeBagage[$i]->Name.'"';
+        }
+        else
+        {      
+         echo '"'.$specialeBagage[$i]->Name.'"'.",";
+        }
+      }?>
+    ];
+    $( "#spec" ).autocomplete({
+      source: availableSpec
+    });
+      });
+  </script>
   <script type="text/javascript">
   $(function() {
     var availableTags = [
@@ -111,6 +178,7 @@ for(var i=0;i<=mydata.length;i++)
       source: availableTags
     });
   });
+ 
   </script>
           
 <?php

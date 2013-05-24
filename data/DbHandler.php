@@ -128,5 +128,50 @@ class  DbHandler
             return null;
         }
     }  
+//$fetchPictures->bindValue(':skip', (int) trim($_GET['skip']), PDO::PARAM_INT);
+static public function QueryLimit($sql, $parameters = null, $limitBegin,$limitEnd)
+    {    
+        
+      try
+      {
+            //Connectie string klaarmaken
+            $connectionString = "mysql:host=" . DATABASE_HOST . ";port=" . DATABASE_PORT . ";dbname=" . DATABASE_NAME . ";charset=utf8";
+           //Connectie aanmaken deze variabelen staan in ../Config.php
+            $connection = new PDO($connectionString, DATABASE_USERNAME, DATABASE_PASSWORD);
+            $result = array();
+            if ($statement = $connection->prepare($sql . " LIMIT :begin :end"))
+            {
+
+
+                /* Parameters toevoegen */
+                if ($parameters != null)
+                {
+                    foreach ($parameters as $key => &$value)
+                    {
+                        $statement->bindParam(':' . $key, $value);
+
+                    }
+                }
+                $statement->bindValue(':begin', (int) trim($limitBegin), PDO::PARAM_INT);
+                $statement->bindValue(':end', (int) trim($limitEnd), PDO::PARAM_INT);
+                $statement->execute();
+                /* qeury uitvoeren */
+                while ($row = $statement->fetch(PDO::FETCH_ASSOC))
+                {
+                    $result[] = $row;
+                }
+                $statement = null;
+            }
+            
+            return $result;
+        }
+        catch (PDOException $exception)
+        {
+      ErrorLog::LogError($exception->GetMessage(),"DbHandler.php");
+                
+
+            return array('null' => null);
+        }
+    }  
 }
 ?>
