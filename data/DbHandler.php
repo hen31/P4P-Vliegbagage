@@ -139,7 +139,7 @@ static public function QueryLimit($sql, $parameters = null, $limitBegin,$limitEn
            //Connectie aanmaken deze variabelen staan in ../Config.php
             $connection = new PDO($connectionString, DATABASE_USERNAME, DATABASE_PASSWORD);
             $result = array();
-            if ($statement = $connection->prepare($sql . " LIMIT :begin :end"))
+            if ($statement = $connection->prepare($sql . " LIMIT :begin, :end"))
             {
 
 
