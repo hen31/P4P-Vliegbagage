@@ -184,3 +184,8 @@ form {margin-left:15px;}
 #right{
     float: right;
 }
+
+.title{
+    font-weight: bold;
+    padding-bottom: 10px;
+}

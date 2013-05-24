@@ -51,18 +51,14 @@ class airline{
             $result_airlines = DbHandler::QueryLimit("SELECT * FROM `airline` WHERE `name` LIKE :searchterm", array("searchterm" => "%" .$searchTerm ."%"), $start, $count);
         }
         else{
-            
             $result_airlines = DbHandler::Query("SELECT * FROM `airline` WHERE `name` LIKE :searchterm", array("searchterm" => "%" .$searchTerm ."%"));
-            
         }
         if(count($result_airlines) == 0){
             return array();
         }
         $airlines = array();
         foreach($result_airlines as $airline){
-            echo "\nQuery start: (" .microtime(false) .")";
             $classes = DbHandler::Query("SELECT * FROM `airlineclass` WHERE (`airline` = :airline);", array("airline" => $airline["airline_id"]));
-            echo ""; echo "Query stop:(" .microtime(false). ")";
             $airlines[] = new airline($airline, $classes);
         }
         return $airlines;

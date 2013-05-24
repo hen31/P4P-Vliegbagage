@@ -4,10 +4,6 @@ require_once("data/includeAll.php");
 require_once("data/frontend.php");
 $titel = "Home";
 require_once("bovenkant.php");
-for( $i = 0;$i<5;$i++)
-{
-    airline::add_airline_without_class("test".$i , "test",1,2,3,4,"hen");
-}
 var_dump(airline::get_airlines("", 0,2));
 ?>
 
