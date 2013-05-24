@@ -1,8 +1,7 @@
 <?php
 //Alle data classes includen
 require_once("data/includeAll.php");
-
-session_start();
+require_once("bovenkant.php");
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(isset($_POST["naam"], $_POST["mail"], $_POST["onderwerp"], $_POST["bericht"], $_POST["code"]) && !empty($_POST["naam"]) && !empty($_POST["mail"]) && !empty($_POST["mail"]) && !empty($_POST["bericht"]) && !empty($_POST["code"])){
@@ -26,7 +25,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
     unset($_SESSION["hash"]);
 }
-require_once("bovenkant.php");
+
 ?>
             <?php 
             if(isset($error) || $_SERVER["REQUEST_METHOD"] == "GET"){
@@ -56,7 +55,7 @@ require_once("bovenkant.php");
             }
             ?>
             
-        </div>
+        
 <?php
 require_once("onderkant.php");
 ?>
