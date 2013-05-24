@@ -31,7 +31,7 @@ require("includeAll.php");
         
         public static function EditItem ($id, $Name)
         {            
-            DbHandler::Query("UPDATE airports SET name = (:Name) WHERE airport_id = (:ID)", array("Name" => $Name, "ID" => $ID));
+            DbHandler::Query("UPDATE airports SET name = (:Name) WHERE airport_id = (:ID)", array("Name" => $Name, "ID" => $id));
             
             $ClassObject = new airports();
             $ClassObject -> SetProperties($id, $Name);
@@ -58,6 +58,10 @@ require("includeAll.php");
         {    
              $Query =  DbHandler::Query("SELECT * FROM airports WHERE name = (:Name) lIMIT 1", array("Name" => $Name));
              
+             if (count($Query) == null)
+             {
+                return null;
+             }
              $ClassObject = new airports();
              $ClassObject -> SetProperties($Query[0]["airport_id"], $Query[0]["name"]);
             
