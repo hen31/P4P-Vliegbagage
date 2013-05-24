@@ -58,7 +58,7 @@ require("includeAll.php");
         {    
              $Query =  DbHandler::Query("SELECT * FROM airports WHERE name = (:Name) lIMIT 1", array("Name" => $Name));
              
-             if (count($Query) == null)
+             if (count($Query) == 0)
              {
                 return null;
              }
