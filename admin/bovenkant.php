@@ -1,5 +1,5 @@
 <?php
-if((!isset($_SESSION["user"]) || $_SESSION["user"]==null) && $titel !="Administratie")
+if((!isset($_SESSION["user"]) || $_SESSION["user"]==null) && $titel !="Administratie" && !DEBUG)
 {
     header("Location: login.php");
     exit();

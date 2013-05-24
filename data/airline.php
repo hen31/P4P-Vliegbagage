@@ -46,20 +46,23 @@ class airline{
         return new airline($airline[0], $classes);
     }
     
-    public static function get_airlines($searchTerm, $start = null, $count = null){
+    public static function get_airlines($searchTerm = "", $start = null, $count = null){
         if(is_int($start) && is_int($count)){
-            $result_airlines = DbHandler::Query("SELECT * FROM `airline` WHERE `name` LIKE :searchterm LIMIT " .$start .", " .$count, array("searchterm" => "%" .$searchTerm ."%"));
-            var_dump($result_airlines);
+            $result_airlines = DbHandler::QueryLimit("SELECT * FROM `airline` WHERE `name` LIKE :searchterm", array("searchterm" => "%" .$searchTerm ."%"), $start, $count);
         }
         else{
+            
             $result_airlines = DbHandler::Query("SELECT * FROM `airline` WHERE `name` LIKE :searchterm", array("searchterm" => "%" .$searchTerm ."%"));
+            
         }
         if(count($result_airlines) == 0){
             return array();
         }
         $airlines = array();
         foreach($result_airlines as $airline){
-            $classes = DbHandler::Query("SELECT * FROM `airlineclass` WHERE `airline` = :airline", array("airline" => $airline["airline_id"]));
+            echo "\nQuery start: (" .microtime(false) .")";
+            $classes = DbHandler::Query("SELECT * FROM `airlineclass` WHERE (`airline` = :airline);", array("airline" => $airline["airline_id"]));
+            echo ""; echo "Query stop:(" .microtime(false). ")";
             $airlines[] = new airline($airline, $classes);
         }
         return $airlines;

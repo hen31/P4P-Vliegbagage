@@ -1,4 +1,5 @@
 <?php
+echo "Pagina begin: (" .microtime() .")";
 //Alle data classes includen
 require_once("../data/includeAll.php");
 $titel = "Vliegmaatschappijen";
@@ -25,6 +26,30 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <?php
 if(isset($_GET["action"]) && $_GET["action"] == "add"){
 ?>
+<script src="../js/jquery.js"></script>
+  <script type="text/javascript">
+  
+  $(function() {
+    var availableTags = [
+    <?php
+     $airlines = airline::get_airlines(); //alle airlines ophalen
+     for ($i = 0; $i < count($airlines); $i++) {
+     if($i==count($airlines)-1)
+        {
+    
+            echo '"'.  $airlines[$i]->name.'"';
+        }
+        else
+        {      
+         echo '"'.$airlines[$i]->name.'"'.",";
+        }
+      }?>
+    ];
+    $( "#airline_name" ).autocomplete({
+      source: availableTags
+    });
+  });
+  </script>
 
 <!--Add-->
 <div id="left">
@@ -32,7 +57,7 @@ if(isset($_GET["action"]) && $_GET["action"] == "add"){
     
     <form action="airline.php" method="post" class="form">
     
-        <label title="Naam van de vliegmaatschappij">Naam:</label><input type="text" name="naam" />
+        <label title="Naam van de vliegmaatschappij">Naam:</label><input id="airline_name" name="naam" />
         <label title="Link naar een logo voor de vliegmaatschappij">Logo:</label><input type="url" name="logo" />
         <label title="Iata code van de vliegmaatschappij">Iata code:</label><input type="text" name="iata" />
         <label title="Kosten in euro's die extra worden gerekend per extra gram gewicht">Kosten per extra gram:</label><input type="text" name="OverweightChargeG" />
@@ -112,4 +137,5 @@ if(isset($_GET["action"]) && $_GET["action"] == ""){
 ?>
 <?php
 require_once("onderkant.php");
+echo "Pagina eind: (" .microtime() .")";
 ?>
