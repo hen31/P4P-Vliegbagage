@@ -32,6 +32,62 @@ if(isset($_GET["action"]) && $_GET["action"] == "add"){
 <script src="../js/javascript.js"></script>
   <script type="text/javascript">
   
+  $(document).ready(function(){
+    $(".pcs").hide();
+    $(".weight").hide();
+    $(".pcsHL").hide();
+    $(".weightHL").hide();
+    $(".LP").hide();
+    $(".pets").hide();
+    
+    
+    $("#ruimbagage").change(function (){
+        if($("#ruimbagage option:selected").val() == "pcs"){
+            $(".weight").slideUp("fast", function(){
+                $(".pcs").slideDown("fast");
+            });
+        }
+        else if($("#ruimbagage option:selected").val() == "weight"){
+            $(".pcs").slideUp("fast", function(){
+                $(".weight").slideDown("fast");
+            });
+        }
+    });
+    
+    $("#handbagage").change(function(){
+        if($("#handbagage option:selected").val() == "pcs"){
+            $(".weightHL").slideUp("fast", function(){
+                $(".pcsHL").slideDown("fast");
+            });
+        }
+        else if($("#handbagage option:selected").val() == "weight"){
+            $(".pcsHL").slideUp("fast", function(){
+                $(".weightHL").slideDown("fast");
+            });
+        }
+    });
+    
+    $("#LP_select").change(function(){
+        if($("#LP_select option:selected").val() == "true"){
+            $(".LP").slideDown("fast");
+        }
+        else if($("#LP_select option:selected").val() == "false"){
+            $(".LP").slideUp("fast");
+        }
+    });
+    
+    $("#pets").change(function(){
+        if($("#pets option:selected").val() == "true"){
+            $(".pets").slideDown("fast");
+        }
+        else if($("#pets option:selected").val() == "false"){
+            $(".pets").slideUp("fast");
+        }
+    });
+    
+    
+  });
+  
   $(function() {
     var availableTags = [
     <?php
@@ -87,22 +143,22 @@ if(isset($_GET["action"]) && $_GET["action"] == "add"){
         
         <!--Ruimbagage-->
         <label class="title">Ruimbagage</label><br />
-        <label>Stukken of gewicht</label><select class="input" name="pcs_weight"><option></option><option value="pcs">Stukken</option><option value="weight">Gewicht</option></select>
+        <label>Stukken of gewicht</label><select id="ruimbagage" class="input" name="pcs_weight"><option></option><option value="pcs">Stukken</option><option value="weight">Gewicht</option></select>
         <div class="pcs"><label>Stukken bagage</label><input type="text" name="pcsLuggage" /></div>
-        <label>Max. gewicht bagage</label><input type="text" name="maxWeightLuggage" />
+        <div class="weight"><label>Max. gewicht bagage</label><input type="text" name="maxWeightLuggage" /></div>
         <div class="pcs"><label>Stukken bagage kind</label><input type="text" name="pcsLuggageInfant" /></div>
-        <label>Max. gewicht bagage kind</label><input type="text" name="pcsLuggageInfantMaxWeight" /><br />
+        <div class="weight"><label>Max. gewicht bagage kind</label><input type="text" name="pcsLuggageInfantMaxWeight" /></div><br />
         
         <!--Handbagage-->
         <label class="title">Handbagage</label><br />
-        <label>Stukken of gewicht</label><select class="input" name="pcs_weightHL"><option></option><option value="pcs">Stukken</option><option value="weight">Gewicht</option></select>
-        <label>Stukken handbagage</label><input type="text" name="pcsHL" />
-        <label>Max. gewicht handbagage</label><input type="text" name="MaxWeightHL" />
+        <label>Stukken of gewicht</label><select id="handbagage" class="input" name="pcs_weightHL"><option></option><option value="pcs">Stukken</option><option value="weight">Gewicht</option></select>
+        <div class="pcsHL"><label>Stukken handbagage</label><input type="text" name="pcsHL" /></div>
+        <div class="pcsHL"><label>Stukken handbagage kind</label><input type="text" name="pcsInfantHL" /></div>
+        <div class="weightHL"><label>Max. gewicht handbagage</label><input type="text" name="MaxWeightHL" /></div>
         <label>Lengte handbagage</label><input type="text" name="sizeLenghtHL" />
         <label>Hoogte handbagage</label><input type="text" name="sizeHeightHL" />
         <label>Breedte handbagage</label><input type="text" name="SizeWidthHL" />
-        <label>Grootte handbagage</label><input type="text" name="sizeTotalHL" />
-        <label>Stukken handbagage kind</label><input type="text" name="pcsInfantHL" /><br />
+        <label>Grootte handbagage</label><input type="text" name="sizeTotalHL" /><br />
         
         <!--Items-->
         <label class="title">Items</label><br />
@@ -113,19 +169,19 @@ if(isset($_GET["action"]) && $_GET["action"] == "add"){
         
         <!--LP-->
         <label class="title">Loyalty programma (LP)</label><br />
-        <label>Loyalty programma</label><select class="input" name="LoyaltyProgramme"><option></option><option value="true">Ja</option><option value="false">Nee</option></select>
-        <label>Extra stukken bagage LP</label><input type="text" name="LPextraPcsLuggage" />
+        <label>Loyalty programma</label><select id="LP_select" class="input" name="LoyaltyProgramme"><option></option><option value="true">Ja</option><option value="false">Nee</option></select>
+        <div class="LP"><label>Extra stukken bagage LP</label><input type="text" name="LPextraPcsLuggage" />
         <label>Extra gewicht bagage LP</label><input type="text" name="LPextraWeightLuggage" />
-        <label>Abs. max. gewicht bagage</label><input type="text" name="AbsoluteMaxPerItem" /><br />
+        <label>Abs. max. gewicht bagage</label><input type="text" name="AbsoluteMaxPerItem" /></div><br />
         
         <!--Huisdieren-->
         <label class="title">Huisdieren</label><br />
-        <label>Huisdieren toegestaan</label><select name="PetsAllowed" class="input"><option></option><option value="true">Ja</option><option value="false">Nee</option></select>
-        <label>Max. gewicht huisdier</label><input type="text" name="MaxWeightPet" />
+        <label>Huisdieren toegestaan</label><select id="pets" name="PetsAllowed" class="input"><option></option><option value="true">Ja</option><option value="false">Nee</option></select>
+        <div class="pets"><label>Max. gewicht huisdier</label><input type="text" name="MaxWeightPet" />
         <label>Lengte huisdier</label><input type="text" name="sizeLenghtPet" />
         <label>Hoogte huisdier</label><input type="text" name="sizeHeightPet" />
         <label>Breedte huisdier</label><input type="text" name="sizeWidthPet" />
-        <label>Grootte huisdier</label><input type="text" name="sizeTotalPet" /><br />
+        <label>Grootte huisdier</label><input type="text" name="sizeTotalPet" /></div><br />
         
         <!--Waardeaangifte-->
         <label class="title">Waardeaangifte</label><br />
