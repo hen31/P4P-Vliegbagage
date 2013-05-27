@@ -9,15 +9,18 @@ body {
 	font-weight: normal;
 	background-color: #006E81;
 }
-#AirlineName
+#AirlineNamediv
 {
-    float: right;
+    margin-left:auto; 
+    margin-right:auto;
+    text-align:center;
 }
 #airLogo
 {
-    float:left;
     width:175px;
     height: 175px;
+    margin-left:auto;
+     margin-right:auto;
 }
 .name {
 	

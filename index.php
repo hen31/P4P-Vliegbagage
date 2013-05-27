@@ -206,10 +206,17 @@ function popitup(url, kerl) {
     var w = 900;
     var h= 600;
  var left = (screen.width/2)-(w/2);
-	newwindow=window.open(url,kerl, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', left='+left);
+ <?php 
+if (isset($results) && count($results) > 0)
+{
+ echo 'var classnumber =' .   $results[0]-> classes[0]->classnumber . ';';
+    }
+    ?>
+	newwindow=window.open(url+'&class='+classnumber,kerl, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', left='+left);
 	if (window.focus) {newwindow.focus()}
 	return false;
 }
+
 var mydata = [
 <?php
 
@@ -239,7 +246,7 @@ if (isset($results) && count($results) > 0)
                 pcsLuggage . '",Gwhl:"' . $airline->classes[0]->pcsHL . '"}';
         } else
         {
- echo '{logo:"<img style=\"width:100px;height:100px;\" src=\"images/airlines/' . $airline->logo . '\"/>",name:"' . $airline->name . '",' .
+  echo '{logo:"<img style=\"width:100px;height:100px;\" src=\"images/airlines/' . $airline->logo . '\"/>",name:"' . $airline->name . '",' .
                 'GwGrts:"' . $airline->classes[0]->maxWeightLuggage . '",Afmeting:"' . $afmetingen. '",Apcs:"' . $airline->classes[0]->
                 pcsLuggage . '",Gwhl:"' . $airline->classes[0]->pcsHL . '"},';
         }
@@ -249,6 +256,7 @@ if (isset($results) && count($results) > 0)
 
 ?>
 		];
+        
 for(var i=0;i<=mydata.length;i++)
 	jQuery("#list4").jqGrid('addRowData',i+1,mydata[i]);
     

@@ -5,7 +5,7 @@ require_once ("data/includeAll.php");
 require_once ("data/frontend.php");
 $titel = "Details van ";
 
-if(!isset($_GET["name"]))
+if(!isset($_GET["name"])|| !isset($_GET["class"]))
 {
     exit();
 }
@@ -15,7 +15,7 @@ else
 }
 if(airline::airline_name_exists($_GET["name"]))
 {
-    airline::get_airline_by_name($_GET["name"]);
+   $airline = airline::get_airline_by_name($_GET["name"]);
 }
 else
 {
@@ -36,12 +36,20 @@ else
     <body>
     <div id="container">
             <div id="content">
-            <div class="airLogo"><img src="images/airlines/<?php echo $airline->logo;?>" /></div>
-            <div class="AirlineName"><h2>
+            <div id="airLogo"><img style="width: 175px; height:175px; " src="images/airlines/<?php echo $airline->logo;?>" /></div>
+          <hr/>
+            <div id="AirlineNamediv"><h2>
             <?php 
             echo $airline->name;?>
             </h2>
             </div>
+            <table>
+            <tr>
+            <td>Gratis gewicht:</td>
+<td><?php echo $airline->classes[$_GET["class"]]->maxWeightLuggage;?></td>
+                <td></td>
+                  <td></td>
+            </tr></table></table>
             </div>
     </div>
     </body>
