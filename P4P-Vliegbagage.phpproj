@@ -1,0 +1,358 @@
+"General"
+{
+"ProjectType" = "local"
+"AutoLoadTemplate" = "%s.php;class.%s.php;"
+"IncludeDirs" = ""
+}
+"Configurations"
+{
+    "Local|PHP 5.2"
+    {
+    }
+    "Staging|PHP 5.2"
+    {
+    }
+    "Production|PHP 5.2"
+    {
+    }
+}
+"Files"
+{
+    ".gitignore"
+    {
+    "ProjRelPath" = "T"
+    }
+    "admin"
+    {
+    "ProjRelPath" = "T"
+    }
+    "admin\\admin.php"
+    {
+    "ProjRelPath" = "T"
+    }
+    "admin\\airline.php"
+    {
+    "ProjRelPath" = "T"
+    }
+    "admin\\airports.php"
+    {
+    "ProjRelPath" = "T"
+    }
+    "admin\\bovenkant.php"
+    {
+    "ProjRelPath" = "T"
+    }
+    "admin\\login.php"
+    {
+    "ProjRelPath" = "T"
+    }
+    "admin\\onderkant.php"
+    {
+    "ProjRelPath" = "T"
+    }
+    "admin\\specialluggage.php"
+    {
+    "ProjRelPath" = "T"
+    }
+    "admin\\trajecten.php"
+    {
+    "ProjRelPath" = "T"
+    }
+    "admin\\users.php"
+    {
+    "ProjRelPath" = "T"
+    }
+    "adminlogin.php"
+    {
+    "ProjRelPath" = "T"
+    }
+    "bovenkant.php"
+    {
+    "ProjRelPath" = "T"
+    }
+    "captcha"
+    {
+    "ProjRelPath" = "T"
+    }
+    "captcha\\captcha.php"
+    {
+    "ProjRelPath" = "T"
+    }
+    "captcha\\font.ttf"
+    {
+    "ProjRelPath" = "T"
+    }
+    "contact.php"
+    {
+    "ProjRelPath" = "T"
+    }
+    "css"
+    {
+    "ProjRelPath" = "T"
+    }
+    "css\\ellipsis-xbl.xml"
+    {
+    "ProjRelPath" = "T"
+    }
+    "css\\images"
+    {
+    "ProjRelPath" = "T"
+    }
+    "css\\images\\animated-overlay.gif"
+    {
+    "ProjRelPath" = "T"
+    }
+    "css\\images\\ui-bg_flat_55_999999_40x100.png"
+    {
+    "ProjRelPath" = "T"
+    }
+    "css\\images\\ui-bg_flat_75_aaaaaa_40x100.png"
+    {
+    "ProjRelPath" = "T"
+    }
+    "css\\images\\ui-bg_glass_45_0078ae_1x400.png"
+    {
+    "ProjRelPath" = "T"
+    }
+    "css\\images\\ui-bg_glass_55_f8da4e_1x400.png"
+    {
+    "ProjRelPath" = "T"
+    }
+    "css\\images\\ui-bg_glass_75_79c9ec_1x400.png"
+    {
+    "ProjRelPath" = "T"
+    }
+    "css\\images\\ui-bg_gloss-wave_45_e14f1c_500x100.png"
+    {
+    "ProjRelPath" = "T"
+    }
+    "css\\images\\ui-bg_gloss-wave_50_6eac2c_500x100.png"
+    {
+    "ProjRelPath" = "T"
+    }
+    "css\\images\\ui-bg_gloss-wave_75_2191c0_500x100.png"
+    {
+    "ProjRelPath" = "T"
+    }
+    "css\\images\\ui-bg_inset-hard_100_fcfdfd_1x100.png"
+    {
+    "ProjRelPath" = "T"
+    }
+    "css\\images\\ui-icons_0078ae_256x240.png"
+    {
+    "ProjRelPath" = "T"
+    }
+    "css\\images\\ui-icons_056b93_256x240.png"
+    {
+    "ProjRelPath" = "T"
+    }
+    "css\\images\\ui-icons_d8e7f3_256x240.png"
+    {
+    "ProjRelPath" = "T"
+    }
+    "css\\images\\ui-icons_e0fdff_256x240.png"
+    {
+    "ProjRelPath" = "T"
+    }
+    "css\\images\\ui-icons_f5e175_256x240.png"
+    {
+    "ProjRelPath" = "T"
+    }
+    "css\\images\\ui-icons_f7a50d_256x240.png"
+    {
+    "ProjRelPath" = "T"
+    }
+    "css\\images\\ui-icons_fcd113_256x240.png"
+    {
+    "ProjRelPath" = "T"
+    }
+    "css\\jquery-ui-1.10.3.custom.css"
+    {
+    "ProjRelPath" = "T"
+    }
+    "css\\jquery-ui-1.10.3.custom.min.css"
+    {
+    "ProjRelPath" = "T"
+    }
+    "css\\jquery-ui.css"
+    {
+    "ProjRelPath" = "T"
+    }
+    "css\\ui.jqgrid.css"
+    {
+    "ProjRelPath" = "T"
+    }
+    "data"
+    {
+    "ProjRelPath" = "T"
+    }
+    "data\\airline.php"
+    {
+    "ProjRelPath" = "T"
+    }
+    "data\\airlineclass.php"
+    {
+    "ProjRelPath" = "T"
+    }
+    "data\\airports.php"
+    {
+    "ProjRelPath" = "T"
+    }
+    "data\\conf.php"
+    {
+    "ProjRelPath" = "T"
+    }
+    "data\\DbHandler.php"
+    {
+    "ProjRelPath" = "T"
+    }
+    "data\\ErrorLog.php"
+    {
+    "ProjRelPath" = "T"
+    }
+    "data\\FrontEnd.php"
+    {
+    "ProjRelPath" = "T"
+    }
+    "data\\includeAll.php"
+    {
+    "ProjRelPath" = "T"
+    }
+    "data\\specialluggage.php"
+    {
+    "ProjRelPath" = "T"
+    }
+    "data\\trajecten.php"
+    {
+    "ProjRelPath" = "T"
+    }
+    "data\\users.php"
+    {
+    "ProjRelPath" = "T"
+    }
+    "data\\validator.php"
+    {
+    "ProjRelPath" = "T"
+    }
+    "images"
+    {
+    "ProjRelPath" = "T"
+    }
+    "images\\556111_28173405.jpg"
+    {
+    "ProjRelPath" = "T"
+    }
+    "images\\animated-overlay.gif"
+    {
+    "ProjRelPath" = "T"
+    }
+    "images\\naam.jpg"
+    {
+    "ProjRelPath" = "T"
+    }
+    "index.php"
+    {
+    "ProjRelPath" = "T"
+    }
+    "js"
+    {
+    "ProjRelPath" = "T"
+    }
+    "js\\Changes.txt"
+    {
+    "ProjRelPath" = "T"
+    }
+    "js\\grid.locale-nl.js"
+    {
+    "ProjRelPath" = "T"
+    }
+    "js\\install.txt"
+    {
+    "ProjRelPath" = "T"
+    }
+    "js\\javascript.js"
+    {
+    "ProjRelPath" = "T"
+    }
+    "js\\jquery-1.9.0.min.js"
+    {
+    "ProjRelPath" = "T"
+    }
+    "js\\jquery-ui.js"
+    {
+    "ProjRelPath" = "T"
+    }
+    "js\\jquery.jqGrid.min.js"
+    {
+    "ProjRelPath" = "T"
+    }
+    "js\\jquery.js"
+    {
+    "ProjRelPath" = "T"
+    }
+    "localhost.sql"
+    {
+    "ProjRelPath" = "T"
+    }
+    "onderkant.php"
+    {
+    "ProjRelPath" = "T"
+    }
+    "plugins"
+    {
+    "ProjRelPath" = "T"
+    }
+    "plugins\\grid.addons.js"
+    {
+    "ProjRelPath" = "T"
+    }
+    "plugins\\grid.postext.js"
+    {
+    "ProjRelPath" = "T"
+    }
+    "plugins\\grid.setcolumns.js"
+    {
+    "ProjRelPath" = "T"
+    }
+    "plugins\\jquery.contextmenu.js"
+    {
+    "ProjRelPath" = "T"
+    }
+    "plugins\\jquery.searchFilter.js"
+    {
+    "ProjRelPath" = "T"
+    }
+    "plugins\\jquery.tablednd.js"
+    {
+    "ProjRelPath" = "T"
+    }
+    "plugins\\searchFilter.css"
+    {
+    "ProjRelPath" = "T"
+    }
+    "plugins\\ui.multiselect.css"
+    {
+    "ProjRelPath" = "T"
+    }
+    "plugins\\ui.multiselect.js"
+    {
+    "ProjRelPath" = "T"
+    }
+    "README.md"
+    {
+    "ProjRelPath" = "T"
+    }
+    "style.css"
+    {
+    "ProjRelPath" = "T"
+    }
+}
+"ProjStartupServices"
+{
+}
+"Globals"
+{
+}
+"References"
+{
+}
