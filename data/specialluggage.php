@@ -35,11 +35,14 @@ class SpecialLuggage
             $Result = DbHandler::Query("SELECT specialluggage_id FROM specialluggage WHERE name = :Name ;", array("Name" => $Name));
             $SpecialLugageID = $Result[0]["specialluggage_id"];
         }
+        if($AirlineID !=null)
+        {
         
         DbHandler::NonQuery("INSERT INTO airlinespecialluggage (airline_id, specialluggage_id, notes) VALUES (:Airlineid, :specialid, :notes); ", array("Airlineid" => $AirlineID, "specialid" => $SpecialLugageID, "notes" => $Notes));
         $ClassObject = new SpecialLuggage();
         $ClassObject->SetProperties($SpecialLugageID, $AirlineID, $Name, $Notes);
         return $ClassObject;
+        }
         
     }
     public static function EditAirlineNotes($Specialluggage_id, $airlineID, $Notes)
@@ -85,6 +88,9 @@ class SpecialLuggage
     public static function GetSpecialLuggageName($Name)
     {
         $Result = DbHandler::Query("Select * FROM specialluggage WHERE  NAME = :Name;", array("Name" => $Name));
+        if(count($Result) < 1){
+            return null;
+        }
         $ClassObject = new SpecialLuggage();
         $ClassObject->SetProperties($Result[0]["specialluggage_id"], 0,$Result[0]["name"],"");
         return $ClassObject;

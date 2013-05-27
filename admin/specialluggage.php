@@ -31,7 +31,7 @@ if (isset($_GET["action"])) {
                     $name = "Dit type bagage bestaat al!";
                 } else {
                     $_POST["name"] = null;
-                    $specialeBagage = specialluggage::AddItem(($name));
+                    $specialeBagage = specialluggage::AddItem(null,($name), null);
                 }
             } else {
                 $name = "Niet alle velden zijn correct ingevuld!";
@@ -49,7 +49,7 @@ if (isset($_GET["action"])) {
         </td>
         </tr>
         </table>
-        <form action="specialluggage.php?action.add" method="post" class="form">
+        <form action="specialluggage.php?action=add" method="post" class="form">
             <div><label for="specialluggagename">Speciale bagage naam: </label><input name="name" id="specialluggagename" /></div>
             <div>&nbsp;</div>
             <div><label>&nbsp;</label><input type="submit" value="Speciale bagage toevoegen"/></div>
@@ -69,8 +69,14 @@ if (isset($_GET["action"])) {
         echo $name;
 
     }
-
 }
+?>
+
+<?php
+if (isset($_GET["action"])) {
+    if ($_GET["action"] == "edit") {
+        }
+        }
 ?>
 
 <?php
