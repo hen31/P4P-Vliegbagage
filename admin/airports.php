@@ -32,8 +32,7 @@ if (isset($_GET["action"])) {
     if ($_GET["action"] == "add") {
         if (!empty($_POST["name"])) {
             if (strlen($_POST["name"]) > 0 && strlen($_POST["name"]) < 101 && strlen($_POST["Iata"]) >
-                0 && strlen($_POST["Iata"]) < 5 && strpos($_POST["name"], '(') == false &&
-                strpos($_POST["Iata"], '(') == false) {
+                0 && strlen($_POST["Iata"]) < 5) {
                 $name = $_POST["name"] . " (" . $_POST["Iata"] . ")";
                 $CheckIfExists = airports::GetAirportByName($name);
 
@@ -157,9 +156,16 @@ if (isset($_GET["action"])) {
                                                                     <?php
                 $AirportObject = airports::GetAirportByID($_POST["Airports"]);
                 echo $AirportObject->AirportName;
-
+                
                 $AirportName = explode("(", $AirportObject->AirportName);
-                $IataCode = explode(")", $AirportName[1]);
+                
+                $IataCode = $AirportName[Count($AirportName) - 1];
+                unset($AirportName[(Count($AirportName) - 1)]);
+                $AirportName = implode("(", $AirportName);
+                
+                $IataCode = explode(")", $IataCode);
+                //$IataCode = substr($IataCode, 0, -3);
+                
                 $Airportid = $_POST["Airports"];
 
                 //verwijdercheckbox is scheef
@@ -172,7 +178,7 @@ if (isset($_GET["action"])) {
                                                                 <form action="airports.php?action=edit&Edited=<?php echo
                 $Airportid; ?>" method="post" class="form">
                                                                     <div><label for="airportname">Vliegveld naam: </label><input name="name" id="airportname" value="<?php echo
-                $AirportName[0]; ?>" style="width:325px;" /></div>
+                $AirportName; ?>" style="width:325px;" /></div>
                                                                     <div><label for="airportIata">Vliegveld IATA code: </label><input name="Iata" id="IataCode" value="<?php echo
                 $IataCode[0]; ?>" style="width:325px;" /></div>
                                                                     <div><label for="Verwijderen">Vliegveld verwijderen? </label><input type="checkbox" name="verwijderen" value="true"/></div>
