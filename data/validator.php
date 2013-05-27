@@ -8,7 +8,7 @@
 class validator{
     //kijken of het een nummer is
     static function isInt($getal){
-        return is_int($getal);
+        return is_numeric($getal);
     }
     //kijken of het een string is
     static function isString($string){
