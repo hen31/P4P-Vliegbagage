@@ -82,5 +82,22 @@ require("includeAll.php");
                
             return $AirportCOllection;    
         }
+        
+        public static function SearchAirports($SearchQuery)
+        {   
+            $Query =  DbHandler::Query("SELECT * FROM airports WHERE name LIKE  :SearchQuery ", array("SearchQuery" => "%" . $SearchQuery . "%"));
+            $AirportCOllection = array();
+               
+               foreach($Query as $result)
+               {
+                    $AirportObject = new airports();
+                    $AirportObject -> SetProperties($result["airport_id"], $result["name"]);
+                    array_push($AirportCOllection, $AirportObject);
+               }
+               
+               
+            return $AirportCOllection;    
+            
+        }
     }
 ?>
