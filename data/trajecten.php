@@ -127,7 +127,7 @@ class trajecten
     //Get traject by airports.
     public static function GetTrajectByAirports($startAirport, $stopAirport)
     {
-        $result = DbHandler::QueryScalar("SELECT * FROM trajecten WHERE trajecten.airport_start_id = (SELECT airport_id FROM airports WHERE name = :startAirport) AND airport_stop_id = (SELECT airport_id FROM airports WHERE name = :stopAirport);",
+        $result = DbHandler::Query("SELECT * FROM trajecten WHERE trajecten.airport_start_id = (SELECT airport_id FROM airports WHERE name = :startAirport) AND airport_stop_id = (SELECT airport_id FROM airports WHERE name = :stopAirport);",
             array("startAirport" => $startAirport, "stopAirport" => $stopAirport));
 
         if ($result == null) {
@@ -135,8 +135,77 @@ class trajecten
         } else {
             $traject = new trajecten();
             $traject->TrajectID = $result[0]["traject_id"];
+                $traject->TrajectID = $result[0]["traject_id"];
+                            $traject->Airport1 = airports::GetAirportByID($result[0]["airport_start_id"]);
+            $traject->Airport2 = airports::GetAirportByID($result[0]["airport_stop_id"]);
             return $traject;
         }
+    }
+     public static function GetTrajectByAirportsID($startAirport, $stopAirport)
+    {
+        $result = DbHandler::Query("SELECT * FROM traject WHERE airport_start_id = :startAirport AND airport_stop_id =  :stopAirport;",
+            array("startAirport" => $startAirport, "stopAirport" => $stopAirport));
+
+        if ($result == null) {
+            return null;
+        } else {
+            $traject = new trajecten();
+            $traject->TrajectID = $result[0]["traject_id"];
+            $traject->Airport1 = airports::GetAirportByID($result[0]["airport_start_id"]);
+            $traject->Airport2 = airports::GetAirportByID($result[0]["airport_stop_id"]);
+            return $traject;
+        }
+    }
+      public static function   LinkAirportTraject($airport,$traject,$zone)
+      {
+        if(trajecten::LinkAirportTrajectExists($airport,$traject))
+        {
+                 DbHandler::NonQuery("UPDATE trajectairline SET zone=:zon WHERE traject_id=:tid AND  airline_id=:aid;",
+            array("tid" => $traject->TrajectID,
+            "aid" => $airport->airline_id,
+            "zon" => $zone));
+        }
+        else
+        {
+                 DbHandler::NonQuery("INSERT INTO trajectairline(traject_id, airline_id, zone) VALUES(:tid, :aid, :zon);",
+            array("tid" => $traject->TrajectID,
+            "aid" => $airport->airline_id,
+            "zon" => $zone));
+        }
+      }
+        public static function   LinkAirportTrajectExists($airport,$traject)
+      {
+          $result =       DbHandler::QueryScalar("SELECT COUNT(*) FROM trajectairline WHERE traject_id =:id AND airline_id=:aid;",
+            array("id" => $traject->TrajectID, "aid" => $airport->airline_id));
+            if($result>0)
+            {
+                return true;
+            }
+      }
+    public static function GetAirlinesFromTraject($traject)
+    {
+            $result = DbHandler::Query("SELECT * FROM trajectairline WHERE traject_id =:id;",
+            array("id" => $traject->TrajectID));
+            if(count($result) == 0)
+            {
+                return null;
+            }
+            else
+            {
+                $airlines =  array();
+                for($i =0; $i < count($result);$i++)
+                {
+                    $airlines[] =  airline::get_airline($result[$i]["airline_id"],0);
+                }
+                return $airlines;
+            }
+
+    }
+    public static function DeleteAirlineTraject($airportId, $traject)
+    {
+          DbHandler::NonQuery("DELETE FROM trajectairline  WHERE traject_id=:tid AND  airline_id=:aid;",
+            array("tid" => $traject->TrajectID,
+            "aid" => $airportId));
     }
 }
 

@@ -97,7 +97,10 @@ p {
 	color: #666;
 	margin-left: 15px;
 }
-
+#Message
+{
+    font-size: 2em ;
+}
 #footer {
 	border-top-width: 1px;
 	border-top-style: solid;
