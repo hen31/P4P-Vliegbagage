@@ -2,6 +2,43 @@
 //Alle data classes includen
 require_once ("../data/includeAll.php");
 $titel = "Trajecten";
+if ((isset($_POST["checkPostedAdd"]))) {
+    if (($_POST["beginPunt"] == $_POST["eindPunt"])) {
+        $message = '<script type="text/javascript"> window.alert("Beginpunt en eindpunt mogen niet gelijk zijn.")</script>';
+    }
+    if (!($_POST["beginPunt"] == $_POST["eindPunt"])) {
+        if ((!$_POST["beginPunt"] || !$_POST["eindPunt"])) {
+             $message = '<script type="text/javascript"> window.alert("Beginpunt en eindpunt mogen niet leeg zijn.")</script>';
+        } else {
+            if (!airports::GetAirportByName($_POST["beginPunt"]) || !airports::
+                GetAirportByName($_POST["eindPunt"])) {
+                 $message = '<script type="text/javascript"> window.alert("Het door u ingevoerde beginpunt of eindpunt bestaat niet. Probeer het opnieuw alstublieft.")</script>';
+            } else {
+                if (trajecten::CheckTrajectExist($_POST["beginPunt"], $_POST["eindPunt"])) {
+                    $message = '<script type="text/javascript"> window.alert("Het door u ingevoerde traject bestaat al. Probeer het opnieuw alstublieft.")</script>';
+                } else {
+                    try {
+                        trajecten::AddTraject($_POST["beginPunt"], $_POST["eindPunt"]);
+                        $toegevoegd = true;
+                        session_start();
+                        $_SESSION["added"] = true;
+                        #                        $_POST = array();
+                        #                        echo '<script type="text/javascript"> window.alert("Traject is met success toegevoegd."); window.location.refresh();</script>';
+                     //   echo '<script type="text/javascript"> window.alert("Traject is met success toegevoegd."); window.location = "trajecten.php;</script>';
+                    }
+                    catch (exception $e) {
+                      $message = '<script type="text/javascript"> window.alert("Er ging iets mis met het toevoegen van het traject. Probeer het opnieuw altublieft.")</script>';
+                    }
+                }
+            }
+        }
+    }
+}
+if (isset($toegevoegd) && $toegevoegd == true) {
+    $toegevoegd= false;
+    header("Location: trajecten.php");
+    exit;
+}
 require_once ("bovenkant.php");
 print_r($_POST);
 ?>
@@ -112,7 +149,7 @@ if (!empty($_SERVER['QUERY_STRING'])) {
     if (isset($_GET['remove'])) {
         $remove = $_GET['remove'];
 
-        trajecten::RemoveItem($remove);
+        trajecten::RemoveTraject($remove);
         $id = 0;
         $begin = $id;
         $end = ($begin + 5);
@@ -226,36 +263,17 @@ for ($i = 0; $i < count($airports); $i++) {
 require_once ("onderkant.php");
 ?>
 <?php
-if ((isset($_POST["checkPostedAdd"]))) {
-    if (($_POST["beginPunt"] == $_POST["eindPunt"])) {
-        echo '<script type="text/javascript"> window.alert("Beginpunt en eindpunt mogen niet gelijk zijn.")</script>';
-    }
-    if (!($_POST["beginPunt"] == $_POST["eindPunt"])) {
-        if ((!$_POST["beginPunt"] || !$_POST["eindPunt"])) {
-            echo '<script type="text/javascript"> window.alert("Beginpunt en eindpunt mogen niet leeg zijn.")</script>';
-        } else {
-            if (!airports::GetAirportByName($_POST["beginPunt"]) || !airports::
-                GetAirportByName($_POST["eindPunt"])) {
-                echo '<script type="text/javascript"> window.alert("Het door u ingevoerde beginpunt of eindpunt bestaat niet. Probeer het opnieuw alstublieft.")</script>';
-            } else {
-                if (trajecten::CheckExist($_POST["beginPunt"], $_POST["eindPunt"])) {
-                    echo '<script type="text/javascript"> window.alert("Het door u ingevoerde traject bestaat al. Probeer het opnieuw alstublieft.")</script>';
-                } else {
-                    try {
-                        trajecten::AddItem($_POST["beginPunt"], $_POST["eindPunt"]);
-                        $_POST = array();                        
-                        #                        echo '<script type="text/javascript"> window.alert("Traject is met success toegevoegd."); window.location.refresh();</script>';
-                        #echo '<script type="text/javascript"> window.alert("Traject is met success toegevoegd."); window.location = "trajecten.php;</script>';
-                    }
-                    catch (exception $e) {
-                        echo '<script type="text/javascript"> window.alert("Er ging iets mis met het toevoegen van het traject. Probeer het opnieuw altublieft.")</script>';
-                    }
-                }
-            }
-        }
-    }
-}
 
+if(isset($message))
+{
+    echo $message;
+}
+if(isset( $_SESSION["added"] ) &&  $_SESSION["added"]  ==true)
+{
+     $_SESSION["added"]  = false;
+     echo '<script type="text/javascript"> window.alert("Traject is met success toegevoegd.")</script>';
+    
+}
 #if ((isset($_POST["checkPostedAdd"]))) {
 #    if (($_POST["beginPunt"] == $_POST["eindPunt"])) {
 #        echo '<script type="text/javascript"> window.alert("Beginpunt en eindpunt mogen niet gelijk zijn.")</script>';
@@ -281,5 +299,6 @@ if ((isset($_POST["checkPostedAdd"]))) {
 #        }
 #    }
 #}
+
 
 ?>
