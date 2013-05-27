@@ -24,13 +24,14 @@ require_once("bovenkant.php");
 $AirportObject;
 $name;
 
+//Toevoegen gedeelte:
 if (isset($_GET["action"]))
 {
     if ($_GET["action"] == "add")
     {   
         if (!empty($_POST["name"]))
         {
-            if (strlen($_POST["name"]) > 0 && strlen($_POST["name"]) < 101 && strlen($_POST["Iata"]) > 0 && strlen($_POST["Iata"]) < 5)
+            if (strlen($_POST["name"]) > 0 && strlen($_POST["name"]) < 101 && strlen($_POST["Iata"]) > 0 && strlen($_POST["Iata"]) < 5 && strpos($_POST["name"], '(') == false && strpos($_POST["Iata"], '(') == false)
             {   
                 $name = $_POST["name"] . " (" . $_POST["Iata"] . ")";
                 $CheckIfExists = airports::GetAirportByName($name);
@@ -59,22 +60,19 @@ if (isset($_GET["action"]))
         
         ?>
         <br />
-        <div>
             <table>
             <tr>
                 <td>
-                    <h1>Vliegveld toevoegen</h1><br />
+                    <h1 style="margin-left: 20px;">Vliegveld toevoegen</h1><br />
                 </td>
             </tr>
             </table>
-            <br />
             <form action="airports.php?action=add" method="post" class="form">
                 <div><label for="airportname">Vliegveld naam: </label><input name="name" id="airportname" /></div>
                 <div><label for="airportIata">Vliegveld IATA code: </label><input name="Iata" id="IataCode" /></div>
                 <div>&nbsp;</div>
                 <div><label>&nbsp;</label><input type="submit" value="Vliegveld toevoegen"/></div>
             </form>
-        </div>
         <br />
         
         <?php
@@ -82,9 +80,12 @@ if (isset($_GET["action"]))
         if (!empty($AirportObject))
         {
             ?>
-            <br /><h2>Vliegveld toegevoegd!</h2><br /><br /> 
-            Vliegveld id: <?php echo $AirportObject->AirportID[0]["airport_ID"]; ?><br /> 
-            Vliegveld naam: <?php echo $AirportObject->AirportName;   
+            <div style="margin-left: 20px;">
+                <br /><h1>Vliegveld toegevoegd!</h1><br /><br /> 
+                Vliegveld id: <?php echo $AirportObject->AirportID[0]["airport_ID"]; ?><br /> 
+                Vliegveld naam: <?php echo $AirportObject->AirportName;   ?>
+            </div>
+            <?php
         }
         else
         {
@@ -92,6 +93,7 @@ if (isset($_GET["action"]))
             
         }
     }
+    //Beheer gedeelte:
     if ($_GET["action"] == "edit")
     {
         $Airports = airports::GetAirports();
@@ -110,7 +112,7 @@ if (isset($_GET["action"]))
         <table>
             <tr>
                 <td>
-                    <h1>Vliegveld bewerken</h1><br />
+                    <h1 style="margin-left: 20px;">Vliegveld bewerken</h1><br />
                 </td>
             </tr>
             <tr>
@@ -243,6 +245,7 @@ if (isset($_GET["action"]))
         </table>
         <?php
     }
+    //Importeer gedeelte:
     if ($_GET["action"] == "Import")
     {
         if (!isset($_GET["Stap2"]))
@@ -252,7 +255,7 @@ if (isset($_GET["action"]))
         <table>
             <tr>
                 <td>
-                    <h1>Vliegvelden Importeren</h1><br />
+                    <h1 style="margin-left: 20px;">Vliegvelden Importeren</h1><br />
                 </td>
             </tr>
              <tr>
@@ -260,17 +263,28 @@ if (isset($_GET["action"]))
                     <table style="width: 880px;">
                         <tr>
                             <td>
-                                <div style="width:380px;">
+                                <div style="width:380px; height:395px;">
                                     <form action="airports.php?action=Import&Stap2=true" method="post"
                                         enctype="multipart/form-data">
-                                        <label for="file">Filename:</label>
+                                        <label for="file">Bestand:</label>
                                         <input type="file" name="file" id="file"/><br />
-                                        <input type="submit" name="submit" style="width: 380;" value="Bestand importeren" />
+                                        <input type="submit" name="submit" style="width: 295px;" value="Bestand importeren" />
                                     </form>
                                 </div>
                             </td>
                             <td style="width: 499px;" >
-                            test
+                            <h1>Handleiding vliegvelden importeren.</h1><br /><br />
+                            Met deze pagina kan er op een snellere mannier vliegvelden worden toegevoegd doormiddel van een vooraf gemaakt tekst bestand. <br /><br />
+                            
+                            - Stap 1: Maak in het windows programma kladblok een bestand aan met vliegvelden. Vliegvelden moeten als volgt in het tekstbestand staan: <br /><br />
+                            &nbsp; &nbsp; Amsterdam Airport Schiphol (AMS) <br />
+                            &nbsp; &nbsp; Bangkok international Airport (BKK) <br />
+                            &nbsp; &nbsp; Londen Heathrow Airport (LHR) <br /><br />
+                            Enzovoort. <br /><br />
+                            Het is belangrijk dat haakjes maar 1 keer voorkomen omdat de website hier de IATA codes op filterd. <br /><br />
+                            - Stap 2: Upload de lijst door op bladeren te klikken en het bestand te selecteren. Klik daarna op Bestand importeren. <br /><br />
+                            - Stap 3: Controleer de geimporteerde lijst die op het scherm wordt getoont. Als alles klopt klik dan op "Vliegvelden inlezen".<br /><br />
+                            De vliegvelden staan nu in de database.
                             </td>
                         </tr>
                     </table>
@@ -280,13 +294,15 @@ if (isset($_GET["action"]))
         
         <?php
         }
-        else
+        if (isset($_GET["Stap2"]) && !(isset($_GET["Stap3"])))
         {
         ?>
+            <br />
             <table>
             <tr>
                 <td>
-                    <h1>Ingelezen vliegvelden:</h1><br />
+                    <h1 style="margin-left: 20px;">Vliegvelden in het verstuurde tekst bestand:</h1><br />
+                    <br />
                     <?php
                     if ($_FILES["file"]["error"] > 0)
                     {
@@ -294,25 +310,98 @@ if (isset($_GET["action"]))
                     }
                     else
                     {
-                        echo "Upload: " . $_FILES["file"]["name"] . "<br>";
-                        echo "Type: " . $_FILES["file"]["type"] . "<br>";
-                        echo "Size: " . ($_FILES["file"]["size"] / 1024) . " kB<br>";
-                        echo "Stored in: " . $_FILES["file"]["tmp_name"];
-                        
-                        move_uploaded_file($_FILES["file"]["tmp_name"], "upload/" . $_FILES["file"]["name"]);
-                        echo "Stored in: " . "upload/" . $_FILES["file"]["name"];
+                         
+                            $myFile = $_FILES["file"]["tmp_name"]; 
+                            $file = file_get_contents($myFile);
+                            $lines = explode("\n", $file);
+                            
+                            $InleesArray = array();
+                            
+                            foreach($lines as $line)
+                            {
+                                if (strpos($line, '(') != false && (strpos($line, ')') != false ) && strlen($line) > 4 && strlen($line < 105))
+                                {
+                                    array_push($InleesArray, $line);
+                                }
+                            }    
+                            $teller = 0;
+                            ?>
+                            
+                            <div style="width:380px;">
+                                    <form action="airports.php?action=Import&Stap2=true&Stap3=true" method="post">
+                                        <select name="Airports" multiple="true" size="25" style="width:840px;">
+                                        <?php
+                                        foreach($InleesArray as $line)
+                                        {
+                                                $teller = $teller + 1;
+                                                ?>
+                                                <option value="<?php echo $teller; ?>"> <?php echo $line; ?></option>
+                                                <?php
+                                        }
+                                         
+                                        $_SESSION['Lines']= $InleesArray;
+                                        
+                                        ?>
+                                        </select>
+                                        <input type="submit" style="width:840px;" value="Vliegvelden inlezen"/></div>
+                                    </form>
+                                 </div>
+                            <?php
                     }
+
                     ?>
                 </td>
             </tr>
             </table>
           <?php  
         }
+        if (isset($_GET["Stap3"]))
+        {   
+            ?>
+            <br />
+            <table>
+            <tr>
+                <td>
+                    <h1 style="margin-left: 20px;">Inlezen succesvol:</h1><br />
+            <?php
+            $counter = 0;
+            
+            if (isset($_SESSION['Lines']))
+            {
+                foreach ($_SESSION['Lines'] as $line)
+                {
+                    $counter = $counter + 1;
+                    airports::AddItem($line);
+                }
+            }
+            
+            echo $counter . " vliegvelden ingelezen.";
+            ?>
+                </td>
+            </tr>
+            </table>
+            <?php
+        }
     }
 }
 else
 {
-    $name = "";
+    ?>
+        <br />
+            <table>
+            <tr>
+                <td>
+                    <h1 style="margin-left: 20px;">Administratie gedeelte vliegvelden.</h1><br /><br />
+                    <div style="margin-left: 20px; ">
+                        Gebruik het menu om een vliegveld toe te voegen te bewerken of vliegvelden in te lezen.
+                    </div>
+                    
+                </td>
+            </tr>
+            </table>
+            <?php
+
+            $name = "";
 }
 ?>
 

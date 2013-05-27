@@ -86,7 +86,7 @@ class SpecialLuggage
     {
         $Result = DbHandler::Query("Select * FROM specialluggage WHERE  NAME = :Name;", array("Name" => $Name));
         $ClassObject = new SpecialLuggage();
-        $ClassObject->SetProperties($Result[0]["speciallugggage_id"], 0,$Result[0]["name"],"");
+        $ClassObject->SetProperties($Result[0]["specialluggage_id"], 0,$Result[0]["name"],"");
         return $ClassObject;
     }
       
