@@ -9,6 +9,16 @@ body {
 	font-weight: normal;
 	background-color: #006E81;
 }
+#AirlineName
+{
+    float: right;
+}
+#airLogo
+{
+    float:left;
+    width:175px;
+    height: 175px;
+}
 .name {
 	
 	text-align: right;

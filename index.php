@@ -199,11 +199,14 @@ jQuery("#list4").jqGrid({
     onSelectRow: function (id) {
         var selr = jQuery('#list4').jqGrid('getGridParam', 'selrow')
 var kelr = jQuery('#list4').jqGrid('getCell', selr, 'name');
-        popitup("details.php?name=" + kelr);
+        popitup("details.php?name=" + kelr, kelr);
 }
 });
-function popitup(url) {
-	newwindow=window.open(url,'name','height=200,width=150');
+function popitup(url, kerl) {
+    var w = 900;
+    var h= 600;
+ var left = (screen.width/2)-(w/2);
+	newwindow=window.open(url,kerl, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', left='+left);
 	if (window.focus) {newwindow.focus()}
 	return false;
 }
@@ -223,6 +226,7 @@ if (isset($results) && count($results) > 0)
 {
     for ($s = 0; $s < count($results); $s++)
     {
+        
         $airline = $results[$s];
         $afmetingen = $airline->
                 classes[0]->sizeTotalPerItem ? $airline->classes[0]->sizeTotalPerItem : $airline->
