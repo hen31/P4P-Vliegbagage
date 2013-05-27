@@ -38,24 +38,24 @@ class trajecten
             ("trajectId" => $trajectId));
     }
 
-    public static function GetTrajectAmount($filterId, $filterBeginPunt, $filterEindPunt)
+    public static function GetTrajectAmount($filterBeginPunt, $filterEindPunt)
     {
-        if ($filterId == 0) {
+
+        if (empty($filterBeginPunt) && empty($filterEindPunt)) {
             $result = DbHandler::QueryScalar("SELECT COUNT(*) FROM traject;", null);
         }
-        if ($filterId == 1) {
+        if ($filterBeginPunt && $filterEindPunt) {
             $result = DbHandler::QueryScalar("SELECT COUNT(*) FROM traject WHERE airport_start_id = :filterBeginPunt && airport_stop_id = :filterEindPunt;",
                 array("filterBeginPunt" => $filterBeginPunt, "filterEindPunt" => $filterEindPunt));
         }
-        if ($filterId == 2) {
+        if ($filterBeginPunt && empty($filterEindPunt)) {
             $result = DbHandler::QueryScalar("SELECT COUNT(*) FROM traject WHERE airport_start_id = :filterBeginPunt;",
                 array("filterBeginPunt" => $filterBeginPunt));
         }
-        if ($filterId == 3) {
+        if (empty($filterBeginPunt) && $filterEindPunt) {
             $result = DbHandler::QueryScalar("SELECT COUNT(*) FROM traject WHERE airport_stop_id = :filterEindPunt;",
                 array("filterEindPunt" => $filterEindPunt));
         }
-
         return $result;
     }
 
