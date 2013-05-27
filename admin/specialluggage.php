@@ -39,6 +39,7 @@ if (isset($_GET["action"])) {
         } else {
             $name = "";
         }
+        }
 ?>
         <br />
         <table>
@@ -55,11 +56,23 @@ if (isset($_GET["action"])) {
         </form>
         <br />
         <?php
+        
+        if (!empty($specialeBagage)) {
+?>
+            <div style="margin-left: 20px;">
+                <br /><h1>Vliegveld toegevoegd!</h1><br /><br /> 
+                Vliegveld id: <?php echo $specialeBagage->specialluggage_id[0]["specialluggage_id"]; ?><br /> 
+                Vliegveld naam: <?php echo $specialeBagage->name; ?>
+            </div>
+            <?php
+        } else {
+            echo $name;
+
     }
     
 }
-
 ?>
+
 <?php
         require_once ("onderkant.php");
 ?>
