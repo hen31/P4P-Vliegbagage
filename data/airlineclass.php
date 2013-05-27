@@ -1,6 +1,7 @@
 <?php
-class airlineclass{
-    
+class airlineclass
+{
+
     public $class_id;
     public $airline;
     public $classnumber;
@@ -36,8 +37,9 @@ class airlineclass{
     public $sizeTotalPet;
     public $DeclarationOfValue;
     public $MaxDeclarationOfValue;
-    
-    public function __construct($class){
+
+    public function __construct($class)
+    {
         $this->class_id = $class["class_id"];
         $this->airline = $class["airline"];
         $this->classnumber = $class["classnumber"];
@@ -74,21 +76,23 @@ class airlineclass{
         $this->DeclarationOfValue = $class["DeclarationOfValue"];
         $this->MaxDeclarationOfValue = $class["MaxDeclarationOfValue"];
     }
-    
-    public static function edit_class($class){
+
+    public static function edit_class($class)
+    {
         $class_update = "";
         $class_update_values["class_id"] = $class->class_id;
-        
-        foreach($class as $property => $value){
-            if($property != "class_id"){
-                $class_update .= "`" .$property ."` = :" .$property .",";
-                $class_update_values[$property] = $value;    
+
+        foreach ($class as $property => $value) {
+            if ($property != "class_id") {
+                $class_update .= "`" . $property . "` = :" . $property . ",";
+                $class_update_values[$property] = $value;
             }
         }
-        
+
         $class_update = rtrim($class_update, ",");
-        DbHandler::NonQuery("UPDATE `airlineclass` SET " .$class_update ." WHERE `class_id` = :class_id", $class_update_values);
-        
+        DbHandler::NonQuery("UPDATE `airlineclass` SET " . $class_update .
+            " WHERE `class_id` = :class_id", $class_update_values);
+
     }
 }
 ?>

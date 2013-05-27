@@ -1,11 +1,56 @@
 <?php
 //Alle data classes includen
-require_once("../data/includeAll.php");
+require_once ("../data/includeAll.php");
 $titel = "Vliegmaatschappijen";
-require_once("bovenkant.php");
+require_once ("bovenkant.php");
 
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-    print_r($_POST);
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["act"]) && $_POST["act"] == "airline") {
+    $postvelden = array("naam", "iata", "OverweightChargeG", "OverweightChargeBag", "ChargeExtraBag", "OversizeCharge");
+        
+        foreach($postvelden as $postveld){
+            if(empty($_POST[$postveld]) && $_POST[$postveld] != "0"){
+                $error[$postveld] = '<span style="color:red;">Niets ingevuld.</span>';
+            }
+            elseif($postveld == "naam"){
+                if(airline::airline_name_exists($_POST[$postveld])){
+                    $error["naam"] = '<span style="color:red;">Vliegmaatschappij bestaat al.</span>';
+                }
+            }
+            elseif($postveld == "iata"){
+                if(!validator::stringLimit(1, 3, $_POST[$postveld])){
+                    $error["iata"] = '<span style="color:red;">Een iata code mag maximaal 3 karakters bevatten.</span>';
+                }
+            }
+            else{
+                if(!validator::isInt($_POST[$postveld])){
+                    $error[$postveld] = '<span style="color:red;">Onjuiste waarde ingevuld.</span>';
+                }
+            }
+        }
+        
+        if($_FILES["logo"]["error"] == 0){
+            $permitted = array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/png');
+            if(in_array($_FILES["logo"]["type"], $permitted)){
+                $type = explode("/", $_FILES["logo"]["type"]);
+                $type = $type[1];
+                if($type == "pjpeg"){
+                    $type = "jpeg";
+                }
+                $name = time() ."." .$type;
+                move_uploaded_file($_FILES["logo"]["tmp_name"], "../images/airlines/" .$name);
+            }
+            else{
+                $error["logo"] = '<span style="color:red;">Alleen afbeeldingen kunnen worden toegevoegd.</span>';
+            }
+        }
+        
+        if(!isset($error)){
+            airline::add_airline_without_class($_POST["naam"], $name, $_POST["OverweightChargeG"], $_POST["OverweightChargeBag"], $_POST["ChargeExtraBag"], $_POST["OversizeCharge"], $_POST["iata"]);
+            $succes_airline = true;
+        }
+}
+elseif($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["act"]) && $_POST["act"] == "class"){
+    
 }
 
 ?>
@@ -13,17 +58,19 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <div id="menu">
     <ul>
         <li>
-            <a<?php echo (isset($_GET["action"]) && $_GET["action"] == "add" ? ' class="active"' : "")?> href="airline.php?action=add">Toevoegen</a>
+            <a<?php echo (isset($_GET["action"]) && $_GET["action"] == "add" ?
+' class="active"' : "") ?> href="airline.php?action=add">Toevoegen</a>
         </li>
         <li>
-            <a<?php echo (isset($_GET["action"]) && $_GET["action"] == "edit" ? ' class="active"' : "")?> href="airline.php?action=edit">Beheren</a>
+            <a<?php echo (isset($_GET["action"]) && $_GET["action"] == "edit" ?
+' class="active"' : "") ?> href="airline.php?action=edit">Beheren</a>
         </li>
     </ul>
 </div>
 <div style="clear: both;"></div><br />
 
 <?php
-if(isset($_GET["action"]) && $_GET["action"] == "add"){
+if (isset($_GET["action"]) && $_GET["action"] == "add") {
 ?>
 <script src="../js/jquery-1.9.0.min.js"></script>
 <script src="../js/jquery-ui.js"></script>
@@ -52,6 +99,10 @@ if(isset($_GET["action"]) && $_GET["action"] == "add"){
                 $(".weight").slideDown("fast");
             });
         }
+        else{
+            $(".pcs").slideUp("fast");
+            $(".weight").slideUp("fast");
+        }
     });
     
     $("#handbagage").change(function(){
@@ -65,6 +116,10 @@ if(isset($_GET["action"]) && $_GET["action"] == "add"){
                 $(".weightHL").slideDown("fast");
             });
         }
+        else{
+            $(".pcsHL").slideUp("fast");
+            $(".weightHL").slideUp("fast");
+        }
     });
     
     $("#LP_select").change(function(){
@@ -72,6 +127,9 @@ if(isset($_GET["action"]) && $_GET["action"] == "add"){
             $(".LP").slideDown("fast");
         }
         else if($("#LP_select option:selected").val() == "false"){
+            $(".LP").slideUp("fast");
+        }
+        else{
             $(".LP").slideUp("fast");
         }
     });
@@ -83,6 +141,9 @@ if(isset($_GET["action"]) && $_GET["action"] == "add"){
         else if($("#pets option:selected").val() == "false"){
             $(".pets").slideUp("fast");
         }
+        else{
+            $(".pets").slideUp("fast");
+        }
     });
     
     
@@ -91,17 +152,14 @@ if(isset($_GET["action"]) && $_GET["action"] == "add"){
   $(function() {
     var availableTags = [
     <?php
-     $airlines = airline::get_airlines(); //alle airlines ophalen
-     for ($i = 0; $i < count($airlines); $i++) {
-     if($i==count($airlines)-1)
-        {
-            echo '"'.  $airlines[$i]->name.' (' .$airlines[$i]->iata .')"';
+    $airlines = airline::get_airlines(); //alle airlines ophalen
+    for ($i = 0; $i < count($airlines); $i++) {
+        if ($i == count($airlines) - 1) {
+            echo '"' . $airlines[$i]->name . ' (' . $airlines[$i]->iata . ')"';
+        } else {
+            echo '"' . $airlines[$i]->name . ' (' . $airlines[$i]->iata . ')"' . ",";
         }
-        else
-        {      
-         echo '"'.  $airlines[$i]->name.' (' .$airlines[$i]->iata .')"'.",";
-        }
-      }?>
+    } ?>
     ];
     $( "#airline_name" ).autocomplete({
       source: availableTags
@@ -113,15 +171,18 @@ if(isset($_GET["action"]) && $_GET["action"] == "add"){
 <div id="left">
     <h1 style="margin-left: 20px;">Vliegmaatschappij toevoegen</h1><br />
     
-    <form action="airline.php" method="post" class="form">
-    
-        <label title="Naam van de vliegmaatschappij">Naam:</label><input type="text" name="naam" />
-        <label title="Link naar een logo voor de vliegmaatschappij">Logo:</label><input type="url" name="logo" />
-        <label title="Iata code van de vliegmaatschappij">Iata code:</label><input type="text" name="iata" />
-        <label title="Kosten in euro's die extra worden gerekend per extra gram gewicht">Kosten per extra gram:</label><input type="text" name="OverweightChargeG" />
-        <label title="Kosten die extra worden gerekend bij overgewicht van een koffer">Kosten overgewicht koffer:</label><input type="text" name="OverweightChargeBag" />
-        <label title="Kosten die worden gerekend per extra koffer">Kosten per extra koffer:</label><input type="text" name="ChargeExtraBag" />
-        <label title="Kosten die worden gerekend als een koffer te groot is">Kosten te grote koffer:</label><input type="text" name="OversizeCharge" />
+    <?php if(isset($succes_airline) && $succes_airline){ ?>
+    <h2>Vliegmaatschappij <?php echo htmlspecialchars($_POST["naam"]); ?> succesvol toegevoegd.</h2>
+    <?php } ?>
+    <form action="airline.php?action=add" method="post" class="form" enctype="multipart/form-data">
+        <input type="hidden" name="act" value="airline" />
+        <?php echo (isset($error["naam"]) ? $error["naam"] : ""); ?><label title="Naam van de vliegmaatschappij">Naam:</label><input type="text" name="naam" value="<?php echo (isset($_POST["name"]) ? $_POST["name"] : "") ?>" />
+        <?php echo (isset($error["logo"]) ? $error["logo"] : ""); ?><label title="Logo van de vligmaatschappij">Logo:</label><input type="file" name="logo" />
+        <?php echo (isset($error["iata"]) ? $error["iata"] : ""); ?><label title="Iata code van de vliegmaatschappij">Iata code:</label><input type="text" name="iata" value="<?php echo (isset($_POST["iata"]) ? $_POST["iata"] : "") ?>" />
+        <?php echo (isset($error["OverweightChargeG"]) ? $error["OverweightChargeG"] : ""); ?><label title="Kosten in euro's die extra worden gerekend per extra kilogram gewicht">Kosten per extra kilogram:</label><input type="text" name="OverweightChargeG" value="<?php echo (isset($_POST["OverweightChargeG"]) ? $_POST["OverweightChargeG"] : "") ?>" />
+        <?php echo (isset($error["OverweightChargeBag"]) ? $error["OverweightChargeBag"] : ""); ?><label title="Kosten die extra worden gerekend bij overgewicht van een koffer">Kosten overgewicht koffer:</label><input type="text" name="OverweightChargeBag" value="<?php echo (isset($_POST["OverweightChargeBag"]) ? $_POST["OverweightChargeBag"] : "") ?>" /> 
+        <?php echo (isset($error["ChargeExtraBag"]) ? $error["ChargeExtraBag"] : ""); ?><label title="Kosten die worden gerekend per extra koffer">Kosten per extra koffer:</label><input type="text" name="ChargeExtraBag" value="<?php echo (isset($_POST["ChargeExtraBag"]) ? $_POST["ChargeExtraBag"] : "") ?>" />
+        <?php echo (isset($error["OversizeCharge"]) ? $error["OversizeCharge"] : ""); ?><label title="Kosten die worden gerekend als een koffer te groot is">Kosten te grote koffer:</label><input type="text" name="OversizeCharge" value="<?php echo (isset($_POST["OversizeCharge"]) ? $_POST["OversizeCharge"] : "") ?>" /> 
         
         
         <label>&nbsp;</label><input type="submit" value="Opslaan" />
@@ -131,7 +192,8 @@ if(isset($_GET["action"]) && $_GET["action"] == "add"){
 <div id="right">
     <h1 style="margin-right: 20px;">Class toevoegen aan vliegmaatschappij</h1><br />
     
-    <form action="airline.php" method="post" class="form">
+    <form action="airline.php?action=add" method="post" class="form">
+        <input type="hidden" name="act" value="class" />
         <label>Vliegmaatschappij:</label><input type="text" id="airline_name" name="airline" />
         <label>Class:</label><select class="input" name="classnumber">
                                 <option></option>
@@ -205,7 +267,7 @@ if(isset($_GET["action"]) && $_GET["action"] == "add"){
 ?>
 
 <?php
-if(isset($_GET["action"]) && $_GET["action"] == ""){
+if (isset($_GET["action"]) && $_GET["action"] == "") {
 ?>
 
 <!--Edit-->
@@ -216,5 +278,5 @@ if(isset($_GET["action"]) && $_GET["action"] == ""){
 }
 ?>
 <?php
-require_once("onderkant.php");
+require_once ("onderkant.php");
 ?>
