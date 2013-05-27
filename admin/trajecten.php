@@ -3,6 +3,15 @@
 require_once ("../data/includeAll.php");
 $titel = "Trajecten";
 
+if (!empty($_SERVER['QUERY_STRING'])) {
+    if (isset($_GET['remove'])) {
+        $remove = $_GET['remove'];
+
+        trajecten::RemoveTraject($remove);
+        header("Location: trajecten.php");
+        exit;
+    }
+}
 if ((isset($_POST["checkPostedAdd"]))) {
     if (($_POST["beginPunt"] == $_POST["eindPunt"])) {
         $message = '<script type="text/javascript"> window.alert("Beginpunt en eindpunt mogen niet gelijk zijn.")</script>';
@@ -38,7 +47,7 @@ if (isset($toegevoegd) && $toegevoegd == true) {
     exit;
 }
 require_once ("bovenkant.php");
-print_r($_POST);
+
 ?>
 <!-- Hier alles neerzetten-->
 
@@ -71,22 +80,30 @@ print_r($_POST);
 
 <h1>Aanwezige trajecten</h1>
 <p>In onderstaande tabel ziet u een overzicht van de trajecten die momenteel aanwezig zijn in de database. Indien gewenst kunt u filter instellen om specifieke trajecten weer te geven.</p>
-<input type="button" onclick="return expand('Filter')" value="Filter instellingen"/>
+<input style="float:left;" type="button" onclick="return expand('Filter')" value="Filterinstellingen"/>
+<form style="float:left;" action="trajecten.php" method="post" >
+  <div class="ui-widget">
+    <input name="action" type="submit" value="Verwijder filter" />
+    </div>
+</form>
 <br />
 <div id="Filter" style="display:none">
 <br />
 <form action="trajecten.php" method="get" >
   <div class="ui-widget">
     <label for="filterBeginpunt">Beginpunt: </label>
-    <input name="filterBeginpunt" id="beginPunt" />
+    <input name="filterBeginpunt" id="filterBeginpunt" value="<?php if (isset($_GET['filterEindpunt'])) {
+    echo htmlentities($_GET['filterBeginpunt']);
+} else {
+    echo null;
+} ?>" />
     <label for="filterEindpunt">Eindpunt: </label>
-    <input name="filterEindpunt" id="eindPunt" />
+    <input name="filterEindpunt" id="filterEindpunt" value="<?php if (isset($_GET['filterEindpunt'])) {
+    echo htmlentities($_GET['filterEindpunt']);
+} else {
+    echo null;
+} ?>"/>
     <input id="submit" type="submit" value="Filter" />
-    </div>
-</form>
-<form action="trajecten.php" method="post" >
-  <div class="ui-widget">
-    <input name="action" type="submit" value="Verwijder filter" />
     </div>
 </form>
 </div>
@@ -103,16 +120,6 @@ $id = 0;
 $begin = $id;
 $end = ($begin + 5);
 
-if (!empty($_SERVER['QUERY_STRING'])) {
-    if (isset($_GET['remove'])) {
-        $remove = $_GET['remove'];
-
-        trajecten::RemoveTraject($remove);
-        $id = 0;
-        $begin = $id;
-        $end = ($begin + 5);
-    }
-}
 
 if (!empty($_SERVER['QUERY_STRING'])) {
     if (isset($_GET['resultid'])) {
@@ -215,6 +222,12 @@ for ($i = 0; $i < count($airports); $i++) {
     }
 } ?>
     ];
+     $( "filterBeginpunt" ).autocomplete({
+      source: availableTags
+    });
+       $( "filterEindpunt" ).autocomplete({
+      source: availableTags
+    });
     $( "#beginPunt" ).autocomplete({
       source: availableTags
     });
@@ -235,6 +248,5 @@ if (isset($message)) {
 if (isset($_SESSION["added"]) && $_SESSION["added"] == true) {
     $_SESSION["added"] = false;
     echo '<script type="text/javascript"> window.alert("Traject is met success toegevoegd.")</script>';
-
 }
 ?>
