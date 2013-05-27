@@ -13,7 +13,7 @@ class trajecten
     public $Airport2;
 
     //Add a new traject.
-    public static function AddItem($startAirport, $stopAirport)
+    public static function AddTraject($startAirport, $stopAirport)
     {
         $start = airports::GetAirportByName($startAirport);
         $startAirportId = $start->AirportID;
@@ -25,8 +25,14 @@ class trajecten
             array("startAirportId" => $startAirportId, "stopAirportId" => $stopAirportId));
     }
 
+    public static function RemoveTrajectenByAirport($airportId)
+    {
+        DbHandler::NonQuery("DELETE FROM traject WHERE airport_start_id = :airportID OR airport_stop_id = :airportID;",
+            array("airportId" => $airportId));
+    }
+
     //Remove an existing traject.
-    public static function RemoveItem($trajectId)
+    public static function RemoveTraject($trajectId)
     {
         DbHandler::NonQuery("DELETE FROM traject WHERE traject_id = :trajectId;", array
             ("trajectId" => $trajectId));
@@ -53,15 +59,15 @@ class trajecten
         return $result;
     }
 
-    public static function CheckExist($startAirport, $stopAirport)
-    {     
+    public static function CheckTrajectExist($startAirport, $stopAirport)
+    {
         $start = airports::GetAirportByName($startAirport);
         $startAirportId = $start->AirportID;
 
         $stop = airports::GetAirportByName($stopAirport);
         $stopAirportId = $stop->AirportID;
 
-        $result = DbHandler::QueryScalar("SELECT * FROM traject WHERE airport_start_id = :startAirportId AND airport_stop_id = :stopAirportId;",
+        $result = DbHandler::Query("SELECT * FROM traject WHERE airport_start_id = :startAirportId AND airport_stop_id = :stopAirportId;",
             array("startAirportId" => $startAirportId, "stopAirportId" => $stopAirportId));
         if (count($result) == 0) {
             return false;
@@ -119,7 +125,7 @@ class trajecten
     }
 
     //Get traject by airports.
-    public static function GetTrajectByCity($startAirport, $stopAirport)
+    public static function GetTrajectByAirports($startAirport, $stopAirport)
     {
         $result = DbHandler::QueryScalar("SELECT * FROM trajecten WHERE trajecten.airport_start_id = (SELECT airport_id FROM airports WHERE name = :startAirport) AND airport_stop_id = (SELECT airport_id FROM airports WHERE name = :stopAirport);",
             array("startAirport" => $startAirport, "stopAirport" => $stopAirport));
