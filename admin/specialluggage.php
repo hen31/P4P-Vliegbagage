@@ -53,6 +53,8 @@ if (isset($_GET["action"])) {
             <div>&nbsp;</div>
             <div><label>&nbsp;</label><input type="submit" value="Speciale bagage toevoegen"/></div>
         </form>
+        <br />
+        <?php
     }
     
 }
