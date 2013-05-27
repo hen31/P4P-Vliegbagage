@@ -50,6 +50,15 @@ class airline
 
         return new airline($airline[0], $classes);
     }
+    
+    public static function get_airline_by_name($name){
+        $result = DbHandler::Query("SELECT * FROM `airline` WHERE `name` = :name", array("name" => $name));
+        if(count($result) < 1 ){
+            return array();
+        }
+        $result_classes = DbHandler::Query("SELECT * FROM `airlineclass` WHERE `airline` = :airlineid", array("airlineid" => $result[0]["airline_id"]));
+        return new airline($result, $result_classes);
+    }
 
     public static function get_airlines($searchTerm = "", $start = null, $count = null)
     {
