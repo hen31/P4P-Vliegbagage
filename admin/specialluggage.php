@@ -25,7 +25,7 @@ if (isset($_GET["action"])) {
         if (!empty($_POST["name"])) {
             if (strlen($_POST["name"]) > 0 && strlen($_POST["name"]) < 51) {
                 $name = $_POST["name"];
-                $CheckIfExists = specialluggage::GetSpecialLuggageByName($name);
+                $CheckIfExists = specialluggage::GetSpecialLuggageName($name);
 
                 if ($CheckIfExists != null) {
                     $name = "Dit type bagage bestaat al!";
@@ -39,7 +39,7 @@ if (isset($_GET["action"])) {
         } else {
             $name = "";
         }
-        }
+    }
 ?>
         <br />
         <table>
@@ -56,23 +56,23 @@ if (isset($_GET["action"])) {
         </form>
         <br />
         <?php
-        
-        if (!empty($specialeBagage)) {
+
+    if (!empty($specialeBagage)) {
 ?>
             <div style="margin-left: 20px;">
-                <br /><h1>Vliegveld toegevoegd!</h1><br /><br /> 
-                Vliegveld id: <?php echo $specialeBagage->specialluggage_id[0]["specialluggage_id"]; ?><br /> 
-                Vliegveld naam: <?php echo $specialeBagage->name; ?>
+                <br /><h1>Speciale bagage toegevoegd!</h1><br /><br /> 
+                Specialebagage id: <?php echo $specialeBagage->specialluggage_id[0]["specialluggage_id"]; ?><br /> 
+                Specialbagage naam: <?php echo $specialeBagage->name; ?>
             </div>
             <?php
-        } else {
-            echo $name;
+    } else {
+        echo $name;
 
     }
-    
+
 }
 ?>
 
 <?php
-        require_once ("onderkant.php");
+require_once ("onderkant.php");
 ?>
