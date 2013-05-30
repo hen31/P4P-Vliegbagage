@@ -125,23 +125,24 @@ if (isset($_GET["class"]))
                 </select>
                                 <div>
                                 <div>
-                                    <label for="spec">SpecialeBagege</label>
+                                    <label for="spec">Extra bagage</label>
                                     <input name="spec" id="spec" />
-                                    <button onClick="AddSpec(); return false;" value="Toevoegen" ></button>
-                                    <br/>
-                                    <ul id="specList">
+                                    <button onClick="AddSpec(); return false;">Toevoegen</button>
+                                    <div id="specListDiv">
+                                    <ul id="specList" >
                                         <?php
 
 $counter = 0;
 while (isset($_GET["specLug" . $counter]))
 {
     echo '<li id="' . $counter . '">' . htmlspecialchars($_GET["specLug" . $counter]) .
-        '<img src="images/deleteIcon.png" onClick="Delete(\'' . $counter . '\'); return false;" /></li>';
+        '<img src="images/deleteIcon.png" onClick="Delete(\'' . $counter . '\'); return false;"  /></li>';
     $counter++;
 }
 
 ?>
                                     </ul>
+                                    </div>
                                     </div>
              
                 
@@ -184,14 +185,15 @@ jQuery("#list4").jqGrid({
 	datatype: "local",
 	height: 500,
     width: 875,
-   	colNames:['Logo','Naam', 'Gratis gewicht', 'Afmeting','Aantal stukken','Gewicht handbagage'],
+   	colNames:['Logo','Naam', 'Gratis gewicht', 'Afmeting','koffers ruim bagage','Gewicht handbagage', 'Handbagage afmeting'],
    	colModel:[
    		{name:'logo',index:'logo', width:110, sortable:false, align:"center"},
    		{name:'name',index:'name', width:90, sorttype:"text",align:"center"},
-   		{name:'GwGrts',index:'GwGrts', width:100, sorttype:"int",align:"center"},
-   		{name:'Afmeting',index:'Afmeting', width:80, sorttype:"int",align:"center" },
-   		{name:'Apcs',index:'Apcs', width:80, sorttype:"int",align:"center" },		
-   		{name:'Gwhl',index:'Gwhl', width:80, sorttype:"int",align:"center"}
+   		{name:'GwGrts',index:'GwGrts', width:90, sorttype:"int",align:"center"},
+   		{name:'Afmeting',index:'Afmeting', width:90, sorttype:"int",align:"center" },
+   		{name:'Apcs',index:'Apcs', width:100, sorttype:"int",align:"center" },		
+   		{name:'Gwhl',index:'Gwhl', width:90, sorttype:"int",align:"center"},		
+   		{name:'AfmetingHL',index:'AfmetingHL', width:90, sorttype:"int",align:"center"}
            		
    	],
    	multiselect: false,
@@ -212,7 +214,20 @@ if (isset($results) && count($results) > 0)
  echo 'var classnumber =' .   $results[0]-> classes[0]->classnumber . ';';
     }
     ?>
-	newwindow=window.open(url+'&class='+classnumber,kerl, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', left='+left);
+     <?php 
+if (isset($specialeBagage))
+{
+    $stringSpec = 'var SpecLug ="';
+    for($i =0;$i<count($specialeBagage);$i++)
+    {
+ $stringSpec .= 'Speclug'.$i.'='.  $specialeBagage[0]->specialluggage_id . '&';
+    }
+
+        $stringSpec .= '";'; 
+    echo $stringSpec;
+ }
+    ?>
+	newwindow=window.open(url+'&class='+classnumber +'&'+ SpecLug,kerl, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', left='+left);
 	if (window.focus) {newwindow.focus()}
 	return false;
 }
@@ -236,19 +251,23 @@ if (isset($results) && count($results) > 0)
         
         $airline = $results[$s];
         $afmetingen = $airline->
-                classes[0]->sizeTotalPerItem ? $airline->classes[0]->sizeTotalPerItem : $airline->
-                classes[0]->sizeLenghtPerItem . 'x' . $airline->classes[0]->sizeWidthPerItem .
-                'x' . $airline->classes[0]->sizeHeightPerItem;
+                classes[0]->sizeTotalPerItem ? $airline->classes[0]->sizeTotalPerItem.'cm' : $airline->
+                classes[0]->sizeLenghtPerItem . 'cm x ' . $airline->classes[0]->sizeWidthPerItem .
+                'cm x ' . $airline->classes[0]->sizeHeightPerItem.'cm';
+    $afmetingenHL = $airline->
+                classes[0]->sizeTotalHL ? $airline->classes[0]->sizeTotalHL.'cm' : $airline->
+                classes[0]->sizeLenghtHL . 'cm x ' . $airline->classes[0]->SizeWidthHL .
+                'cm x ' . $airline->classes[0]->sizeHeightHL.'cm';
         if (count($results) - 1 == $s)
         {
             echo '{logo:"<img style=\"width:100px;height:100px;\" src=\"images/airlines/' . $airline->logo . '\"/>",name:"' . $airline->name . '",' .
-                'GwGrts:"' . $airline->classes[0]->maxWeightLuggage . '",Afmeting:"' . $afmetingen. '",Apcs:"' . $airline->classes[0]->
-                pcsLuggage . '",Gwhl:"' . $airline->classes[0]->pcsHL . '"}';
+                'GwGrts:"' . $airline->classes[0]->maxWeightLuggage . 'kg",Afmeting:"' . $afmetingen. '",Apcs:"' . $airline->classes[0]->
+                pcsLuggage . '",Gwhl:"' . $airline->classes[0]->MaxWeightHL . 'kg",AfmetingHL:"'.$afmetingenHL .'"}';
         } else
         {
-  echo '{logo:"<img style=\"width:100px;height:100px;\" src=\"images/airlines/' . $airline->logo . '\"/>",name:"' . $airline->name . '",' .
-                'GwGrts:"' . $airline->classes[0]->maxWeightLuggage . '",Afmeting:"' . $afmetingen. '",Apcs:"' . $airline->classes[0]->
-                pcsLuggage . '",Gwhl:"' . $airline->classes[0]->pcsHL . '"},';
+            echo '{logo:"<img style=\"width:100px;height:100px;\" src=\"images/airlines/' . $airline->logo . '\"/>",name:"' . $airline->name . '",' .
+                'GwGrts:"' . $airline->classes[0]->maxWeightLuggage . 'kg",Afmeting:"' . $afmetingen. '",Apcs:"' . $airline->classes[0]->
+                pcsLuggage . '",Gwhl:"' . $airline->classes[0]->MaxWeightHL . 'kg",AfmetingHL:"'.$afmetingenHL .'"},';
         }
     }
 
@@ -271,25 +290,6 @@ function strip(html)
    return tmp.textContent||tmp.innerText;
 }
 var counter =0;
-function AddSpec()
-  {
-    var text = strip($("#spec").val());
-    if(/\S/.test(text) == true )
-    {
-    $('#IndexForm').append('<input type="hidden" id="specLug'+counter +'" name="specLug'+counter +'" value="'+text +'">');
-        $('#specList').append('<li id="'+counter+'">'+text +'<img src="images/deleteIcon.png" onClick="Delete(\''+counter+'\'); return false;" /></li>');
-    counter = counter + 1;
-    $("#spec").val('');
-    }
-    return false;
-  }
-  function Delete( counter)
-  {
-$('#'+counter).remove();
-   $('#specLug'+counter).remove();
-   
-  }
-   $(function() {
     var availableSpec = [
     <?php
 
@@ -308,10 +308,31 @@ for ($i = 0; $i < count($specialeBagage); $i++)
 
 ?>
     ];
+ $(function() {
+
     $( "#spec" ).autocomplete({
       source: availableSpec
     });
       });
+function AddSpec()
+  {
+    var text = strip($("#spec").val());
+    if(/\S/.test(text) == true&&!$.inArray(text, availableSpec) )
+    {
+    $('#IndexForm').append('<input type="hidden" id="specLug'+counter +'" name="specLug'+counter +'" value="'+text +'">');
+        $('#specList').append('<li id="'+counter+'">'+text +'<img src="images/deleteIcon.png" onClick="Delete(\''+counter+'\'); return false;" /></li>');
+    counter = counter + 1;
+    $("#spec").val('');
+    }
+    return false;
+  }
+  function Delete( counter)
+  {
+$('#'+counter).remove();
+   $('#specLug'+counter).remove();
+   
+  }
+  
   </script>
   <script type="text/javascript">
   $(function() {

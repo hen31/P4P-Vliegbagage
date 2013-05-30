@@ -9,6 +9,21 @@ body {
 	font-weight: normal;
 	background-color: #006E81;
 }
+#specListDiv 
+{
+    width:300px;
+    padding: 5px;
+    background-color: white;
+    border: 2px #2191c0 solid;
+}
+#specListDiv li
+{
+    list-style-type:none;
+}
+#specListDiv li img
+{
+    vertical-align:middle;
+}
 #AirlineNamediv
 {
     margin-left:auto; 

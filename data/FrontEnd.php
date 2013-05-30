@@ -6,12 +6,12 @@ class FrontEnd
     //de vliegtuigmaatschapijen terug krijgen.
     static public function Search($beginAir, $endAir, $classSelected, $specialLuggage)
     {
+        //Zoek query uitvoeren
         $results = DbHandler::Query("SELECT Airline_id FROM airline WHERE  Airline_id IN (SELECT airline_id FROM trajectairline WHERE Traject_id = (SELECT traject_id FROM traject WHERE airport_start_id=:start AND airport_stop_id=:stop));",
             array("start" => $beginAir->AirportID, "stop" => $endAir->AirportID));
 
         if (count($results) == 0)
         {
-
             return null;
         } else
         {
@@ -20,14 +20,15 @@ class FrontEnd
             {
                 $exists = false;
                 $airline = airline::get_airline($results[$c]["Airline_id"], $classSelected);
-
+                if($airline->classes !=null)
+                {
                 if (count($specialLuggage) > 0)
                 {
                     for ($i = 0; $i < count($specialLuggage); $i++)
                     {
-                        if (SpecialLuggage::GetCombo($airline->airline_id, $specialLuggage[$i]->id) == null)
+                        if (SpecialLuggage::GetCombo($airline->airline_id, $specialLuggage[$i]->specialluggage_id) == null)
                         {
-                            $exists = false;
+                            $exists = true;
                             break;
                         }
 
@@ -39,6 +40,7 @@ class FrontEnd
                 {
                     $airlines[] = $airline;
 
+                }
                 }
             }
          

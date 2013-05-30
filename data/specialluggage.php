@@ -125,8 +125,15 @@ class SpecialLuggage
             array("ID" => $specialLuggageID));
         $Result2 = DbHandler::Query("SELECT * FROM airlinespecialluggage WHERE airline_id = :AirlineID ;",
             array("AirlineID" => $airlineID));
+        if( count($Result2) !=0 )
+        {
         $ClassObject = new SpecialLuggage();
         $ClassObject->SetProperties($specialLuggageID, $airlineID, $Result[0]["name"], $Result2[0]["notes"]);
+        }
+        else
+        {
+            return null;
+        }
         return $ClassObject;
     }
 
