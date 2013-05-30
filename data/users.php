@@ -7,7 +7,21 @@ class user
     public $id;
     public $userName;
     private static $SALT = "iefoafinfawhq91q9h''''aoiash[][]{}}{";
-    //Een check die kijkt of de username al bestaat. Geeft true of false terug.
+        
+    public function SetProperties($id, $Name)
+    {
+            $this->userid = $id;
+            $this->user = $Name; 
+    }
+    
+    public static function incryptPass($pass)
+    {
+        $incryptPass = sha1($pass . user::$SALT);
+        
+        return $incryptPass;
+    }
+            
+    //Een check die kijkt of de username al bestaat. Geeft true of false terug.    
     private static function UsernameExists($username)
     {
         $userExist = DbHandler::Query("SELECT username FROM user WHERE username = :username", array("username"=> $username));
@@ -29,14 +43,18 @@ class user
         {
             DbHandler::Query("INSERT INTO user(username,password) VALUES (:Name,:userPassword);", 
             array("Name" => $username, "userPassword" => $userPassword));
+            echo "user aangemaakt";
+        }
+        else
+        {
+            return false;
         }                                
     }
     
     //Een gebruiker verwijderen.
     public static function deleteUser($userid)
     {        
-        $userId;
-        DbHandler::NonQuery("DELETE FROM user WHERE user_id =:ID;", array("ID" => $userid));                            
+            DbHandler::NonQuery("DELETE FROM user WHERE user_id =:ID;", array("ID" => $userid));
     }
     
     //Gebruikersnaam en/of wachtwoord veranderen.
@@ -50,7 +68,10 @@ class user
            DbHandler::NonQuery("UPDATE user SET username=:Name, password = :password WHERE user_id = :ID;", 
            array("Name" => $username, "ID" => $userid, "password" => $userPassword));
         }
-        $userId;                               
+        else
+        {
+            return false;
+        }                                      
     }
     
     //Gebruiker ophalen aan de hand van de id die wordt opgegeven
@@ -72,10 +93,10 @@ class user
     }
     
     //Alle gebruikers die in de database staan terug geven afhankelijk van de zoekterm en de hoeveelste gebruikers
-    public static function GetUsers($searchTerm, $start,$end)
+    public static function GetUsers($searchTerm)
     {
-            $results = DbHandler::Query("SELECT * FROM user WHERE username LIKE :search LIMIT :beg, :end;", array(
-            "search"=> '%'.$searchTerm.'%', "beg"=>$start,"end"=>$end));
+            $results = DbHandler::Query("SELECT * FROM user WHERE username LIKE :search ;", array(
+            "search"=> '%'.$searchTerm.'%'));
             //als gebruikers leeg is null terug geven
         if($results !=null)
         {
@@ -93,8 +114,24 @@ class user
         else
         {
             return null;
-        }                       
+        }
     }
+    
+    public static function GetUsersObj()
+    {
+        $Query =  DbHandler::Query("SELECT * FROM user", null);
+        $userCollection = array();
+               
+               foreach($Query as $result)
+               {
+                    $userObject = new user();
+                    $userObject -> SetProperties($result["user_id"], $result["username"]);
+                    array_push($userCollection, $userObject);
+               }
+               
+            return $userCollection;         
+            
+    }            
     
     //fucntie om te checken of het een geldige login is. 
     //als dit het geval is dan wordt er een object van gebruiker terug gegeven.
@@ -117,6 +154,24 @@ class user
          //null terug geven   
             return null;
         }
+    }
+    
+    public static function checkUser($username, $userPassword)
+    {
+        $check;
+        $results = DbHandler::Query("SELECT * FROM user WHERE username=:user AND password=:pass;", array(
+            "user"=> $username, "pass"=>$userPassword));
+            
+        if($results != null)
+        {
+            $check = true;
+        }
+        else
+        {
+            $check = false;    
+        }
+        
+        return $check;
     }
 }
 ?>

@@ -46,7 +46,7 @@ require("includeAll.php");
         
         public static function GetAirportByID($id)
         {
-            $Query =  DbHandler::Query("SELECT * FROM airports WHERE airport_id = (:ID) lIMIT 1", array("ID" => $id));
+            $Query =  DbHandler::Query("SELECT * FROM airports WHERE airport_id = (:ID)", array("ID" => $id));
            
             $ClassObject = new airports();
             $ClassObject -> SetProperties($id, $Query[0]["name"]);

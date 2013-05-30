@@ -1,85 +1,151 @@
 <?php
 //Alle data classes includen
-require_once("../data/includeAll.php");
+require_once ("../data/includeAll.php");
 
 $fatalerror = false;
-if(isset($_POST['Submit']))
-{
-    if(!empty($_POST['uname']) && !empty($_POST['pword']))
-    {
-        $user = users::createUser($_POST["uname"],$_POST["pword"]);
-        if($user == null)
-        {
-            $fatalerror = true;
-        }
-    }
-}
-if(isset($_POST['Submit2']))
-{
-    if(!empty($_POST['userId_del']) and !empty($_POST['pword_del']))
-    {
-        $user = users::deleteUser($_POST["userId_del"], $_POST["pword_del"]);
-        if($user = null)
-        {
-            $fatalerror = true;
-        }
-    }
-}
+$submitUser = null;
+
 
 $titel = "Gebruikers";
-require_once("bovenkant.php");
-?>
-
-<html>
-<head>
-
-<title>Registration Form</title>
-</head>
-<body>
-
-<h2>Create User</h2>    
-<form name="f1" id="" method="post" action="users.php">
-
-User name:<br>
-
-<input type="text" name="uname" id="" value="" size="25" maxlength="25"><br>
-
-Password: <br>
-
-<input type="password" name="pword" id="" value="" size="25" maxlength="25"><br>
-
-<input type="hidden" name="hidden1" value="_issubmitted">
-<input type="submit" name="Submit" value="submit"><br>
-
-</form>
-
-<h2>Delete Userr</h2>    
-<form name="f2" id="" method="post" action="users.php">
-
-User ID:<br>
-
-<input type="text" name="userId_del" id="" value="" size="25" maxlength="25"><br>
-
-Password: <br>
-<input type="password" name="pword_del" id="" value="" size="25" maxlength="25"><br>
-
-<input type="hidden" name="hidden2" value="_issubmitted">
-<input type="submit" name="Submit2" value="submit"><br>
-
-</form>
-
-<?php
-if($fatalerror)
+require_once ("bovenkant.php");
+if(isset($_GET['id']))
 {
-    echo "Niet alle velden zijn ingevuld.";
+    if(isset($_GET['actie'])&& $_GET['actie'] == 'Delete')
+    {
+        user::deleteUser($_GET['id']);
+    }
+  
+    $submitUser = user::GetUser($_GET['id']);
+    if($submitUser != null)
+    {
+    $_SESSION["user_id"] =  $_GET['id'];
+    }
+ 
 }
 ?>
+<div id="menu">
+    <ul>
+        <li>
+            <a<?php echo (isset($_GET["action"]) && $_GET["action"] == "add" ?
+    ' class="active" ' : "") ?> href="users.php?action=add">Toevoegen</a>
+        </li>
+        <li>
+            <a<?php echo (isset($_GET["action"]) && $_GET["action"] == "edit" ?
+    ' class="active" ' : "") ?> href="users.php?action=edit">Beheren</a>
+        </li>
+    </ul>
+</div>
+<div style="clear: both;"></div>
 
-</body>
-</html>  
+<?php
 
+if (isset($_GET["action"])) 
+{
+    if ($_GET["action"] == "add") 
+    {
+        if (isset($_POST['addUser']))
+         {
+            if($_POST['password'] == $_POST['passControle'])
+            {
+                if (!empty($_POST['username']) && !empty($_POST['password'])) {
+                    $user = user::createUser($_POST["username"], $_POST["password"]);
+                } else {
+                    $fatalerror = true;
+                }
+            }
+            else
+            {
+                echo "Wachtwoorden komen niet overeen!";
+            }
+        }
+    
+?>
+
+
+
+<br />
+        <div>
+            <table>
+            <tr>
+                <td>
+                    <h1>Gebruiker toevoegen</h1><br />
+                </td>
+            </tr>
+            </table>
+            <br />
+            <form action="users.php?action=add" method="post" class="form">
+                <div><label for="Gebruikersnaam">Gebruikersnaam: </label><input name="username" id="username" /></div>
+                <div><label for="Wachtwoord">Wachtwoord: </label><input name="password" id="password" type="password"></div>
+                <div><label for="Controle">Wachtwoord controle: </label><input name="passControle" id="password" type="password"></div>
+                <div>&nbsp;</div>
+                <div><label>&nbsp;</label><input type="submit" name="addUser" value="Nieuwe gebruiker"/></div>
+            </form>
+        </div>
+        <br />
+        
+<?php
+    }
+      
+    if ($_GET["action"] == "edit") {
+        $users = user::GetUsers('');
+
+        echo "<table>";
+        if ($users != null) 
+        {
+            foreach ($users as $user) 
+            {
+                echo '<tr><td>' . $user->userName .
+                    '</td><td><a href="users.php?actie=Change&id=' . $user->id .
+                    '&action=edit">Bewerken</a></td><td><a href="users.php?actie=Delete&id=' . $user->id .
+                    '&action=edit">Verwijderen</a></td></tr>';
+            }
+        }
+        echo "</table>";
+
+        if (isset($_POST['changeUser'])) 
+        {
+            if (user::checkUser($_POST["oldUser"], user::incryptPass($_POST["oldPass"]))) 
+            {
+                user::changeUser(  $_SESSION["user_id"] , $_POST["newUser"], $_POST["newPass"]);
+                unset($_SESSION["user_id"]);
+                
+                echo "Gebruiker gewijzigd";
+            }
+        }
+
+        
+
+?>
+
+<br />
+<div>
+    <table>
+        <tr>
+            <td>
+                <h1>Gebruiker wijzigen</h1><br />
+            </td>
+        </tr>
+    </table>
+<br />
+        <form action="users.php?action=edit" method="post" class="form">
+            <div><label for="Oude gebruikersnaam">Oude gebruikersnaam: </label><input name="oldUser" id="oldUser" 
+            value="<?php echo isset($submitUser)  ?  $submitUser->userName : ''?>" /></div>
+            <div><label for="Oud wachtwoord">Oud wachtwoord: </label><input name="oldPass" id="oldPass" type="password"></div>
+            <div><label for="Nieuwe gebruikersnaam">Nieuwe gebruikersnaam: </label><input name="newUser" id="newUser" /></div>
+            <div><label for="Nieuw Wachtwoord">Nieuw wachtwoord: </label><input name="newPass" id="newPass" type="password"></div>
+            <div>&nbsp;</div>
+            <div><label>&nbsp;</label><input type="submit" name="changeUser" value="Verander gebruiker"/></div>
+        </form>            
+</div>
+<br />
 
 
 <?php
-require_once("onderkant.php");
+}
+}
+if ($fatalerror) 
+{
+echo "Niet alle velden zijn ingevuld.";
+}
+require_once ("onderkant.php");
 ?>
