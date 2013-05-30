@@ -47,7 +47,7 @@ if (isset($_GET["action"]))
          {
             if($_POST['password'] == $_POST['passControle'])
             {
-                if (!empty($_POST['username']) && !empty($_POST['password'])) {
+                if (!empty($_POST['username']) && !empty($_POST['password'])) {                    
                     $user = user::createUser($_POST["username"], $_POST["password"]);
                 } else {
                     $fatalerror = true;
@@ -60,8 +60,6 @@ if (isset($_GET["action"]))
         }
     
 ?>
-
-
 
 <br />
         <div>
@@ -106,15 +104,23 @@ if (isset($_GET["action"]))
         {
             if (user::checkUser($_POST["oldUser"], user::incryptPass($_POST["oldPass"]))) 
             {
-                user::changeUser(  $_SESSION["user_id"] , $_POST["newUser"], $_POST["newPass"]);
+                if(!empty($_POST['newUser']) && !empty($_POST['newPass']))
+                {
+                user::changeUser($_SESSION["user_id"] , ($_POST["newUser"]), $_POST["newPass"]);
                 unset($_SESSION["user_id"]);
                 
                 echo "Gebruiker gewijzigd";
+                }
+                else
+                {
+                    echo "Er is een leeg veld";
+                }
+            }
+            else
+            {
+                echo "Niet alles is ingevuld";
             }
         }
-
-        
-
 ?>
 
 <br />

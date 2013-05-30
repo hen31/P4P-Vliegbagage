@@ -2,21 +2,27 @@
 //Alle data classes includen
 require_once ("../data/includeAll.php");
 
-$fatalerror = false;
-if (isset($_POST['Submit']))
-{
+if (isset($_POST['Submit'])) {
     if (isset($_POST["uname"])) {
-        $password = user::incryptPass($_POST["pword"]);
+        if (!empty($_POST['uname']) && !empty($_POST['pword'])) {
+            
+            $password = user::incryptPass($_POST["pword"]);
+            $user = user::login($_POST["uname"], $password);
+            
+            if ($user == null) {
+                echo 'Gebruikersnaam of wachtwoord klopt niet';
+            } else {
+                $fatalerror = false;
+                $_SESSION["user"] = $user;
+                header("Location: admin.php");
+                exit;
+            }
+            }
+            else
+            {
+                echo 'Een of meer velden zijn leeg';
+            }
         
-        $user = user::login($_POST["uname"], $password);
-        if ($user == null) {
-            $fatalerror = true;
-        } else {
-            $fatalerror = false;
-            $_SESSION["user"] = $user;
-            header("Location: admin.php");
-            exit;
-        }
 
         $titel = "Admin login";
         require_once ("../bovenkant.php");
@@ -45,12 +51,6 @@ Wachtwoord: <br>
 
 </form>
 
-
-<?php
-if ($fatalerror) {
-    echo "Niet alle velden zijn ingevuld.";
-}
-?>
 </body>
 </html>            
        
