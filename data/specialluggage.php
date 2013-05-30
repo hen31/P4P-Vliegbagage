@@ -1,18 +1,20 @@
 <?php
 /**
- * @Auteur Ivar de Lange & Teake Otter
- * @Datum 21-5-2013
+ * @Auteur Ivar de Lange & Teake Otter & Niels Riemersma
+ * @Datum 21-5-2013 - 30-5-2013
  */
 
 require ("includeAll.php");
 
 class SpecialLuggage
 {
+    //set public variables
     public $specialluggage_id;
     public $AirlineID;
     public $Name;
     public $Notes;
-
+    
+    //deze functie geeft waarden aan speciale bagage per airline
     public function SetProperties($specialluggage_id, $AirlineID, $Name, $Notes)
     {
         $this->specialluggage_id = $specialluggage_id;
@@ -20,12 +22,14 @@ class SpecialLuggage
         $this->Name = $Name;
         $this->Notes = $Notes;
     }
+    //deze functie geeft waarden aan algemene speciale bagage
     public function SetPropertiestwo($specialluggage_id, $name)
     {
         $this->specialluggage_id = $specialluggage_id;
         $this->Name = $name;
     }
 
+    //deze functie zorgt ervoor dat de beheerder specifieke airline informatie per spec bagage toe kan voegen
     public static function AddItem($AirlineID, $Name, $Notes)
     {
         $QueryResult = DbHandler::Query("SELECT specialluggage_id FROM specialluggage WHERE name = :Name ;",
@@ -53,6 +57,7 @@ class SpecialLuggage
         }
 
     }
+    //deze functie voegt de optie toe om bestaande notes te wijzigen
     public static function EditAirlineNotes($Specialluggage_id, $airlineID, $Notes)
     {
         if ($airlineID != 0 && $notes != "") {
@@ -64,7 +69,8 @@ class SpecialLuggage
             return SpecialLuggage::GetCombo($airlineID, $Specialluggage_id);
         }
     }
-
+    
+    //deze functie laat de beheerder bestaande speciale bagage informatie wijzigen
     public static function EditSpecialLuggage($Specialluggage_id, $Name)
     {
 
@@ -72,7 +78,8 @@ class SpecialLuggage
             array("Name" => $Name, "ID" => $Specialluggage_id));
         return SpecialLuggage::GetCombo($airlineID, $Specialluggage_id);
     }
-
+    
+    //hiermee kan speciale bagage uit het systeem verwijderd worden
     public static function RemoveSpecialLuggage($Specialluggage_id)
     {
         DbHandler::NonQuery("DELETE FROM specialluggage WHERE specialluggage_id = :ID",
@@ -80,7 +87,8 @@ class SpecialLuggage
         DbHandler::NonQuery("DELETE FROM airlinespecialluggage WHERE specialluggage_id = :ID",
             array("ID" => $Specialluggage_id));
     }
-
+    
+    //met deze functie kunnen airline en speciale bagage losgekoppeld worden
     public static function RemoveAirLineSpecialLuggage($SpecialLuggage_id, $AirlineID)
     {
         DbHandler::NonQuery("DELETE FROM airlinespeciallluggage WHERE speciallugage_id = :SID AND airline_id = :AID ;",
@@ -93,6 +101,8 @@ class SpecialLuggage
                 array("ID" => $Specialluggage_id));
         }
     }
+    
+    //door gebruik van deze functie wordt de id van de speciale bagage opgehaald
     public static function GetSpecialLuggageID($ID)
     {
         $Result = DbHandler::Query("SELECT * FROM specialluggage WHERE specialluggage_id = :ID ;",
@@ -106,6 +116,7 @@ class SpecialLuggage
         }
     }
 
+    //deze functie haalt de naam van de speciale bagage op
     public static function GetSpecialLuggageName($Name)
     {
         $Result = DbHandler::Query("Select * FROM specialluggage WHERE  NAME = :Name;",
@@ -119,6 +130,7 @@ class SpecialLuggage
         return $ClassObject;
     }
 
+    //deze functie zorgt voor een koppeling tussen airline en bagage
     public static function GetCombo($airlineID, $specialLuggageID)
     {
         $Result = DbHandler::Query("SELECT * FROM specialluggage WHERE specialluggage_id = :ID ;",
@@ -137,6 +149,7 @@ class SpecialLuggage
         return $ClassObject;
     }
 
+    //deze functie laat de beheerder bestaande bagage wijzigen (naam)
     public static function EditItem($id, $Name)
     {
         DbHandler::Query("UPDATE specialluggage SET name = (:Name) WHERE specialluggage_id = (:ID)",
@@ -147,6 +160,8 @@ class SpecialLuggage
 
         return $ClassObject;
     }
+    
+    //hiermee haal je de bestaande informatie op om later te kunnen weergeven
     public static function GetSpecialLuggageList()
     {
         $Query = DbHandler::Query("SELECT * FROM SPECIALLUGGAGE", null);
@@ -161,6 +176,7 @@ class SpecialLuggage
         return $SpecialLuggageCollection;
     }
 
+    //dit is de zoekfunctie waarmee de beheerder later zijn informatie sneller voor zich kan krijgen
     public static function SearchSpecialLuggage($SearchQuery)
     {
         $Query = DbHandler::Query("SELECT * FROM specialluggage WHERE name LIKE  :SearchQuery ",
