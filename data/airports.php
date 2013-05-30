@@ -10,31 +10,33 @@ require("includeAll.php");
     class airports
     {
         public $AirportID;
-        public $AirportName;    
+        public $AirportName;
+        public $AirportCity;    
         
-        public function SetProperties($id, $Name)
+        public function SetProperties($id, $Name, $AirportCity)
         {
             $this->AirportID = $id;
             $this->AirportName = $Name; 
+            $this->AirportCity = $AirportCity;
         }
         
-        public static function AddItem($Name) 
+        public static function AddItem($Name, $AirportCity) 
         {    
-            DbHandler::NonQuery("INSERT INTO airports(name) VALUES (:Name); ", array("Name" => $Name));
+            DbHandler::NonQuery("INSERT INTO airports(name, City) VALUES (:Name , :City); ", array("Name" => $Name, "City" => $AirportCity));
             $id =  DbHandler::Query("SELECT airport_ID FROM airports WHERE name = (:Name);", array("Name" => $Name));   
             
             $ClassObject = new airports();
-            $ClassObject -> SetProperties($id, $Name);
+            $ClassObject -> SetProperties($id, $Name, $AirportCity);
             
             Return $ClassObject;
         }
         
-        public static function EditItem ($id, $Name)
+        public static function EditItem ($id, $Name, $AirportCity)
         {            
-            DbHandler::Query("UPDATE airports SET name = (:Name) WHERE airport_id = (:ID)", array("Name" => $Name, "ID" => $id));
+            DbHandler::Query("UPDATE airports SET name = (:Name), City = :City WHERE airport_id = (:ID)", array("Name" => $Name, "ID" => $id, "City" => $AirportCity));
             
             $ClassObject = new airports();
-            $ClassObject -> SetProperties($id, $Name);
+            $ClassObject -> SetProperties($id, $Name, $AirportCity);
             
             Return $ClassObject;
         }
@@ -49,7 +51,7 @@ require("includeAll.php");
             $Query =  DbHandler::Query("SELECT * FROM airports WHERE airport_id = (:ID)", array("ID" => $id));
            
             $ClassObject = new airports();
-            $ClassObject -> SetProperties($id, $Query[0]["name"]);
+            $ClassObject -> SetProperties($id, $Query[0]["name"], $Query[0]["City"]);
             
             return $ClassObject;
         }
@@ -63,7 +65,7 @@ require("includeAll.php");
                 return null;
              }
              $ClassObject = new airports();
-             $ClassObject -> SetProperties($Query[0]["airport_id"], $Query[0]["name"]);
+             $ClassObject -> SetProperties($Query[0]["airport_id"], $Query[0]["name"], $Query[0]["City"]);
             
              return $ClassObject;
         }
@@ -76,7 +78,7 @@ require("includeAll.php");
                foreach($Query as $result)
                {
                     $AirportObject = new airports();
-                    $AirportObject -> SetProperties($result["airport_id"], $result["name"]);
+                    $AirportObject -> SetProperties($result["airport_id"], $result["name"], $result["City"]);
                     array_push($AirportCOllection, $AirportObject);
                }
                
@@ -91,7 +93,7 @@ require("includeAll.php");
                foreach($Query as $result)
                {
                     $AirportObject = new airports();
-                    $AirportObject -> SetProperties($result["airport_id"], $result["name"]);
+                    $AirportObject -> SetProperties($result["airport_id"], $result["name"], $result["City"]);
                     array_push($AirportCOllection, $AirportObject);
                }
                

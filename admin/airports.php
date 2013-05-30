@@ -26,14 +26,18 @@ require_once ("bovenkant.php");
 <?php
 $AirportObject;
 $name;
+$city;
 
 //Toevoegen gedeelte:
 if (isset($_GET["action"])) {
     if ($_GET["action"] == "add") {
         if (!empty($_POST["name"])) {
             if (strlen($_POST["name"]) > 0 && strlen($_POST["name"]) < 101 && strlen($_POST["Iata"]) >
-                0 && strlen($_POST["Iata"]) < 5) {
+                0 && strlen($_POST["Iata"]) < 5 && strlen($_POST["City"]) > 0 && strlen($_POST["City"]) < 101){
+                    
                 $name = $_POST["name"] . " (" . $_POST["Iata"] . ")";
+                $city = $_POST["City"];
+                          
                 $CheckIfExists = airports::GetAirportByName($name);
 
                 if ($CheckIfExists != null) {
@@ -42,7 +46,7 @@ if (isset($_GET["action"])) {
                 } else {
                     $_POST["name"] = null;
                     $_POST["Iata"] = null;
-                    $AirportObject = airports::AddItem(($name));
+                    $AirportObject = airports::AddItem($name, $city);
                 }
             } else {
                 $name = "Niet alle velden zijn correct ingevuld!";
@@ -63,25 +67,24 @@ if (isset($_GET["action"])) {
             <form action="airports.php?action=add" method="post" class="form">
                 <div><label for="airportname">Vliegveld naam: </label><input name="name" id="airportname" /></div>
                 <div><label for="airportIata">Vliegveld IATA code: </label><input name="Iata" id="IataCode" /></div>
+                <div><label for="City">Plaatsnaam </label><input name="City" id="City" /></div>
                 <div>&nbsp;</div>
-                <div><label>&nbsp;</label><input type="submit" value="Vliegveld toevoegen"/></div>
-            </form>
-        <br />
-        
-        <?php
+                <?php
 
         if (!empty($AirportObject)) {
-?>
-            <div style="margin-left: 20px;">
-                <br /><h1>Vliegveld toegevoegd!</h1><br /><br /> 
-                Vliegveld id: <?php echo $AirportObject->AirportID[0]["airport_ID"]; ?><br /> 
-                Vliegveld naam: <?php echo $AirportObject->AirportName; ?>
-            </div>
+?>          
+            <div><label for="airportAdded">Vliegveld toegevoegd: <?php echo $AirportObject->AirportName . "in " . $AirportObject->AirportCity; ?></label></div><br /><br />
             <?php
         } else {
             echo $name;
 
         }
+        ?>
+                <div><label>&nbsp;</label><input type="submit" value="Vliegveld toevoegen"/></div>
+            </form>
+        <br />
+        
+    <?php
     }
     //Beheer gedeelte:
     if ($_GET["action"] == "edit") {
@@ -164,10 +167,9 @@ if (isset($_GET["action"])) {
                 $AirportName = implode("(", $AirportName);
                 
                 $IataCode = explode(")", $IataCode);
-                //$IataCode = substr($IataCode, 0, -3);
                 
                 $Airportid = $_POST["Airports"];
-
+                $AirportCity = $AirportObject->AirportCity;
                 //verwijdercheckbox is scheef
 
 
@@ -181,6 +183,8 @@ if (isset($_GET["action"])) {
                 $AirportName; ?>" style="width:325px;" /></div>
                                                                     <div><label for="airportIata">Vliegveld IATA code: </label><input name="Iata" id="IataCode" value="<?php echo
                 $IataCode[0]; ?>" style="width:325px;" /></div>
+                                                                    <div><label for="airportCity">Vliegveld plaats</label><input name="airportCity" id="airportCity" value="<?php echo
+                $AirportCity; ?>" style="width:325px;" /></div>
                                                                     <div><label for="Verwijderen">Vliegveld verwijderen? </label><input type="checkbox" name="verwijderen" value="true"/></div>
                                                                     <div>&nbsp;</div>
                                                                     <div><label>&nbsp;</label><input type="submit" value="Vliegveld wijzigen"/></div>
@@ -204,10 +208,11 @@ if (isset($_GET["action"])) {
             //item moet worden aangepast in de database
             if (isset($_GET["Edited"])) {
                 if (strlen($_POST["name"]) > 0 && strlen($_POST["name"]) < 101 && strlen($_POST["Iata"]) >
-                    0 && strlen($_POST["Iata"]) < 5) {
+                    0 && strlen($_POST["Iata"]) < 5 && strlen($_POST["airportCity"]) > 0 && strlen($_POST["airportCity"]) < 101) {
                     $Verwijderen = "";
                     $name = $_POST["name"];
                     $Iata = $_POST["Iata"];
+                    $City = $_POST["airportCity"];
                     if (isset($_POST["verwijderen"])) {
                         $Verwijderen = $_POST["verwijderen"];
                     }
@@ -217,7 +222,7 @@ if (isset($_GET["action"])) {
                     if ($Verwijderen == "true") {
                         airports::RemoveItem($ItemID);
                     } else {
-                        airports::EditItem($ItemID, $FullName);
+                        airports::EditItem($ItemID, $FullName, $City);
                     }
 
                     echo "
@@ -293,7 +298,7 @@ if (isset($_GET["action"])) {
                             &nbsp; &nbsp; Bangkok international Airport (BKK) <br />
                             &nbsp; &nbsp; Londen Heathrow Airport (LHR) <br /><br />
                             Enzovoort. <br /><br />
-                            Het is belangrijk dat haakjes maar 1 keer voorkomen omdat de website hier de IATA codes op filterd. <br /><br />
+                            <br />
                             - Stap 2: Upload de lijst door op bladeren te klikken en het bestand te selecteren. Klik daarna op Bestand importeren. <br /><br />
                             - Stap 3: Controleer de geimporteerde lijst die op het scherm wordt getoont. Als alles klopt klik dan op "Vliegvelden inlezen".<br /><br />
                             De vliegvelden staan nu in de database.
@@ -327,7 +332,7 @@ if (isset($_GET["action"])) {
 
                 foreach ($lines as $line) {
                     if (strpos($line, '(') != false && (strpos($line, ')') != false) && strlen($line) >
-                        4 && strlen($line < 105)) {
+                        4 && strlen($line < 105)&& (strpos($line, ',') != false)) {
                         array_push($InleesArray, $line);
                     }
                 }
@@ -375,7 +380,12 @@ if (isset($_GET["action"])) {
             if (isset($_SESSION['Lines'])) {
                 foreach ($_SESSION['Lines'] as $line) {
                     $counter = $counter + 1;
-                    airports::AddItem($line);
+                    $StringLineAray = explode(',', $line);
+                    $City = $StringLineAray[Count($StringLineAray) - 1];
+                    unset($StringLineAray[Count($StringLineAray) - 1]);
+                    $Name = implode(',', $StringLineAray);
+                    
+                    airports::AddItem($Name, $City);
                 }
             }
 
