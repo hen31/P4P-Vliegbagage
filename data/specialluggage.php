@@ -130,6 +130,16 @@ class SpecialLuggage
         return $ClassObject;
     }
 
+    public static function EditItem($id, $Name)
+    {
+        DbHandler::Query("UPDATE specialluggage SET name = (:Name) WHERE specialluggage_id = (:ID)",
+            array("Name" => $Name, "ID" => $id));
+
+        $ClassObject = new SpecialLuggage();
+        $ClassObject->SetPropertiestwo($id, $Name);
+
+        return $ClassObject;
+    }
     public static function GetSpecialLuggageList()
     {
         $Query = DbHandler::Query("SELECT * FROM SPECIALLUGGAGE", null);

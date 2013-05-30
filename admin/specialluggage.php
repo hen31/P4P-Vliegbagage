@@ -15,7 +15,7 @@ if (isset($_GET["Edited"]) && !isset($_GET["ItemSelected"])) {
         if ($Verwijderen == "true") {
             SpecialLuggage::RemoveSpecialLuggage($EditSpecialLuggage);
         } else {
-            SpecialLuggage::EditItem($EditSpecialLuggage);
+            SpecialLuggage::EditItem($EditSpecialLuggage, $Name);
         }
     }
 }
@@ -158,6 +158,7 @@ if (isset($_GET["action"])) {
                     $specialluggage_id = $_POST["Specialluggage"];
                 }
                 //verwijdercheckbox is scheef
+
 
 ?>
                                                                 </h1>
