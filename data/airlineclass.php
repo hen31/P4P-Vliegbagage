@@ -13,7 +13,6 @@ class airlineclass
     public $sizeTotalHL;
     public $LaptopAllowedHL;
     public $pcsInfantHL;
-    public $strollerAllowedHL;
     public $pcsLuggageInfant;
     public $pcsLuggageInfantMaxWeight;
     public $pcsLuggage;
@@ -51,7 +50,6 @@ class airlineclass
         $this->sizeTotalHL = $class["sizeTotalHL"];
         $this->LaptopAllowedHL = $class["LaptopAllowedHL"];
         $this->pcsInfantHL = $class["pcsInfantHL"];
-        $this->strollerAllowedHL = $class["strollerAllowedHL"];
         $this->pcsLuggageInfant = $class["pcsLuggageInfant"];
         $this->pcsLuggageInfantMaxWeight = $class["pcsLuggageInfantMaxWeight"];
         $this->pcsLuggage = $class["pcsLuggage"];

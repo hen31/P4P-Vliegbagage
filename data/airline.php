@@ -131,7 +131,7 @@ class airline
     public static function add_airline_with_class($name, $logo, $OverweightChargeG,
         $OverweightChargeBag, $ChargeExtraBag, $OversizeCharge, $iata, $classnumber, $pcsHL,
         $MaxWeightHL, $sizeLenghtHL, $sizeHeightHL, $SizeWidthHL, $sizeTotalHL, $LaptopAllowedHL,
-        $pcsInfantHL, $strollerAllowedHL, $pcsLuggageInfant, $pcsLuggageInfantMaxWeight,
+        $pcsInfantHL, $pcsLuggageInfant, $pcsLuggageInfantMaxWeight,
         $pcsLuggage, $maxWeightLuggage, $LoyaltyProgramme, $LPextraPcsLuggage, $LPextraWeightLuggage,
         $AbsoluteMaxPerItem, $sizeLenghtPerItem, $sizeHeightPerItem, $sizeWidthPerItem,
         $sizeTotalPerItem, $Pooling, $FreeWheelChair, $FreeServiceDog, $PetsAllowed, $MaxWeightPet,
@@ -154,7 +154,7 @@ class airline
         $id = DbHandler::Query("SELECT `airline_id` FROM `airline` WHERE `name` = :name",
             array("name" => $name));
 
-        DbHandler::NonQuery("INSERT INTO `airlineclass` (`airline`, `classnumber`, `pcsHL`, `MaxWeightHL`, `sizeLenghtHL`, `sizeHeightHL`, `SizeWidthHL`, `sizeTotalHL`, `LaptopAllowedHL`, `pcsInfantHL`, `strollerAllowedHL`, `pcsLuggageInfant`, `pcsLuggageInfantMaxWeight`, `pcsLuggage`, `maxWeightLuggage`, `LoyaltyProgramme`, `LPextraPcsLuggage`, `LPextraWeightLuggage`, `AbsoluteMaxPerItem`, `sizeLenghtPerItem`, `sizeHeightPerItem`, `sizeWidthPerItem`, `sizeTotalPerItem`, `Pooling`, `FreeWheelChair`, `FreeServiceDog`, `PetsAllowed`, `MaxWeightPet`, `sizeLenghtPet`, `sizeHeightPet`, `sizeWidthPet`, `sizeTotalPet`, `DeclarationOfValue`, `MaxDeclarationOfValue`) VALUES(:airline, :classnumber, :pcsHL, :MaxWeightHL, :sizeLenghtHL, :sizeHeightHL, :SizeWidthHL, :sizeTotalHL, :LaptopAllowedHL, :pcsInfantHL, :strollerAllowedHL, :pcsLuggageInfant, :pcsLuggageInfantMaxWeight, :pcsLuggage, :maxWeightLuggage, :LoyaltyProgramme, :LPextraPcsLuggage, :LPextraWeightLuggage, :AbsoluteMaxPerItem, :sizeLenghtPerItem, :sizeHeightPerItem, :sizeWidthPerItem, :sizeTotalPerItem, :Pooling, :FreeWheelChair, :FreeServiceDog, :PetsAllowed, :MaxWeightPet, :sizeLenghtPet, :sizeHeightPet, :sizeWidthPet, :sizeTotalPet, :DeclarationOfValue, :MaxDeclarationOfValue)",
+        DbHandler::NonQuery("INSERT INTO `airlineclass` (`airline`, `classnumber`, `pcsHL`, `MaxWeightHL`, `sizeLenghtHL`, `sizeHeightHL`, `SizeWidthHL`, `sizeTotalHL`, `LaptopAllowedHL`, `pcsInfantHL`, `pcsLuggageInfant`, `pcsLuggageInfantMaxWeight`, `pcsLuggage`, `maxWeightLuggage`, `LoyaltyProgramme`, `LPextraPcsLuggage`, `LPextraWeightLuggage`, `AbsoluteMaxPerItem`, `sizeLenghtPerItem`, `sizeHeightPerItem`, `sizeWidthPerItem`, `sizeTotalPerItem`, `Pooling`, `FreeWheelChair`, `FreeServiceDog`, `PetsAllowed`, `MaxWeightPet`, `sizeLenghtPet`, `sizeHeightPet`, `sizeWidthPet`, `sizeTotalPet`, `DeclarationOfValue`, `MaxDeclarationOfValue`) VALUES(:airline, :classnumber, :pcsHL, :MaxWeightHL, :sizeLenghtHL, :sizeHeightHL, :SizeWidthHL, :sizeTotalHL, :LaptopAllowedHL, :pcsInfantHL, :pcsLuggageInfant, :pcsLuggageInfantMaxWeight, :pcsLuggage, :maxWeightLuggage, :LoyaltyProgramme, :LPextraPcsLuggage, :LPextraWeightLuggage, :AbsoluteMaxPerItem, :sizeLenghtPerItem, :sizeHeightPerItem, :sizeWidthPerItem, :sizeTotalPerItem, :Pooling, :FreeWheelChair, :FreeServiceDog, :PetsAllowed, :MaxWeightPet, :sizeLenghtPet, :sizeHeightPet, :sizeWidthPet, :sizeTotalPet, :DeclarationOfValue, :MaxDeclarationOfValue)",
             array(
             "airline" => $id[0]["airline_id"],
             "classnumber" => $classnumber,
@@ -166,7 +166,6 @@ class airline
             "sizeTotalHL" => $sizeTotalHL,
             "LaptopAllowedHL" => $LaptopAllowedHL,
             "pcsInfantHL" => $pcsInfantHL,
-            "strollerAllowedHL" => $strollerAllowedHL,
             "pcsLuggageInfant" => $pcsLuggageInfant,
             "pcsLuggageInfantMaxWeight" => $pcsLuggageInfantMaxWeight,
             "pcsLuggage" => $pcsLuggage,
@@ -194,14 +193,14 @@ class airline
 
     public static function add_class($airline_id, $classnumber, $pcsHL, $MaxWeightHL,
         $sizeLenghtHL, $sizeHeightHL, $SizeWidthHL, $sizeTotalHL, $LaptopAllowedHL, $pcsInfantHL,
-        $strollerAllowedHL, $pcsLuggageInfant, $pcsLuggageInfantMaxWeight, $pcsLuggage,
+        $pcsLuggageInfant, $pcsLuggageInfantMaxWeight, $pcsLuggage,
         $maxWeightLuggage, $LoyaltyProgramme, $LPextraPcsLuggage, $LPextraWeightLuggage,
         $AbsoluteMaxPerItem, $sizeLenghtPerItem, $sizeHeightPerItem, $sizeWidthPerItem,
         $sizeTotalPerItem, $Pooling, $FreeWheelChair, $FreeServiceDog, $PetsAllowed, $MaxWeightPet,
         $sizeLenghtPet, $sizeHeightPet, $sizeWidthPet, $sizeTotalPet, $DeclarationOfValue,
         $MaxDeclarationOfValue)
     {
-        DbHandler::NonQuery("INSERT INTO `airlineclass` (`airline`, `classnumber`, `pcsHL`, `MaxWeightHL`, `sizeLenghtHL`, `sizeHeightHL`, `SizeWidthHL`, `sizeTotalHL`, `LaptopAllowedHL`, `pcsInfantHL`, `strollerAllowedHL`, `pcsLuggageInfant`, `pcsLuggageInfantMaxWeight`, `pcsLuggage`, `maxWeightLuggage`, `LoyaltyProgramme`, `LPextraPcsLuggage`, `LPextraWeightLuggage`, `AbsoluteMaxPerItem`, `sizeLenghtPerItem`, `sizeHeightPerItem`, `sizeWidthPerItem`, `sizeTotalPerItem`, `Pooling`, `FreeWheelChair`, `FreeServiceDog`, `PetsAllowed`, `MaxWeightPet`, `sizeLenghtPet`, `sizeHeightPet`, `sizeWidthPet`, `sizeTotalPet`, `DeclarationOfValue`, `MaxDeclarationOfValue`) VALUES(:airline,:classnumber,:pcsHL,:MaxWeightHL,:sizeLenghtHL,:sizeHeightHL,:SizeWidthHL,:sizeTotalHL,:LaptopAllowedHL,:pcsInfantHL,:strollerAllowedHL,:pcsLuggageInfant,:pcsLuggageInfantMaxWeight,:pcsLuggage,:maxWeightLuggage,:LoyaltyProgramme,:LPextraPcsLuggage,:LPextraWeightLuggage,:AbsoluteMaxPerItem,:sizeLenghtPerItem,:sizeHeightPerItem,:sizeWidthPerItem,:sizeTotalPerItem,:Pooling,:FreeWheelChair,:FreeServiceDog,:PetsAllowed,:MaxWeightPet,:sizeLenghtPet,:sizeHeightPet,:sizeWidthPet,:sizeTotalPet,:DeclarationOfValue,:MaxDeclarationOfValue)",
+        DbHandler::NonQuery("INSERT INTO `airlineclass` (`airline`, `classnumber`, `pcsHL`, `MaxWeightHL`, `sizeLenghtHL`, `sizeHeightHL`, `SizeWidthHL`, `sizeTotalHL`, `LaptopAllowedHL`, `pcsInfantHL`, `pcsLuggageInfant`, `pcsLuggageInfantMaxWeight`, `pcsLuggage`, `maxWeightLuggage`, `LoyaltyProgramme`, `LPextraPcsLuggage`, `LPextraWeightLuggage`, `AbsoluteMaxPerItem`, `sizeLenghtPerItem`, `sizeHeightPerItem`, `sizeWidthPerItem`, `sizeTotalPerItem`, `Pooling`, `FreeWheelChair`, `FreeServiceDog`, `PetsAllowed`, `MaxWeightPet`, `sizeLenghtPet`, `sizeHeightPet`, `sizeWidthPet`, `sizeTotalPet`, `DeclarationOfValue`, `MaxDeclarationOfValue`) VALUES(:airline,:classnumber,:pcsHL,:MaxWeightHL,:sizeLenghtHL,:sizeHeightHL,:SizeWidthHL,:sizeTotalHL,:LaptopAllowedHL,:pcsInfantHL,:pcsLuggageInfant,:pcsLuggageInfantMaxWeight,:pcsLuggage,:maxWeightLuggage,:LoyaltyProgramme,:LPextraPcsLuggage,:LPextraWeightLuggage,:AbsoluteMaxPerItem,:sizeLenghtPerItem,:sizeHeightPerItem,:sizeWidthPerItem,:sizeTotalPerItem,:Pooling,:FreeWheelChair,:FreeServiceDog,:PetsAllowed,:MaxWeightPet,:sizeLenghtPet,:sizeHeightPet,:sizeWidthPet,:sizeTotalPet,:DeclarationOfValue,:MaxDeclarationOfValue)",
             array(
             "airline" => $airline_id,
             "classnumber" => $classnumber,
@@ -213,7 +212,6 @@ class airline
             "sizeTotalHL" => $sizeTotalHL,
             "LaptopAllowedHL" => $LaptopAllowedHL,
             "pcsInfantHL" => $pcsInfantHL,
-            "strollerAllowedHL" => $strollerAllowedHL,
             "pcsLuggageInfant" => $pcsLuggageInfant,
             "pcsLuggageInfantMaxWeight" => $pcsLuggageInfantMaxWeight,
             "pcsLuggage" => $pcsLuggage,
