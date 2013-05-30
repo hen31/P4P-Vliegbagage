@@ -51,7 +51,7 @@ if (isset($_GET["beginPunt"]) && isset($_GET["eindPunt"]))
             
                 <form action="index.php" method="get" id="IndexForm">
                 <?php
-
+//als special luggage is die toevoegen als hiddenfield
 $counter = 0;
 while (isset($_GET["specLug" . $counter]))
 {
@@ -65,7 +65,7 @@ while (isset($_GET["specLug" . $counter]))
                 <div class="ui-widget">
                   <label for="beginPunt">Beginpunt: </label>
                   <input name="beginPunt" id="beginPunt" value="<?php
-
+//begin punt tonen als je hebt ingevuld
 if (isset($_GET["beginPunt"]))
 {
     echo htmlspecialchars($_GET["beginPunt"]);
@@ -74,7 +74,7 @@ if (isset($_GET["beginPunt"]))
 ?>" />
                   <label for="eindPunt">Eindpunt: </label>
                   <input name="eindPunt" id="eindPunt" value="<?php
-
+//eind punten als je hebt ingevuld
 if (isset($_GET["eindPunt"]))
 {
     echo htmlspecialchars($_GET["eindPunt"]);
@@ -86,7 +86,7 @@ if (isset($_GET["eindPunt"]))
                 <select name="class" id="classSel">
                 <option value="0"
                  <?php
-
+//als een klasse is ingevuld die selecteren
 if (isset($_GET["class"]))
 {
     if ($_GET["class"] == '0')
@@ -99,7 +99,7 @@ if (isset($_GET["class"]))
                 >Economy</option>
                 <option value="1" 
                 <?php
-
+//als een klasse is ingevuld die selecteren
 if (isset($_GET["class"]))
 {
     if ($_GET["class"] == '1')
@@ -112,7 +112,7 @@ if (isset($_GET["class"]))
                 >Eerste klas</option>
                 <option value="2"
                  <?php
-
+//als een klasse is ingevuld die selecteren
 if (isset($_GET["class"]))
 {
     if ($_GET["class"] == '2')
@@ -131,7 +131,7 @@ if (isset($_GET["class"]))
                                     <div id="specListDiv">
                                     <ul id="specList" >
                                         <?php
-
+//zorgen dat er jvavascript word uitgevoerd als op delete word geklikt
 $counter = 0;
 while (isset($_GET["specLug" . $counter]))
 {
@@ -152,7 +152,7 @@ while (isset($_GET["specLug" . $counter]))
                 
                 <div class="results">
                 <?php
-
+//als er resultaat is die tonen
 if (isset($results))
 {
 
@@ -211,10 +211,12 @@ function popitup(url, kerl) {
  <?php 
 if (isset($results) && count($results) > 0)
 {
+    //class nummer in javascript zetten.
  echo 'var classnumber =' .   $results[0]-> classes[0]->classnumber . ';';
     }
     ?>
      <?php 
+     ///speciale bagage toevoegen aan javascript
 if (isset($specialeBagage))
 {
     $stringSpec = 'var SpecLug ="';
@@ -248,7 +250,7 @@ if (isset($results) && count($results) > 0)
 {
     for ($s = 0; $s < count($results); $s++)
     {
-        
+        //resultaten voor javascript formateren
         $airline = $results[$s];
         $afmetingen = $airline->
                 classes[0]->sizeTotalPerItem ? $airline->classes[0]->sizeTotalPerItem.'cm' : $airline->
@@ -292,7 +294,7 @@ function strip(html)
 var counter =0;
     var availableSpec = [
     <?php
-
+//speciale bagage maken
 $specialeBagage = SpecialLuggage::GetSpecialLuggageList();
 for ($i = 0; $i < count($specialeBagage); $i++)
 {
@@ -338,7 +340,7 @@ $('#'+counter).remove();
   $(function() {
     var availableTags = [
     <?php
-
+//vliegvelden toevoegen voor typeahead
 $airports = frontend::GetAirports();
 for ($i = 0; $i < count($airports); $i++)
 {
@@ -365,7 +367,7 @@ for ($i = 0; $i < count($airports); $i++)
   </script>
           
 <?php
-
+//onderkant toevoegen.
 require_once ("onderkant.php");
 
 ?>
