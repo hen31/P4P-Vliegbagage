@@ -8,6 +8,7 @@ $submitUser = null;
 
 $titel = "Gebruikers";
 require_once ("bovenkant.php");
+
 if(isset($_GET['id']))
 {
     if(isset($_GET['actie'])&& $_GET['actie'] == 'Delete')
@@ -16,6 +17,8 @@ if(isset($_GET['id']))
     }
   
     $submitUser = user::GetUser($_GET['id']);
+    
+    //Check of submit user niet leeg is
     if($submitUser != null)
     {
     $_SESSION["user_id"] =  $_GET['id'];
@@ -38,7 +41,7 @@ if(isset($_GET['id']))
 <div style="clear: both;"></div>
 
 <?php
-
+//Gebruiker toevoegen veld
 if (isset($_GET["action"])) 
 {
     if ($_GET["action"] == "add") 
@@ -83,7 +86,6 @@ if (isset($_GET["action"]))
         
 <?php
     }
-      
     if ($_GET["action"] == "edit") {
         $users = user::GetUsers('');
 
@@ -92,6 +94,7 @@ if (isset($_GET["action"]))
         {
             foreach ($users as $user) 
             {
+                //Table waar gebruikers in worden getoond.
                 echo '<tr><td>' . $user->userName .
                     '</td><td><a href="users.php?actie=Change&id=' . $user->id .
                     '&action=edit">Bewerken</a></td><td><a href="users.php?actie=Delete&id=' . $user->id .
@@ -99,11 +102,14 @@ if (isset($_GET["action"]))
             }
         }
         echo "</table>";
-
+        
+        //Stuk code voor veranderen van de gebruiker
         if (isset($_POST['changeUser'])) 
         {
+            //Check of oude gebruikdersnaam en oude wachtwoord overeen komen.
             if (user::checkUser($_POST["oldUser"], user::incryptPass($_POST["oldPass"]))) 
             {
+                //Check of de textboxes niet leeg zijn
                 if(!empty($_POST['newUser']) && !empty($_POST['newPass']))
                 {
                 user::changeUser($_SESSION["user_id"] , ($_POST["newUser"]), $_POST["newPass"]);
@@ -113,6 +119,7 @@ if (isset($_GET["action"]))
                 }
                 else
                 {
+                    //De tekst 'Er is een leeg veld' wordt geprint
                     echo "Er is een leeg veld";
                 }
             }

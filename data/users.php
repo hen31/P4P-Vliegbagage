@@ -7,13 +7,15 @@ class user
     public $id;
     public $userName;
     private static $SALT = "iefoafinfawhq91q9h''''aoiash[][]{}}{";
-        
+    
+    //Set properties    
     public function SetProperties($id, $Name)
     {
             $this->userid = $id;
             $this->user = $Name; 
     }
     
+    //Encrypt wachtwoord functie.
     public static function incryptPass($pass)
     {
         $incryptPass = sha1($pass . user::$SALT);
@@ -25,13 +27,15 @@ class user
     private static function UsernameExists($username)
     {
         $userExist = DbHandler::Query("SELECT username FROM user WHERE username = :username", array("username"=> $username));
-     if($userExist !=null && $userExist[0]["username"] == $username){
-        return true;
-      }
-      else
-      {
-       return false; 
-      }
+        
+        //Check of gebruiker wel bestaat
+        if($userExist !=null && $userExist[0]["username"] == $username){
+            return true;
+        }
+        else
+        {
+        return false; 
+        }
     }
     
     //Kan een nieuwe gebruiker aanmaken met wachtwoord.
@@ -116,22 +120,7 @@ class user
             return null;
         }
     }
-    
-    public static function GetUsersObj()
-    {
-        $Query =  DbHandler::Query("SELECT * FROM user", null);
-        $userCollection = array();
-               
-               foreach($Query as $result)
-               {
-                    $userObject = new user();
-                    $userObject -> SetProperties($result["user_id"], $result["username"]);
-                    array_push($userCollection, $userObject);
-               }
-               
-            return $userCollection;         
-            
-    }            
+              
     
     //fucntie om te checken of het een geldige login is. 
     //als dit het geval is dan wordt er een object van gebruiker terug gegeven.
@@ -156,6 +145,7 @@ class user
         }
     }
     
+    //Check of gebruikersnaam en wachtwoord kloppen
     public static function checkUser($username, $userPassword)
     {
         $check;
