@@ -20,7 +20,7 @@ class SpecialLuggage
         $this->Name = $Name;
         $this->Notes = $Notes;
     }
-     public function SetPropertiestwo($specialluggage_id, $name)
+    public function SetPropertiestwo($specialluggage_id, $name)
     {
         $this->specialluggage_id = $specialluggage_id;
         $this->Name = $name;
@@ -65,7 +65,7 @@ class SpecialLuggage
         }
     }
 
-    public static function EditAirlineName($Specialluggage_id, $Name)
+    public static function EditSpecialLuggage($Specialluggage_id, $Name)
     {
 
         DbHandler::NonQuery("UPDATE specialluggage SET name = :Name WHERE specialluggage_id = :ID",
@@ -98,8 +98,12 @@ class SpecialLuggage
         $Result = DbHandler::Query("SELECT * FROM specialluggage WHERE specialluggage_id = :ID ;",
             array("ID" => $ID));
         $ClassObject = new SpecialLuggage();
-        $ClassObject->SetProperties($ID, 0, $Result[0]["name"], "");
-        return $ClassObject;
+        if (count($Result) == 0) {
+            return null;
+        } else {
+            $ClassObject->SetProperties($ID, 0, $Result[0]["name"], "");
+            return $ClassObject;
+        }
     }
 
     public static function GetSpecialLuggageName($Name)
@@ -139,7 +143,7 @@ class SpecialLuggage
         }
         return $SpecialLuggageCollection;
     }
-    
+
     public static function SearchSpecialLuggage($SearchQuery)
     {
         $Query = DbHandler::Query("SELECT * FROM specialluggage WHERE name LIKE  :SearchQuery ",
