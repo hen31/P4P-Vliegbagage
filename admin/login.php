@@ -2,6 +2,7 @@
 //Alle data classes includen
 require_once ("../data/includeAll.php");
 
+
 if (isset($_POST['Submit'])) {
     if (isset($_POST["uname"])) {
         if (!empty($_POST['uname']) && !empty($_POST['pword'])) {
@@ -10,7 +11,7 @@ if (isset($_POST['Submit'])) {
             $user = user::login($_POST["uname"], $password);
             
             if ($user == null) {
-                echo 'Gebruikersnaam of wachtwoord klopt niet';
+                $_SESSION["error1"] =  'Gebruikersnaam of wachtwoord klopt niet';
             } else {
                 $fatalerror = false;
                 $_SESSION["user"] = $user;
@@ -20,7 +21,7 @@ if (isset($_POST['Submit'])) {
             }
             else
             {
-                echo 'Een of meer velden zijn leeg';
+                $_SESSION["error2"] =  'Gebruikersnaam of wachtwoord klopt niet';
             }
         
 
@@ -48,7 +49,13 @@ Wachtwoord: <br>
 
 <input type="hidden" name="hidden1" value="_issubmitted">
 <input type="submit" name="Submit" value="Inloggen"><br>
+<?php
+echo $_SESSION["error1"];
+echo $_SESSION["error2"];
+unset($_SESSION["error1"]);
+unset($_SESSION["error2"]);
 
+?>
 </form>
 
 </body>

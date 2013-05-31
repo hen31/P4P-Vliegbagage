@@ -53,7 +53,7 @@ if (isset($_GET["action"]))
                 if (!empty($_POST['username']) && !empty($_POST['password'])) {                    
                     $user = user::createUser($_POST["username"], $_POST["password"]);
                 } else {
-                    $fatalerror = true;
+                    
                 }
             }
             else
@@ -112,10 +112,17 @@ if (isset($_GET["action"]))
                 //Check of de textboxes niet leeg zijn
                 if(!empty($_POST['newUser']) && !empty($_POST['newPass']))
                 {
-                user::changeUser($_SESSION["user_id"] , ($_POST["newUser"]), $_POST["newPass"]);
+                $changeCheck = user::changeUser($_SESSION["user_id"] , ($_POST["newUser"]), $_POST["newPass"]);
                 unset($_SESSION["user_id"]);
+                    if($changeCheck)
+                    {
+                        echo 'Gebruiker gewijzigd';
+                    }
+                    else
+                    {
+                        echo 'Gebruikersnaam bestaat al';
+                    }    
                 
-                echo "Gebruiker gewijzigd";
                 }
                 else
                 {

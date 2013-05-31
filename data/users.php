@@ -67,7 +67,7 @@ class user
         $check = user::UsernameExists($username);
         $user =user::GetUser($userid);
         $userPassword = sha1($userPassword . user::$SALT);
-        if($check == false|| $user->userName == $username )
+        if($check == false && $user->userName == $username )
         {
            DbHandler::NonQuery("UPDATE user SET username=:Name, password = :password WHERE user_id = :ID;", 
            array("Name" => $username, "ID" => $userid, "password" => $userPassword));
