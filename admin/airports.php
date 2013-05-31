@@ -3,8 +3,38 @@
 require_once ("../data/includeAll.php");
 $titel = "Vliegvelden";
 require_once ("bovenkant.php");
+//<!-- Hier alles neerzetten-->
+
+
+if ($_GET["action"] == "edit") 
+{
+    if (isset($_GET["Edited"])) 
+                {
+                    
+                    $Verwijderen = "";
+                    $name = $_POST["name"];
+                    $Iata = $_POST["Iata"];
+                    $City = $_POST["airportCity"];
+                    if (isset($_POST["verwijderen"])) {
+                        $Verwijderen = $_POST["verwijderen"];
+                    }
+                    $ItemID = $_GET["Edited"];
+                    $FullName = ($name . " (" . $Iata . ")");
+                    
+                    if ($Verwijderen == "true") 
+                    {
+                        airports::RemoveItem($ItemID);
+                    } 
+                    else {
+                        airports::EditItem($ItemID, $FullName, $City);
+                    }
+                    
+                }
+                
+                
+                    
+}    
 ?>
-<!-- Hier alles neerzetten-->
 <div id="menu">
     <ul>
         <li>
@@ -209,6 +239,8 @@ if (isset($_GET["action"])) {
             if (isset($_GET["Edited"])) {
                 if (strlen($_POST["name"]) > 0 && strlen($_POST["name"]) < 101 && strlen($_POST["Iata"]) >
                     0 && strlen($_POST["Iata"]) < 5 && strlen($_POST["airportCity"]) > 0 && strlen($_POST["airportCity"]) < 101) {
+                   
+                    /*
                     $Verwijderen = "";
                     $name = $_POST["name"];
                     $Iata = $_POST["Iata"];
@@ -224,7 +256,7 @@ if (isset($_GET["action"])) {
                     } else {
                         airports::EditItem($ItemID, $FullName, $City);
                     }
-
+                    */
                     echo "
                                                         <h1>
                                                         Bewerken succesvol.
@@ -294,9 +326,9 @@ if (isset($_GET["action"])) {
                             Met deze pagina kan er op een snellere mannier vliegvelden worden toegevoegd doormiddel van een vooraf gemaakt tekst bestand. <br /><br />
                             
                             - Stap 1: Maak in het windows programma kladblok een bestand aan met vliegvelden. Vliegvelden moeten als volgt in het tekstbestand staan: <br /><br />
-                            &nbsp; &nbsp; Amsterdam Airport Schiphol (AMS) <br />
-                            &nbsp; &nbsp; Bangkok international Airport (BKK) <br />
-                            &nbsp; &nbsp; Londen Heathrow Airport (LHR) <br /><br />
+                            &nbsp; &nbsp; Amsterdam Airport Schiphol (AMS), Amsterdam <br />
+                            &nbsp; &nbsp; Bangkok international Airport (BKK), Bangkok <br />
+                            &nbsp; &nbsp; London Heathrow Airport (LHR), Londen <br /><br />
                             Enzovoort. <br /><br />
                             <br />
                             - Stap 2: Upload de lijst door op bladeren te klikken en het bestand te selecteren. Klik daarna op Bestand importeren. <br /><br />
