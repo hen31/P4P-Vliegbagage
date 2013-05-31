@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * @Auteur Ivar de Lange & Niels Riemersma
+ * @Datum 27-5-2013 t/m 30-5-2013
+ */
 //Alle data classes includen
 require_once ("../data/includeAll.php");
 $titel = "Speciale bagage";
@@ -13,9 +18,9 @@ if (isset($_GET["Edited"]) && !isset($_GET["ItemSelected"])) {
         }
         $EditSpecialLuggage = $_GET["Edited"];
         if ($Verwijderen == "true") {
-            SpecialLuggage::RemoveSpecialLuggage($EditSpecialLuggage);
+            SpecialLuggage::RemoveSpecialLuggage($EditSpecialLuggage); //verwijderen bagage
         } else {
-            SpecialLuggage::EditItem($EditSpecialLuggage, $Name);
+            SpecialLuggage::EditItem($EditSpecialLuggage, $Name); //wijzigen naam bagage
         }
     }
 }
@@ -45,14 +50,14 @@ if (isset($_GET["action"])) {
                 $CheckIfExists = specialluggage::GetSpecialLuggageName($name);
 
                 if ($CheckIfExists != null) {
-                    $name = "Dit type bagage bestaat al!";
+                    $name = "Dit type bagage bestaat al!"; // kijken of bagage al bestaat
                 } else {
                     $_POST["name"] = null;
                     $specialeBagage = specialluggage::AddItem(null, ($name), null);
-                    $name = "Speciale bagage is toegevoegd!";
+                    $name = "Speciale bagage is toegevoegd!"; // bagage toevoegen
                 }
             } else {
-                $name = "Niet alle velden zijn correct ingevuld!";
+                $name = "Niet alle velden zijn correct ingevuld!"; // controle of er iets ingevoerd is
             }
         } else {
             $name = "";
@@ -86,6 +91,8 @@ if (isset($_GET["action"])) {
             echo $name;
         }
     }
+    //Zoek opties naar bagage in lijst.
+    //Lijst aanmaken met bagage
     if ($_GET["action"] == "edit") {
         if (isset($_GET["zoekQuery"])) {
             $Specialluggage = specialluggage::SearchSpecialLuggage($_POST["Zoekveld"]);
@@ -155,9 +162,10 @@ if (isset($_GET["action"])) {
                 if ($Specialluggage != null) {
                     echo $Specialluggage->Name;
 
-                    $specialluggage_id = $_POST["Specialluggage"];
+                    $specialluggage_id = $_POST["Specialluggage"]; //List en textbox Id van bagage koppelen.
                 }
                 //verwijdercheckbox is scheef
+
 
 
 ?>
@@ -227,6 +235,20 @@ if (isset($_GET["action"])) {
         }
     }
 
+} else {
+?>
+    <table>
+            <tr>
+                <td><br />
+                    <h1 style="margin-left: 20px;">Administratie voor Speciale bagage.</h1><br /><br />
+                    <div style="margin-left: 20px; ">
+                        Gebruik het menu om speciale bagage toe te voegen en bewerken.
+                    </div>
+                    
+                </td>
+            </tr>
+            </table>
+            <?php
 }
 
 ?>
