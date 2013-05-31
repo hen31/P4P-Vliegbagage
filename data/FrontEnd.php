@@ -6,6 +6,7 @@ class FrontEnd
     //de vliegtuigmaatschapijen terug krijgen.
     static public function Search($beginAir, $endAir, $classSelected, $specialLuggage)
     {
+        //als twee specifieke  vliegvelden zijn geselecteerd specifieke query uitvoeren
         if (validator::isString($beginAir) == false && validator::isString($endAir) == false)
         {
             if ($beginAir->AirportID == $endAir->AirportID)
@@ -56,6 +57,7 @@ class FrontEnd
         } else
         {
             $sqlQuert = '';
+            //twee keer alle vliegveleden van een stad geselecteerd
             if (validator::isString($beginAir) && validator::isString($endAir))
             {
                 if ($beginAir == $endAir)
@@ -67,7 +69,7 @@ class FrontEnd
                 ("start" => $beginAir, "stop" => $endAir));
             } 
             
-            
+            //eind bestemming is alle vliegvelden van een stad
             else
                 if (validator::isString($beginAir) && !validator::isString($endAir))
                 {
@@ -83,7 +85,7 @@ class FrontEnd
                 
                 
                 
-                
+                //vertrekpunt bestemming is alle vliegvelden van een stad
                 else
                     if (!validator::isString($beginAir) && validator::isString($endAir))
                     {
@@ -95,9 +97,6 @@ class FrontEnd
                 $results = DbHandler::Query($sqlQuert, array
                 ("start" => $beginAir->AirportID, "stop" => $endAir));
                     }
-            //SELECT Airline_id FROM airline WHERE  Airline_id IN (SELECT airline_id FROM trajectairline WHERE Traject_id = (SELECT traject_id, airport_id FROM traject, airports WHERE airport_start_id=airport_id AND airport_stop_id=airport_id))
-            //Zoek query uitvoeren
-        
 
             if (count($results) == 0)
             {

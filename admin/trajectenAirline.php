@@ -5,11 +5,13 @@ require_once ("../data/includeAll.php");
 $titel = "Trajecten koppelen";
 require_once ("bovenkant.php");
         $falseAirport= false;
+        //zorgen dat alle variabelen zijn gezet
 if (isset($_SESSION["traject"]) && !isset( $_GET["beginPunt"]))
 {
     $traject = $_SESSION["traject"];
     $_GET["beginPunt"] = $traject->Airport1->AirportName;
 $_GET["eindPunt"] = $traject->Airport2->AirportName;
+//zorgen dat alles is ingevuld
     if(isset($_GET["AirlineName"]) && isset($_GET["Zone"]) && validator::isInt($_GET["Zone"]))
     {
        $airlines = airline::get_airlines($_GET["AirlineName"],0,1);
@@ -22,7 +24,7 @@ $_GET["eindPunt"] = $traject->Airport2->AirportName;
        }
        else
        {$falseAirport = true;
-
+//zo niet error weergeeven
                $_GET["beginPunt"] = $traject->Airport1->AirportName;
           $_GET["eindPunt"] = $traject->Airport2->AirportName; 
        }
@@ -30,6 +32,7 @@ $_GET["eindPunt"] = $traject->Airport2->AirportName;
     }
     else if(isset($_GET["CurrentAirlines"]) && validator::isInt($_GET["CurrentAirlines"]))
     {
+    //vliegveld verwijderen
         trajecten::DeleteAirlineTraject($_GET["CurrentAirlines"],$traject);
     }
 }
@@ -37,6 +40,7 @@ if (isset($_GET["beginPunt"]) && isset($_GET["eindPunt"]))
 {
 unset($traject);
  unset($_SESSION["traject"]);
+ //zorgen bij nieuwe zoekactie dat alles weer wordt gezet en gecheked
     $beginAirport = airports::GetAirportByName($_GET["beginPunt"]);
     $endAirport = airports::GetAirportByName($_GET["eindPunt"]);
 
@@ -72,6 +76,7 @@ unset($traject);
   <div class="ui-widget">
     <label for="beginPunt">Beginpunt: </label>
     <select name="beginPunt" id="beginPunt"> <?php
+    //alle vliegvelden in een lijst zetten
 $airports = airports::GetAirports();
 for ($i = 0; $i < count($airports); $i++)
 {
@@ -87,6 +92,7 @@ for ($i = 0; $i < count($airports); $i++)
     <label for="eindPunt">Eindpunt: </label>
     <select name="eindPunt" id="eindPunt" >
     <?php
+      //alle vliegvelden in een lijst zetten
 $airports = airports::GetAirports();
 for ($i = 0; $i < count($airports); $i++)
 {
@@ -116,7 +122,7 @@ if (isset($traject) == false)
 <form action="trajectenAirline.php" method="get">
   <label for="AirlineName">Vliegmaatschapij:</label>: </label>
 <input name="AirlineName" id="AirlineName" value="<?php
-
+//vorige ingevulde waarde terugzetten
 if (isset($_GET["AirlineName"])&& !isset($added))
 {
     echo htmlspecialchars($_GET["AirlineName"]);
@@ -131,7 +137,9 @@ if (isset($_GET["AirlineName"])&& !isset($added))
 <option value="4">4</option>
 <option value="5">5</option></select>
 <input type="submit" value="Toevoegen" /> 
-<?php if($falseAirport == true)
+<?php
+//zorgen dat het bestaat
+ if($falseAirport == true)
 {
     echo "</br>Vliegmaatschapij bestaat niet.";
 }?>
@@ -143,7 +151,7 @@ if (isset($_GET["AirlineName"])&& !isset($added))
 <label for="CurrentAirlines">Huidige vliegtuigmaatschapijen op dit traject:<br /></label>
 <select id="CurrentAirlines" name="CurrentAirlines" size="6" style="width:150px;" >
 <?php
-
+//opties toevoegen
 if (isset($traject) && isset($airlinesList))
 {
     foreach ($airlinesList as $air)
@@ -170,7 +178,7 @@ if (isset($traject) && isset($airlinesList))
     
     var availableairlines = [
     <?php
-
+//typeahead klaar zetten
 $airlines = airline::get_airlines();
 for ($i = 0; $i < count($airlines); $i++)
 {
