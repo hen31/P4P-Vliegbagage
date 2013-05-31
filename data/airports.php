@@ -84,7 +84,18 @@ require("includeAll.php");
                
             return $AirportCOllection;    
         }
-        
+          public static function GetAirportsTwoPerCity()
+        {
+            $Query =  DbHandler::Query("SELECT City FROM airports GROUP BY City HAVING COUNT(city) >1", null);
+            $AirportCOllection = array();
+               
+               foreach($Query as $result)
+               {
+                    $AirportCOllection[] = $result["City"];
+               }
+               
+            return $AirportCOllection;    
+        }
         public static function SearchAirports($SearchQuery)
         {   
             $Query =  DbHandler::Query("SELECT * FROM airports WHERE name LIKE  :SearchQuery ", array("SearchQuery" => "%" . $SearchQuery . "%"));

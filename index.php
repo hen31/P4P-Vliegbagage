@@ -8,15 +8,31 @@ require_once ("bovenkant.php");
 //check if het is ingevuld
 if (isset($_GET["beginPunt"]) && isset($_GET["eindPunt"]))
 {
+    if(!validator::isInt($_GET["beginPunt"]))
+    {
+        $beginAirport = htmlspecialchars($_GET["beginPunt"]);
+    }
+    else
+    {
+           $beginAirport = airports::GetAirportByID($_GET["beginPunt"]); 
+    }
+    if(!validator::isInt($_GET["eindPunt"]))
+    {
+        $endAirport = htmlspecialchars($_GET["eindPunt"]);
+    }
+    else
+    {
+    $endAirport = airports::GetAirportByID($_GET["eindPunt"]);
+    }
     //vliegvelden ophalen
-    $beginAirport = airports::GetAirportByName($_GET["beginPunt"]);
-    $endAirport = airports::GetAirportByName($_GET["eindPunt"]);
+
+
     // kijken of de vliegvelden bestaan
     if ($beginAirport != null && $endAirport != null)
     {
         //kijken of het niet de zelfde vliegvelden zijn.
-        if ($beginAirport->AirportID != $endAirport->AirportID)
-        {
+      /*  if ($beginAirport->AirportID != $endAirport->AirportID)
+        {*/
             //kijken of er een klasse is ingevuld
             if (isset($_GET["class"]))
             {
@@ -36,7 +52,7 @@ if (isset($_GET["beginPunt"]) && isset($_GET["eindPunt"]))
                 }
                 $results = FrontEnd::Search($beginAirport, $endAirport, $klasse, $specialeBagage);
             }
-        }
+        //}
     }
 }
 
@@ -64,23 +80,64 @@ while (isset($_GET["specLug" . $counter]))
 
                 <div class="ui-widget">
                   <label for="beginPunt">Beginpunt: </label>
-                  <input name="beginPunt" id="beginPunt" value="<?php
-//begin punt tonen als je hebt ingevuld
-if (isset($_GET["beginPunt"]))
+                  <select name="beginPunt" id="beginPunt">
+    <?php
+//vliegvelden toevoegen voor typeahead
+$airports = frontend::GetAirports();
+for ($i = 0; $i < count($airports); $i++)
 {
-    echo htmlspecialchars($_GET["beginPunt"]);
+    if(htmlspecialchars($_GET["beginPunt"]) == $airports[$i]->AirportID)
+    {
+         echo '<option selected="true" value="' . $airports[$i]->AirportID . '">'. $airports[$i]->AirportName . '('. $airports[$i]->AirportCity. ')'.'</option>';
+        }
+        else
+        {
+        echo '<option value="' . $airports[$i]->AirportID . '">'. $airports[$i]->AirportName . '('. $airports[$i]->AirportCity. ')'.'</option>';
 }
-
-?>" />
+}
+$cities = airports::GetAirportsTwoPerCity();
+for ($i = 0; $i < count($cities); $i++)
+{
+    if(isset($_GET["beginPunt"])&&htmlspecialchars($_GET["beginPunt"]) == $cities[$i])
+    {
+         echo '<option selected="true" value="' . $cities[$i]. '">'. $cities[$i] . '(alle vliegvelden)</option>';
+        }
+        else
+        {
+               echo '<option  value="' . $cities[$i] . '">'. $cities[$i] . '(alle vliegvelden)</option>';
+}
+}
+?>
+</select>
                   <label for="eindPunt">Eindpunt: </label>
-                  <input name="eindPunt" id="eindPunt" value="<?php
-//eind punten als je hebt ingevuld
-if (isset($_GET["eindPunt"]))
+                  <select name="eindPunt" id="eindPunt">
+                  <?php
+                  $airports = frontend::GetAirports();
+for ($i = 0; $i < count($airports); $i++)
 {
-    echo htmlspecialchars($_GET["eindPunt"]);
+    if(htmlspecialchars($_GET["eindPunt"]) == $airports[$i]->AirportID)
+    {
+         echo '<option selected="true" value="' . $airports[$i]->AirportID . '">'. $airports[$i]->AirportName . '('. $airports[$i]->AirportCity. ')'.'</option>';
+        }
+        else
+        {
+        echo '<option value="' . $airports[$i]->AirportID . '">'. $airports[$i]->AirportName . '('. $airports[$i]->AirportCity. ')'.'</option>';
 }
-
-?>"  />
+}
+$cities = airports::GetAirportsTwoPerCity();
+for ($i = 0; $i < count($cities); $i++)
+{
+    if(htmlspecialchars($_GET["eindPunt"]) == $cities[$i])
+    {
+         echo '<option selected="true" value="' . $cities[$i]. '">'. $cities[$i] . '(alle vliegvelden)</option>';
+        }
+        else
+        {
+               echo '<option  value="' . $cities[$i] . '">'. $cities[$i] . '(alle vliegvelden)</option>';
+}
+}
+                  ?>
+                  </select>
                 </div>
                 <label for="classSel">Klasse</label>
                 <select name="class" id="classSel">
@@ -335,35 +392,6 @@ $('#'+counter).remove();
    
   }
   
-  </script>
-  <script type="text/javascript">
-  $(function() {
-    var availableTags = [
-    <?php
-//vliegvelden toevoegen voor typeahead
-$airports = frontend::GetAirports();
-for ($i = 0; $i < count($airports); $i++)
-{
-    if ($i == count($airports) - 1)
-    {
-
-        echo '"' . $airports[$i]->AirportName . '"';
-    } else
-    {
-        echo '"' . $airports[$i]->AirportName . '"' . ",";
-    }
-}
-
-?>
-    ];
-    $( "#beginPunt" ).autocomplete({
-      source: availableTags
-    });
-      $( "#eindPunt" ).autocomplete({
-      source: availableTags
-    });
-  });
- 
   </script>
           
 <?php

@@ -69,9 +69,35 @@ require_once ("bovenkant.php");
 <form action="trajecten.php" method="post">
   <div class="ui-widget">
     <label for="beginPunt">Beginpunt: </label>
-    <input name="beginPunt" id="beginPunt" />
+    <select name="beginPunt" id="beginPunt">
+    <?php
+$airports = airports::GetAirports();
+for ($i = 0; $i < count($airports); $i++)
+{
+    if(isset($_GET['beginPunt']) && htmlspecialchars($_GET["beginPunt"]) == $airports[$i]->AirportName)
+    {
+         echo '<option selected="true" value="' . $airports[$i]->AirportName . '">'. $airports[$i]->AirportName . '('. $airports[$i]->AirportCity. ')'.'</option>';
+        }
+        else
+        {
+        echo '<option value="' . $airports[$i]->AirportName . '">'. $airports[$i]->AirportName . '('. $airports[$i]->AirportCity. ')'.'</option>';
+}
+}?></select>
     <label for="eindPunt">Eindpunt: </label>
-    <input name="eindPunt" id="eindPunt"  />
+    <select name="eindPunt" id="eindPunt" >
+    <?php
+$airports = airports::GetAirports();
+for ($i = 0; $i < count($airports); $i++)
+{
+    if(isset($_GET['eindPunt']) && htmlspecialchars($_GET["eindPunt"]) == $airports[$i]->AirportName)
+    {
+         echo '<option selected="true" value="' . $airports[$i]->AirportName . '">'. $airports[$i]->AirportName . '('. $airports[$i]->AirportCity. ')'.'</option>';
+        }
+        else
+        {
+        echo '<option value="' . $airports[$i]->AirportName . '">'. $airports[$i]->AirportName . '('. $airports[$i]->AirportCity. ')'.'</option>';
+}
+}?></select>
     <input id="submit" type="submit" value="Toevoegen" />
     <input type="hidden" name="checkPostedAdd" value="yes" />
   </div>
@@ -92,17 +118,37 @@ require_once ("bovenkant.php");
 <form action="trajecten.php" method="get" >
   <div class="ui-widget">
     <label for="filterBeginpunt">Beginpunt: </label>
-    <input name="filterBeginpunt" id="filterBeginpunt" value="<?php if (isset($_GET['filterEindpunt'])) {
-    echo htmlentities($_GET['filterBeginpunt']);
-} else {
-    echo null;
-} ?>" />
+    <select name="filterBeginpunt" id="filterBeginpunt">
+<?php
+$airports = airports::GetAirports();
+for ($i = 0; $i < count($airports); $i++)
+{
+    if(isset($_GET['filterBeginpunt']) && htmlspecialchars($_GET["filterBeginpunt"]) == $airports[$i]->AirportName)
+    {
+         echo '<option selected="true" value="' . $airports[$i]->AirportName . '">'. $airports[$i]->AirportName . '('. $airports[$i]->AirportCity. ')'.'</option>';
+        }
+        else
+        {
+        echo '<option value="' . $airports[$i]->AirportName . '">'. $airports[$i]->AirportName . '('. $airports[$i]->AirportCity. ')'.'</option>';
+}
+}?>
+</select>
     <label for="filterEindpunt">Eindpunt: </label>
-    <input name="filterEindpunt" id="filterEindpunt" value="<?php if (isset($_GET['filterEindpunt'])) {
-    echo htmlentities($_GET['filterEindpunt']);
-} else {
-    echo null;
-} ?>"/>
+    <select name="filterEindpunt" id="filterEindpunt" >
+    <?php
+$airports = airports::GetAirports();
+for ($i = 0; $i < count($airports); $i++)
+{
+    if(isset($_GET['filterEindpunt']) && htmlspecialchars($_GET["filterEindpunt"]) == $airports[$i]->AirportName)
+    {
+         echo '<option selected="true" value="' . $airports[$i]->AirportName . '">'. $airports[$i]->AirportName . '('. $airports[$i]->AirportCity. ')'.'</option>';
+        }
+        else
+        {
+        echo '<option value="' . $airports[$i]->AirportName . '">'. $airports[$i]->AirportName . '('. $airports[$i]->AirportCity. ')'.'</option>';
+}
+}?>
+</select>
     <input id="submit" type="submit" value="Filter" />
     </div>
 </form>
@@ -208,34 +254,7 @@ if (($idplus * 5) < trajecten::GetTrajectAmount($startAirportId, $stopAirportId)
 <script src="../js/grid.locale-nl.js" type="text/javascript"></script>
 <script src="../js/jquery.jqGrid.min.js" type="text/javascript"></script>
 <script src="../js/javascript.js"></script>
-<script type="text/javascript">
-  $(function() {
-    var availableTags = [
-    <?php
-$airports = airports::GetAirports();
-for ($i = 0; $i < count($airports); $i++) {
-    if ($i == count($airports) - 1) {
 
-        echo '"' . $airports[$i]->AirportName . '"';
-    } else {
-        echo '"' . $airports[$i]->AirportName . '"' . ",";
-    }
-} ?>
-    ];
-     $( "filterBeginpunt" ).autocomplete({
-      source: availableTags
-    });
-       $( "filterEindpunt" ).autocomplete({
-      source: availableTags
-    });
-    $( "#beginPunt" ).autocomplete({
-      source: availableTags
-    });
-      $( "#eindPunt" ).autocomplete({
-      source: availableTags
-    });
-  });
-  </script>
   
 <?php
 require_once ("onderkant.php");

@@ -71,31 +71,35 @@ unset($traject);
 <form action="trajectenAirline.php" method="get">
   <div class="ui-widget">
     <label for="beginPunt">Beginpunt: </label>
-    <input name="beginPunt" id="beginPunt" value="<?php
-
-if (isset($_GET["beginPunt"]))
+    <select name="beginPunt" id="beginPunt"> <?php
+$airports = airports::GetAirports();
+for ($i = 0; $i < count($airports); $i++)
 {
-    echo htmlspecialchars($_GET["beginPunt"]);
-} else
-    if (isset($_SESSION["traject"]))
+    if((isset($_GET['beginPunt']) && htmlspecialchars($_GET["beginPunt"]) == $airports[$i]->AirportName)||(isset($_SESSION["traject"])&&$_SESSION["traject"]->Airport1->AirportName ==$airports[$i]->AirportName) )
     {
-        echo htmlspecialchars($_SESSION["traject"]->Airport1->AirportName);
-    }
-
-?>"/>
+         echo '<option selected="true" value="' . $airports[$i]->AirportName . '">'. $airports[$i]->AirportName . '('. $airports[$i]->AirportCity. ')'.'</option>';
+        }
+        else
+        {
+        echo '<option value="' . $airports[$i]->AirportName . '">'. $airports[$i]->AirportName . '('. $airports[$i]->AirportCity. ')'.'</option>';
+}
+}?></select>
     <label for="eindPunt">Eindpunt: </label>
-    <input name="eindPunt" id="eindPunt" value="<?php
-
-if (isset($_GET["beginPunt"]))
+    <select name="eindPunt" id="eindPunt" >
+    <?php
+$airports = airports::GetAirports();
+for ($i = 0; $i < count($airports); $i++)
 {
-    echo $_GET["eindPunt"];
-} else
-    if (isset($_SESSION["traject"]))
+    if((isset($_GET['eindPunt']) && htmlspecialchars($_GET["eindPunt"]) == $airports[$i]->AirportName)||(isset($_SESSION["traject"])&&$_SESSION["traject"]->Airport2->AirportName ==$airports[$i]->AirportName) )
     {
-        echo $_SESSION["traject"]->Airport2->AirportName;
-    }
-
-?>"  />
+         echo '<option selected="true" value="' . $airports[$i]->AirportName . '">'. $airports[$i]->AirportName . '('. $airports[$i]->AirportCity. ')'.'</option>';
+        }
+        else
+        {
+        echo '<option value="' . $airports[$i]->AirportName . '">'. $airports[$i]->AirportName . '('. $airports[$i]->AirportCity. ')'.'</option>';
+}
+}?>
+    </select>
     <input id="submit" type="submit" value="Zoeken" />
     <br />
    <?php
@@ -163,24 +167,6 @@ if (isset($traject) && isset($airlinesList))
 <script src="../js/javascript.js"></script>
 <script type="text/javascript">
   $(function() {
-    var availableTags = [
-    <?php
-
-$airports = airports::GetAirports();
-for ($i = 0; $i < count($airports); $i++)
-{
-    if ($i == count($airports) - 1)
-    {
-
-        echo '"' . $airports[$i]->AirportName . '"';
-    } else
-    {
-        echo '"' . $airports[$i]->AirportName . '"' . ",";
-    }
-}
-
-?>
-    ];
     
     var availableairlines = [
     <?php
@@ -202,12 +188,6 @@ for ($i = 0; $i < count($airlines); $i++)
     ];
         $( "#AirlineName" ).autocomplete({
       source: availableairlines
-    });
-    $( "#beginPunt" ).autocomplete({
-      source: availableTags
-    });
-      $( "#eindPunt" ).autocomplete({
-      source: availableTags
     });
   });
   </script>

@@ -6,45 +6,136 @@ class FrontEnd
     //de vliegtuigmaatschapijen terug krijgen.
     static public function Search($beginAir, $endAir, $classSelected, $specialLuggage)
     {
-        //Zoek query uitvoeren
-        $results = DbHandler::Query("SELECT Airline_id FROM airline WHERE  Airline_id IN (SELECT airline_id FROM trajectairline WHERE Traject_id = (SELECT traject_id FROM traject WHERE airport_start_id=:start AND airport_stop_id=:stop));",
-            array("start" => $beginAir->AirportID, "stop" => $endAir->AirportID));
-
-        if (count($results) == 0)
+        if (validator::isString($beginAir) == false && validator::isString($endAir) == false)
         {
-            return null;
+            if ($beginAir->AirportID == $endAir->AirportID)
+            {
+                return null;
+            }
+            //Zoek query uitvoeren
+            $results = DbHandler::Query("SELECT Airline_id FROM airline WHERE  Airline_id IN (SELECT airline_id FROM trajectairline WHERE Traject_id = (SELECT traject_id FROM traject WHERE airport_start_id=:start AND airport_stop_id=:stop));",
+                array("start" => $beginAir->AirportID, "stop" => $endAir->AirportID));
+
+            if (count($results) == 0)
+            {
+                return null;
+            } else
+            {
+                $airlines = array();
+                for ($c = 0; $c < count($results); $c++)
+                {
+                    $exists = false;
+                    $airline = airline::get_airline($results[$c]["Airline_id"], $classSelected);
+                    if ($airline->classes != null)
+                    {
+                        if (count($specialLuggage) > 0)
+                        {
+                            for ($i = 0; $i < count($specialLuggage); $i++)
+                            {
+                                if (SpecialLuggage::GetCombo($airline->airline_id, $specialLuggage[$i]->
+                                    specialluggage_id) == null)
+                                {
+                                    $exists = true;
+                                    break;
+                                }
+
+
+                            }
+
+                        }
+                        if ($exists == false)
+                        {
+                            $airlines[] = $airline;
+
+                        }
+                    }
+                }
+
+                return $airlines;
+            }
         } else
         {
-            $airlines = array();
-            for ($c = 0; $c < count($results); $c++)
+            $sqlQuert = '';
+            if (validator::isString($beginAir) && validator::isString($endAir))
             {
-                $exists = false;
-                $airline = airline::get_airline($results[$c]["Airline_id"], $classSelected);
-                if($airline->classes !=null)
+                if ($beginAir == $endAir)
                 {
-                if (count($specialLuggage) > 0)
+                    return null;
+                }
+                $sqlQuert = "SELECT DISTINCT (Airline_id) FROM airline WHERE  Airline_id IN (SELECT airline_id FROM trajectairline WHERE Traject_id = (SELECT traject_id FROM traject WHERE airport_start_id IN (SELECT airport_id FROM airports WHERE City=:start) AND airport_stop_id IN (SELECT airport_id FROM airports WHERE City=:stop))";
+                $results = DbHandler::Query($sqlQuert, array
+                ("start" => $beginAir, "stop" => $endAir));
+            } 
+            
+            
+            else
+                if (validator::isString($beginAir) && !validator::isString($endAir))
                 {
-                    for ($i = 0; $i < count($specialLuggage); $i++)
+                    if ($endAir->AirportCity == $beginAir)
                     {
-                        if (SpecialLuggage::GetCombo($airline->airline_id, $specialLuggage[$i]->specialluggage_id) == null)
+                        return null;
+                    }
+            $sqlQuert = "SELECT DISTINCT (Airline_id) FROM airline WHERE  Airline_id IN (SELECT airline_id FROM trajectairline WHERE Traject_id = (SELECT traject_id FROM traject WHERE airport_start_id IN (SELECT airport_id FROM airports WHERE City=:start)  AND airport_stop_id =:stop))";
+                $results = DbHandler::Query($sqlQuert, array
+                ("start" => $beginAir, "stop" => $endAir->AirportID));
+
+                } 
+                
+                
+                
+                
+                else
+                    if (!validator::isString($beginAir) && validator::isString($endAir))
+                    {
+                        if ($beginAir->AirportCity == $endAir)
                         {
-                            $exists = true;
-                            break;
+                            return null;
                         }
+                               $sqlQuert = "SELECT DISTINCT (Airline_id) FROM airline WHERE  Airline_id IN (SELECT airline_id FROM trajectairline WHERE Traject_id = (SELECT traject_id FROM traject WHERE airport_stop_id IN (SELECT airport_id FROM airports WHERE City=:stop)  AND airport_start_id =:start))";
+                $results = DbHandler::Query($sqlQuert, array
+                ("start" => $beginAir->AirportID, "stop" => $endAir));
+                    }
+            //SELECT Airline_id FROM airline WHERE  Airline_id IN (SELECT airline_id FROM trajectairline WHERE Traject_id = (SELECT traject_id, airport_id FROM traject, airports WHERE airport_start_id=airport_id AND airport_stop_id=airport_id))
+            //Zoek query uitvoeren
+        
+
+            if (count($results) == 0)
+            {
+                return null;
+            } else
+            {
+                $airlines = array();
+                for ($c = 0; $c < count($results); $c++)
+                {
+                    $exists = false;
+                    $airline = airline::get_airline($results[$c]["Airline_id"], $classSelected);
+                    if ($airline->classes != null)
+                    {
+                        if (count($specialLuggage) > 0)
+                        {
+                            for ($i = 0; $i < count($specialLuggage); $i++)
+                            {
+                                if (SpecialLuggage::GetCombo($airline->airline_id, $specialLuggage[$i]->
+                                    specialluggage_id) == null)
+                                {
+                                    $exists = true;
+                                    break;
+                                }
 
 
+                            }
+
+                        }
+                        if ($exists == false)
+                        {
+                            $airlines[] = $airline;
+
+                        }
                     }
 
                 }
-                if ($exists == false)
-                {
-                    $airlines[] = $airline;
-
-                }
-                }
+                return $airlines;
             }
-         
-            return $airlines;
         }
     }
     //Alle gebruikte vliegvelden ophalen

@@ -64,12 +64,12 @@ else
             
             <tr>
             <td>Gratis gewicht:</td>
-            <td><?php if($airline->classes[$_GET["class"]]->maxWeightLuggage !=0){ echo $airline->classes[$_GET["class"]]->maxWeightLuggage;}
+            <td><?php if($airline->classes[$_GET["class"]]->maxWeightLuggage !=0){ echo $airline->classes[$_GET["class"]]->maxWeightLuggage.'kg';}
             else
             {
                                 echo 'Deze vliegmaatschapij rekent</br> met aantal koffers en niet met gewicht.';
-            }?>kg</td>
-           <td>Gratis aantal handbage:</td>
+            }?></td>
+           <td>Gratis aantal handbagage:</td>
             <td><?php if($airline->classes[$_GET["class"]]->pcsHL !=0){echo $airline->classes[$_GET["class"]]->pcsHL.'kg';}
             else{
                 echo 'Deze vliegmaatschapij rekent met gewichten</br> en niet met aantal koffers.';
