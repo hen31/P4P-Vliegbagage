@@ -8,9 +8,13 @@
 require_once ("../data/includeAll.php");
 $titel = "Speciale bagage";
 require_once ("bovenkant.php");
+?>
+<div>
+<?php
 //item moet worden aangepast in de database
 if (isset($_GET["Edited"]) && !isset($_GET["ItemSelected"])) {
-    if (strlen($_POST["name"]) > 0 && strlen($_POST["name"]) < 101) {
+    $nietSuc6BestaatAl = false;
+    if (strlen($_POST["name"]) > 0 && strlen($_POST["name"]) < 51) {
         $Verwijderen = "";
         $Name = $_POST["name"];
         if (isset($_POST["verwijderen"])) {
@@ -20,12 +24,16 @@ if (isset($_GET["Edited"]) && !isset($_GET["ItemSelected"])) {
         if ($Verwijderen == "true") {
             SpecialLuggage::RemoveSpecialLuggage($EditSpecialLuggage); //verwijderen bagage
         } else {
-            SpecialLuggage::EditItem($EditSpecialLuggage, $Name); //wijzigen naam bagage
+            $CheckIfExists = specialluggage::GetSpecialLuggageName($Name);
+            if ($CheckIfExists == null) {
+                SpecialLuggage::EditItem($EditSpecialLuggage, $Name); //wijzigen naam bagage
+            } else {
+                $nietSuc6BestaatAl = true;
+            }
         }
     }
 }
 ?>
-<div>
 <div id="menu">
     <ul>
         <li>
@@ -123,7 +131,8 @@ if (isset($_GET["action"])) {
                 <td>
                     <table style="width: 880px;">
                         <tr>
-                            <td>  
+                            <td> 
+                             
                                 <div style="width:380px;">
                                     <form action="specialluggage.php?action=edit&ItemSelected=true&zoekQuery=true" method="post" >
                                             <div><input name="Zoekveld" id="Zoekveld" style="width:250px;" /><input type="submit" style="width:100px;" value="Zoeken"/></div>                                          
@@ -142,14 +151,12 @@ if (isset($_GET["action"])) {
 ?>
                                         </select>                    
                                         <input type="submit" style="width:350px;" value="Geselecteerd Speciale bagage bewerken"/></div>
-                                    </form>
-                                    
+                                    </form>                                   
                                  </div>
                             </td>
                             <td style="width: 499px;" >
                                 <div style="height: <?php echo $listnumber * 15; ?>  px; width: *%;">
 <?php
-
         if (isset($_GET["ItemSelected"])) {
             //checken of  er een airport is gelecteerd om te wijzigen
             if (isset($_POST["Specialluggage"])) {
@@ -164,10 +171,6 @@ if (isset($_GET["action"])) {
 
                     $specialluggage_id = $_POST["Specialluggage"]; //List en textbox Id van bagage koppelen.
                 }
-                //verwijdercheckbox is scheef
-
-
-
 ?>
                                                                 </h1>
                                                                 <br />
@@ -181,8 +184,7 @@ if (isset($_GET["action"])) {
                                                                     <div>&nbsp;</div>
                                                                     <div><label>&nbsp;</label><input type="submit" value="Speciale bagage wijzigen"/></div>
                                                                 </form> 
-                                                            </div>
-                                                            
+                                                            </div>                                                            
                                                         <?php
             } else {
                 if (isset($_GET["zoekQuery"])) {
@@ -197,7 +199,7 @@ if (isset($_GET["action"])) {
         } else {
             //Item wordt aangepast in de database
             if (isset($_GET["Edited"])) {
-                if (strlen($_POST["name"]) > 0 && strlen($_POST["name"]) < 101) {
+                if (strlen($_POST["name"]) > 0 && strlen($_POST["name"]) < 51 && $nietSuc6BestaatAl == false) {
                     $Verwijderen = "";
                     $Name = $_POST["name"];
                     if (isset($_POST["verwijderen"])) {
@@ -227,14 +229,11 @@ if (isset($_GET["action"])) {
                                                         *Speciale bagage naam mag niet langer zijn dan 50 tekens.<br />
                                                         ";
                 }
-
-
             }
             echo "Stappen om speciale bagage te bewerken of te verwijderen: <br /><br />";
             echo "Stap 1: Selecteer speciale bagage in de linkerlijst. <br />Stap 2: Klik op bewerken om speciale bagage te bewerken.";
         }
     }
-
 } else {
 ?>
     <table>
@@ -250,9 +249,7 @@ if (isset($_GET["action"])) {
             </table>
             <?php
 }
-
-?>
-                                </div>
+?>                                
                             </td>
                         </tr>    
                     </table>
@@ -263,5 +260,6 @@ if (isset($_GET["action"])) {
         </table>  
 
 <?php
+echo "</div>";
 require_once ("onderkant.php");
 ?>
