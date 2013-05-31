@@ -1,7 +1,6 @@
 <?php
 class airlineclass
 {
-
     public $class_id;
     public $airline;
     public $classnumber;
@@ -36,6 +35,7 @@ class airlineclass
     public $sizeTotalPet;
     public $DeclarationOfValue;
     public $MaxDeclarationOfValue;
+    public $petsAllowedHL;
 
     public function __construct($class)
     {
@@ -73,6 +73,7 @@ class airlineclass
         $this->sizeTotalPet = $class["sizeTotalPet"];
         $this->DeclarationOfValue = $class["DeclarationOfValue"];
         $this->MaxDeclarationOfValue = $class["MaxDeclarationOfValue"];
+        $this->petsAllowedHL = $class["petsAllowedHL"];
     }
 
     public static function edit_class($class)
