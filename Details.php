@@ -43,7 +43,7 @@ else
 <html>
     <head>
 	   <meta http-equiv="content-type" content="text/html" />
-	   <title>Vliegbagage.nl | <?php if(isset($titel)){ echo $titel;}?></title>
+	   <title>Vliegbagage.nl | <?php if(isset($titel)){ echo htmlspecialchars($titel);}?></title>
        <link href="style.css" type="text/css" rel="stylesheet"/>
        <link rel="stylesheet" type="text/css" media="screen" href="css/ui.jqgrid.css" />
        <link rel="stylesheet" type="text/css" media="screen" href="css/jquery-ui.css" />
@@ -56,8 +56,11 @@ else
           <hr/>
             <div id="AirlineNamediv"><h2>
             <?php 
-            echo $airline->name;?>
+            echo htmlspecialchars($airline->name);?>
             </h2>
+            <p>
+           <?php echo htmlspecialchars($airline->notes);?>
+            </p>
             </div>
             <table style="width:100%;">
             
@@ -79,7 +82,7 @@ else
             
                 <tr>
                   
- <td>Gratis aantal ruim koffers:</td>
+            <td>Gratis aantal ruim koffers:</td>
             <td><?php if($airline->classes[$_GET["class"]]->pcsLuggage !=0){echo $airline->classes[$_GET["class"]]->pcsLuggage;}
             else{
                 echo 'Deze vliegmaatschapij rekent met gewichten</br> en niet met aantal koffers.';
@@ -119,15 +122,18 @@ else
             
             <tr>
              <td>Kosten overwicht(per kg):</td>
-            <td>€<?php echo $airline->OverweightChargeG;?></td>
+            <td>€<?php echo number_format($airline->OverweightChargeG,2, ',', ' ');?></td>
                  <td>Kosten te grote koffer:</td>
-            <td>€<?php echo $airline->OversizeCharge;?></td>
+            <td>€<?php echo number_format($airline->OversizeCharge,2, ',', ' ');?></td>
             </tr>
              <tr>
              <td>Kosten extra koffer:</td>
-            <td>€<?php echo $airline->ChargeExtraBag;?></td>
+            <td><?php foreach($airline->ChargeExtraBag as $bag)
+            {
+                echo 'koffer ' . ($bag->number+1 ). ': €'. number_format($bag->costs,2, ',', ' ') . '</br>';
+            }?></td>
                  <td>Kosten overgewicht per koffer:</td>
-            <td>€<?php echo $airline->OverweightChargeBag;?><br />Is alleen van toepassing als per koffer wordt gerekend</td>
+            <td>€<?php echo  number_format($airline->OverweightChargeBag,2, ',', ' ');?><br />Is alleen van toepassing als per koffer wordt gerekend</td>
             </tr>
             
                    <tr>
@@ -150,7 +156,7 @@ else
           </tr>
                         <?php foreach($specialeBagage as $specbag)
                         {
-                            echo '<tr><td>'.$specbag->Name.'</td><td>' . $specbag->Notes.'</td></tr>';
+                            echo '<tr><td>'.htmlspecialchars($specbag->Name).'</td><td>' . htmlspecialchars($specbag->Notes).'</td></tr>';
                         }?>
             </table>
                     </div>
@@ -230,7 +236,7 @@ else
                 Maximale waarde afgifte:
                 </td>
                 <td>€
-                <?php echo $airline->classes[$_GET["class"]]->MaxDeclarationOfValue;?>
+                <?php echo number_format($airline->classes[$_GET["class"]]->MaxDeclarationOfValue,2, ',', ' ');?>
                 </td>
                     <?php }?>
                 </tr>

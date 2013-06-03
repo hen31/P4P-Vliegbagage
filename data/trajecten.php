@@ -167,7 +167,7 @@ class trajecten
     //Link an existing traject to an airport.
     public static function link_airport_to_traject($airport, $traject, $zone)
     {
-        if (trajecten::LinkAirportTrajectExists($airport, $traject)) {
+        if (trajecten::check_linked_airport_traject_exists($airport, $traject)) {
             DbHandler::NonQuery("UPDATE trajectairline SET zone=:zon WHERE traject_id=:tid AND  airline_id=:aid;",
                 array(
                 "tid" => $traject->TrajectID,

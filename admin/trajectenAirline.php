@@ -17,7 +17,7 @@ $_GET["eindPunt"] = $traject->Airport2->AirportName;
        $airlines = airline::get_airlines($_GET["AirlineName"],0,1);
        if(count($airlines) > 0)
        {
-        trajecten::LinkAirportTraject($airlines[0],$traject,$_GET["Zone"]);
+        trajecten::link_airport_to_traject($airlines[0],$traject,$_GET["Zone"]);
         $added= true;
         $_GET["beginPunt"] = $traject->Airport1->AirportName;
           $_GET["eindPunt"] = $traject->Airport2->AirportName;
@@ -33,7 +33,7 @@ $_GET["eindPunt"] = $traject->Airport2->AirportName;
     else if(isset($_GET["CurrentAirlines"]) && validator::isInt($_GET["CurrentAirlines"]))
     {
     //vliegveld verwijderen
-        trajecten::DeleteAirlineTraject($_GET["CurrentAirlines"],$traject);
+        trajecten::remove_linked_airport_traject($_GET["CurrentAirlines"],$traject);
     }
 }
 if (isset($_GET["beginPunt"]) && isset($_GET["eindPunt"]))
