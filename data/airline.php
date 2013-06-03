@@ -17,6 +17,7 @@ class airline
     public $ChargeExtraBag;
     public $OversizeCharge;
     public $iata;
+    public $notes;
 
     public $classes;
 
@@ -30,7 +31,8 @@ class airline
         
         $this->OversizeCharge = $airline["OversizeCharge"];
         $this->iata = $airline["iata"];
-
+        $this->notes = $airline["notes"];
+    
         if (count($classes) > 0) {
             foreach ($classes as $class) {
                 $this->classes[] = new airlineclass($class);
