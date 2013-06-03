@@ -63,9 +63,9 @@ require_once ("bovenkant.php");
 		return true;
 	}
 </script>
-
+<a href="trajectenairline.php">Traject koppelen aan vliegtuigmaatschapij</a><br/>
 <h1>Traject toevoegen</h1>
-<p>Via onderstaand formulier kunt u een nieuw traject toevoegen aan de database. Selecteer een begin- en eindpunt, en klik vervolgens op "Toevoegen".</p>
+<p>Via onderstaand formulier kunt u een nieuw traject toevoegen. Selecteer een begin- en eindpunt, en klik vervolgens op "Toevoegen".</p>
 <form action="trajecten.php" method="post">
   <div class="ui-widget">
     <label for="beginPunt">Beginpunt: </label>
@@ -119,6 +119,7 @@ for ($i = 0; $i < count($airports); $i++)
   <div class="ui-widget">
     <label for="filterBeginpunt">Beginpunt: </label>
     <select name="filterBeginpunt" id="filterBeginpunt">
+        <option value="">Alles</option>
 <?php
 $airports = airports::GetAirports();
 for ($i = 0; $i < count($airports); $i++)
@@ -135,6 +136,7 @@ for ($i = 0; $i < count($airports); $i++)
 </select>
     <label for="filterEindpunt">Eindpunt: </label>
     <select name="filterEindpunt" id="filterEindpunt" >
+    <option value="">Alles</option>
     <?php
 $airports = airports::GetAirports();
 for ($i = 0; $i < count($airports); $i++)

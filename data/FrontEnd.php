@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * @Auteur Hendrik de Jonge
+ * @Datum 21-5-2013
+ * @uses Wordt gebruikt om alle gegevens voor index.php op te halen
+ */
 require_once ("includeAll.php");
 class FrontEnd
 {

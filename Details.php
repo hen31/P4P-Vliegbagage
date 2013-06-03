@@ -4,7 +4,7 @@ session_start();
 require_once ("data/includeAll.php");
 require_once ("data/frontend.php");
 $titel = "Details van ";
-
+// zorgen dat alles is ingevuld
 if(!isset($_GET["name"])|| !isset($_GET["class"]))
 {
     exit();
@@ -13,7 +13,7 @@ else
 {
     $titel .= $_GET["name"];
 }
-       
+    //gevens ophalen   
 if(airline::airline_name_exists($_GET["name"]))
 {
    $airline = airline::get_airline_by_name($_GET["name"]);
@@ -35,9 +35,10 @@ if(airline::airline_name_exists($_GET["name"]))
 }
 else
 {
+    //anders stoppen met script
     exit;
 }
-
+//alles tonen
 ?>
 <!DOCTYPE HTML>
 <html>

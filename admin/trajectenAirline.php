@@ -69,7 +69,7 @@ unset($traject);
 
 ?>
 
-
+<a href="trajecten.php">Traject aanmaken</a><br/>
 <h1>Traject Koppelen</h1>
 <p>Selecteer het traject</p>
 <form action="trajectenAirline.php" method="get">
