@@ -1,4 +1,5 @@
 <?php
+session_start();
 //Alle data classes includen
 require_once ("../data/includeAll.php");
 $error1 = " ";
@@ -26,18 +27,28 @@ if (isset($_POST['Submit'])) {
             }
         
 
-        $titel = "Admin login";
-        require_once ("../bovenkant.php");
-        //if gepost
+
     }
 }
 ?>
+<!DOCTYPE HTML>
 <html>
-<head>
-
-<title>Registration Form</title>
-</head>
-<body>
+    <head>
+	   <meta http-equiv="content-type" content="text/html" />
+	   <title>Vliegbagage.nl | <?php if(isset($titel)){ echo $titel;}?></title>
+       <link href="../style.css" type="text/css" rel="stylesheet"/>
+       <link rel="stylesheet" type="text/css" media="screen" href="../css/ui.jqgrid.css" />
+       <link rel="stylesheet" type="text/css" media="screen" href="../css/jquery-ui.css" />
+       <link rel="stylesheet" type="text/css" media="screen" href="../css/jquery-ui-1.10.3.custom.css" />
+    </head>
+    <body>
+    <div id="container">
+        <div id="header"></div>
+        <div class="name">
+           
+            <h1>VLIEGBAGAGE.NL</h1>
+        </div>
+        <div id="content">
 <h2>Login</h2>    
 <form name="f1" id="" method="post" action="login.php">
 
@@ -56,12 +67,15 @@ echo $error1;
 echo $error2;
 ?>
 </br>
-</form>
+</form>           
+       
+</div>
+<div id="footer">
+www.vliegbagage.nl - info@vliegbagage.nl<br/>
+</div>
+</div>
+
+
 
 </body>
-</html>            
-       
-<?php
-require_once ("onderkant.php");
-
-?>
+</html>
