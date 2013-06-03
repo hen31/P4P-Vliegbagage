@@ -7,7 +7,7 @@ if (!empty($_SERVER['QUERY_STRING'])) {
     if (isset($_GET['remove'])) {
         $remove = $_GET['remove'];
 
-        trajecten::RemoveTraject($remove);
+        trajecten::remove_traject_by_trajectid($remove);
         header("Location: trajecten.php");
         exit;
     }
@@ -24,11 +24,11 @@ if ((isset($_POST["checkPostedAdd"]))) {
                 GetAirportByName($_POST["eindPunt"])) {
                 $message = '<script type="text/javascript"> window.alert("Het door u ingevoerde beginpunt of eindpunt bestaat niet. Probeer het opnieuw alstublieft.")</script>';
             } else {
-                if (trajecten::CheckTrajectExist($_POST["beginPunt"], $_POST["eindPunt"])) {
+                if (trajecten::check_traject_exist($_POST["beginPunt"], $_POST["eindPunt"])) {
                     $message = '<script type="text/javascript"> window.alert("Het door u ingevoerde traject bestaat al. Probeer het opnieuw alstublieft.")</script>';
                 } else {
                     try {
-                        trajecten::AddTraject($_POST["beginPunt"], $_POST["eindPunt"]);
+                        trajecten::add_traject($_POST["beginPunt"], $_POST["eindPunt"]);
                         $toegevoegd = true;
                         session_start();
                         $_SESSION["added"] = true;
@@ -200,7 +200,7 @@ if (!empty($_SERVER['QUERY_STRING'])) {
                     $begin = $_GET['resultid'] * 5;
                     $end = ($begin + 5);
                 }
-                $result = trajecten::GetAllTrajecten($begin, $startAirportId, $stopAirportId);
+                $result = trajecten::get_all_trajecten($begin, $startAirportId, $stopAirportId);
             }
         } else {
             $message = '<script type="text/javascript"> window.alert("Het door u ingevoerde beginpunt of eindpunt bestaat niet. Probeer het opnieuw alstublieft.")</script>';
@@ -208,7 +208,7 @@ if (!empty($_SERVER['QUERY_STRING'])) {
     }
 }
 if (!$filter) {
-    $result = trajecten::GetAllTrajecten($begin, null, null);
+    $result = trajecten::get_all_trajecten($begin, null, null);
 }
 $idmin = $id - 1;
 $idplus = $id + 1;
@@ -242,7 +242,7 @@ if ($idmin > 0 || $idmin == 0) {
 	<?php
 }
 
-if (($idplus * 5) < trajecten::GetTrajectAmount($startAirportId, $stopAirportId)) {
+if (($idplus * 5) < trajecten::get_traject_amount($startAirportId, $stopAirportId)) {
 ?>
 	<a href="trajecten.php?resultid=<?php echo $idplus ?>">Volgende</a>
     <?php

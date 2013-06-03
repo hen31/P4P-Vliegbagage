@@ -52,11 +52,11 @@ unset($traject);
         if ($beginAirport->AirportID != $endAirport->AirportID)
         {
 
-            $traject = trajecten::GetTrajectByAirportsID($beginAirport->AirportID, $endAirport->
+            $traject = trajecten::get_traject_by_airportsid($beginAirport->AirportID, $endAirport->
                 AirportID);
             if ($traject != null)
             {
-                $airlinesList = trajecten::GetAirlinesFromTraject($traject);
+                $airlinesList = trajecten::get_airlines_from_linked_traject($traject);
                 $_SESSION["traject"] = $traject;
             } else
             {
