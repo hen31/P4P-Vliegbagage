@@ -25,7 +25,7 @@ function set_selected($post, $postindex, $value, $succes_var){
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["act"]) && $_POST["act"] == "airline") {
-    $postvelden = array("naam", "iata", "OverweightChargeG", "OverweightChargeBag", "ChargeExtraBag", "OversizeCharge", "opmerkingen");
+    $postvelden = array("naam", "iata", "OverweightChargeG", "OverweightChargeBag", "ChargeExtraBag", "OversizeCharge", "notes");
         
         foreach($postvelden as $postveld){
             if(!isset($_POST[$postveld]) || (empty($_POST[$postveld]) && $_POST[$postveld] != "0")){
@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["act"]) && $_POST["act"
                 }
             }
 
-            else if($postveld != "opmerkingen"){
+            else if($postveld != "notes"){
                 if(!validator::isInt($_POST[$postveld])){
                     $error[$postveld] = 'Vul een getal in.';
                 }
@@ -78,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["act"]) && $_POST["act"
         }
         
         if($error == null){
-            airline::add_airline_without_class($_POST["naam"], $name, $_POST["OverweightChargeG"], $_POST["OverweightChargeBag"], $_POST["ChargeExtraBag"], $_POST["OversizeCharge"], $_POST["iata"]);
+            airline::add_airline_without_class($_POST["naam"], $name, $_POST["OverweightChargeG"], $_POST["OverweightChargeBag"], $_POST["ChargeExtraBag"], $_POST["OversizeCharge"], $_POST["iata"], $_POST["notes"]);
             $succes_airline = true;
         }
 }
@@ -468,14 +468,14 @@ if (isset($_GET["action"]) && $_GET["action"] == "add") {
   $(function() {
     var availableTags = [
     <?php
-   // $airlines = airline::get_airlines(); //alle airlines ophalen
-   // for ($i = 0; $i < count($airlines); $i++) {
-   //     if ($i == count($airlines) - 1) {
-   //         echo '"' . $airlines[$i]->name . ' (' . $airlines[$i]->iata . ')"';
-   //     } else {
-   //         echo '"' . $airlines[$i]->name . ' (' . $airlines[$i]->iata . ')"' . ",";
-   //     }
-   // }  ?>
+    $airlines = airline::get_airlines(); //alle airlines ophalen
+    for ($i = 0; $i < count($airlines); $i++) {
+        if ($i == count($airlines) - 1) {
+            echo '"' . $airlines[$i]->name . ' (' . $airlines[$i]->iata . ')"';
+        } else {
+            echo '"' . $airlines[$i]->name . ' (' . $airlines[$i]->iata . ')"' . ",";
+        }
+    }  ?>
     ];
     $( "#airline_name" ).autocomplete({
       source: availableTags
@@ -495,7 +495,6 @@ if (isset($_GET["action"]) && $_GET["action"] == "add") {
 <!--Add-->
 <div id="left">
     <h1 style="margin-left: 20px;">Vliegmaatschappij toevoegen</h1><br />
-    
     <?php if(isset($succes_airline) && $succes_airline){ ?>
     <strong>Vliegmaatschappij <?php echo htmlspecialchars($_POST["naam"]); ?> succesvol toegevoegd.</strong>
     <?php } ?>
@@ -524,7 +523,7 @@ if (isset($_GET["action"]) && $_GET["action"] == "add") {
         <label>&nbsp;</label><button class="input" onclick="return add_koffer();">Koffer toevoegen</button>
         
         <?php echo display_error($error, "OversizeCharge"); ?><label title="Kosten die worden gerekend als een koffer te groot is">Kosten te grote koffer:</label><input type="text" name="OversizeCharge" <?php echo add_value($_POST, "OversizeCharge", $succes_airline) ?> /> 
-        <?php echo display_error($error, "opmerkingen"); ?><label>Opmerkingen</label><textarea rows="10" cols="25" class="input" name="opmerkingen"><?php echo htmlspecialchars(!$succes_airline && isset($_POST["opmerkingen"]) ? $_POST["opmerkingen"] : ""); ?></textarea>
+        <?php echo display_error($error, "notes"); ?><label>Opmerkingen</label><textarea rows="10" cols="25" class="input" name="notes"><?php echo htmlspecialchars(!$succes_airline && isset($_POST["notes"]) ? $_POST["notes"] : ""); ?></textarea>
         
         <label>&nbsp;</label><input type="submit" value="Opslaan" />
     
