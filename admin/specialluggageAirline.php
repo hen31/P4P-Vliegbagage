@@ -72,13 +72,27 @@ if (!empty($_SERVER['QUERY_STRING'])) {
                     if (empty($_POST["SpecialLuggageNotes"])) {
                         SpecialLuggage::AddItem(airline::get_airline_by_name($_GET["AirlineName"])->
                             airline_id, $_POST["SelectedSpecialLuggage"], "");
+
+                        $linkedSpecialLuggage = true;
+                        session_start();
+                        $_SESSION["linkedSpecialLuggage"] = true;
                     } else {
                         SpecialLuggage::AddItem(airline::get_airline_by_name($_GET["AirlineName"])->
                             airline_id, $_POST["SelectedSpecialLuggage"], $_POST["SpecialLuggageNotes"]);
+
+                        $linkedSpecialLuggage = true;
+                        session_start();
+                        $_SESSION["linkedSpecialLuggage"] = true;
                     }
                 } else {
                     $message = '<script type="text/javascript"> window.alert("Er is geen speciale baggage geselecteerd. Probeer het opnieuw alstublieft.")</script>';
                 }
+            }
+
+            if (isset($linkedSpecialLuggage) && $linkedSpecialLuggage == true) {
+                $linkedSpecialLuggage = false;
+                header("Location: specialluggageAirline.php?action=add&AirlineName=" . $_GET["AirlineName"]);
+                exit;
             }
 ?>
 <br />
@@ -119,19 +133,34 @@ if (!empty($_SERVER['QUERY_STRING'])) {
             if (isset($_POST["submitChangeRemove"])) {
                 if ($_POST["submitChangeRemove"] == "Ontkoppelen") {
 
-                    $resulta = SpecialLuggage::GetSpecialLuggageName($_POST["ConnectedSpecialLuggage"]);
-
-                    SpecialLuggage::RemoveAirLineSpecialLuggage($resulta->specialluggage_id, airline::
-                        get_airline_by_name($_GET["AirlineName"])->airline_id);
-                }
-                if ($_POST["submitChangeRemove"] == "Wijzigen") {
-
-                    if ($_POST["ConnectedSpecialLuggage"]) {
+                    if (!empty($_POST["ConnectedSpecialLuggage"])) {
                         $resulta = SpecialLuggage::GetSpecialLuggageName($_POST["ConnectedSpecialLuggage"]);
-                        $resultb = SpecialLuggage::EditAirlineNotes($resulta->specialluggage_id, airline::
-                            get_airline_by_name($_GET["AirlineName"])->airline_id, $_POST["ConnectedSpecialLuggageNotes"]);
+
+                        SpecialLuggage::RemoveAirLineSpecialLuggage($resulta->specialluggage_id, airline::
+                            get_airline_by_name($_GET["AirlineName"])->airline_id);
+
+                        $removedSpecialLuggage = true;
+                        session_start();
+                        $_SESSION["removedSpecialLuggage"] = true;
+                    } else {
+                        $message = '<script type="text/javascript"> window.alert("Er is geen speciale baggage geselecteerd. Probeer het opnieuw alstublieft.")</script>';
                     }
                 }
+                if ($_POST["submitChangeRemove"] == "Wijzigen") {
+                    if (!empty($_POST["ConnectedSpecialLuggage"])) {
+                        $resulta = SpecialLuggage::GetSpecialLuggageName($_POST["ConnectedSpecialLuggage"]);
+                        SpecialLuggage::EditAirlineNotes($resulta->specialluggage_id, airline::
+                            get_airline_by_name($_GET["AirlineName"])->airline_id, $_POST["ConnectedSpecialLuggageNotes"]);
+                    } else {
+                        $message = '<script type="text/javascript"> window.alert("Er is geen speciale baggage geselecteerd. Probeer het opnieuw alstublieft.")</script>';
+                    }
+                }
+            }
+
+            if (isset($removedSpecialLuggage) && $removedSpecialLuggage == true) {
+                $removedSpecialLuggage = false;
+                header("Location: specialluggageAirline.php?action=edit&AirlineName=" . $_GET["AirlineName"]);
+                exit;
             }
 ?>
 <br />
@@ -186,5 +215,13 @@ require_once ("onderkant.php");
 
 if (isset($message)) {
     echo $message;
+}
+if (isset($_SESSION["linkedSpecialLuggage"]) && $_SESSION["linkedSpecialLuggage"] == true) {
+    $_SESSION["linkedSpecialLuggage"] = false;
+    echo '<script type="text/javascript"> window.alert("Speciale bagagge is met success toegevoegd.")</script>';
+}
+if (isset($_SESSION["removedSpecialLuggage"]) && $_SESSION["removedSpecialLuggage"] == true) {
+    $_SESSION["removedSpecialLuggage"] = false;
+    echo '<script type="text/javascript"> window.alert("Speciale bagagge is met success ontkoppeld.")</script>';
 }
 ?>
