@@ -109,25 +109,32 @@ if (isset($_GET["action"]))
             //Check of oude gebruikdersnaam en oude wachtwoord overeen komen.
             if (user::checkUser($_POST["oldUser"], user::incryptPass($_POST["oldPass"]))) 
             {
-                //Check of de textboxes niet leeg zijn
-                if(!empty($_POST['newUser']) && !empty($_POST['newPass']))
+                if(!empty($_SESSION["user_id"]))
                 {
-                $changeCheck = user::changeUser($_SESSION["user_id"] , ($_POST["newUser"]), $_POST["newPass"]);
-                unset($_SESSION["user_id"]);
-                    if($changeCheck)
+                //Check of de textboxes niet leeg zijn
+                    if(!empty($_POST['newUser']) && !empty($_POST['newPass']))
                     {
-                        echo 'Gebruiker gewijzigd';
+                    $changeCheck = user::changeUser($_SESSION["user_id"] , ($_POST["newUser"]), $_POST["newPass"]);
+                    unset($_SESSION["user_id"]);
+                        if($changeCheck)
+                        {
+                            echo 'Gebruiker gewijzigd';
+                        }
+                        else
+                        {
+                            echo 'Gebruikersnaam bestaat al';
+                        }    
+                
                     }
                     else
                     {
-                        echo 'Gebruikersnaam bestaat al';
-                    }    
-                
+                    //De tekst 'Er is een leeg veld' wordt geprint
+                        echo 'Er is een leeg veld';
+                    }
                 }
                 else
                 {
-                    //De tekst 'Er is een leeg veld' wordt geprint
-                    echo "Er is een leeg veld";
+                    echo 'Druk op bewerken bij een gebruiker';
                 }
             }
             else
