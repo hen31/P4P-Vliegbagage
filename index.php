@@ -183,7 +183,14 @@ if (isset($_GET["class"]))
                                 <div>
                                 <div>
                                     <label for="spec">Extra bagage</label>
-                                    <input name="spec" id="spec" />
+                                    <select name="spec" id="spec" >
+                                <?php    $specialeBagage = SpecialLuggage::GetSpecialLuggageList();
+for ($i = 0; $i < count($specialeBagage); $i++)
+{
+
+        echo '<option>' . $specialeBagage[$i]->Name . '</option>';
+
+}?></select>
                                     <button onClick="AddSpec(); return false;">Toevoegen</button>
                                     <div id="specListDiv">
                                     <ul id="specList" >
@@ -382,16 +389,10 @@ for ($i = 0; $i < count($specialeBagage); $i++)
 
 ?>
     ];
- $(function() {
-
-    $( "#spec" ).autocomplete({
-      source: availableSpec
-    });
-      });
 function AddSpec()
   {
-    var text = strip($("#spec").val());
-    if(/\S/.test(text) == true&&!$.inArray(text, availableSpec) )
+    var text = $("#spec").find(":selected").text();
+    if(/\S/.test(text) == true)
     {
     $('#IndexForm').append('<input type="hidden" id="specLug'+counter +'" name="specLug'+counter +'" value="'+text +'">');
         $('#specList').append('<li id="'+counter+'">'+text +'<img src="images/deleteIcon.png" onClick="Delete(\''+counter+'\'); return false;" /></li>');
