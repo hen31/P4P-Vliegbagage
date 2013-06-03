@@ -68,7 +68,7 @@ class FrontEnd
                 {
                     return null;
                 }
-                $sqlQuert = "SELECT DISTINCT (Airline_id) FROM airline WHERE  Airline_id IN (SELECT airline_id FROM trajectairline WHERE Traject_id = (SELECT traject_id FROM traject WHERE airport_start_id IN (SELECT airport_id FROM airports WHERE City=:start) AND airport_stop_id IN (SELECT airport_id FROM airports WHERE City=:stop))";
+                $sqlQuert = "SELECT DISTINCT (Airline_id) FROM airline WHERE  Airline_id IN (SELECT airline_id FROM trajectairline WHERE Traject_id IN (SELECT traject_id FROM traject WHERE airport_start_id IN (SELECT airport_id FROM airports WHERE City=:start) AND airport_stop_id IN (SELECT airport_id FROM airports WHERE City=:stop))";
                 $results = DbHandler::Query($sqlQuert, array
                 ("start" => $beginAir, "stop" => $endAir));
             } 
@@ -81,9 +81,10 @@ class FrontEnd
                     {
                         return null;
                     }
-            $sqlQuert = "SELECT DISTINCT (Airline_id) FROM airline WHERE  Airline_id IN (SELECT airline_id FROM trajectairline WHERE Traject_id = (SELECT traject_id FROM traject WHERE airport_start_id IN (SELECT airport_id FROM airports WHERE City=:start)  AND airport_stop_id =:stop))";
+            $sqlQuert = "SELECT DISTINCT (Airline_id) FROM airline WHERE  Airline_id IN (SELECT airline_id FROM trajectairline WHERE Traject_id IN (SELECT traject_id FROM traject WHERE airport_start_id IN (SELECT airport_id FROM airports WHERE City=:start)  AND airport_stop_id =:stop))";
                 $results = DbHandler::Query($sqlQuert, array
                 ("start" => $beginAir, "stop" => $endAir->AirportID));
+                var_dump($results);
 
                 } 
                 
@@ -97,7 +98,7 @@ class FrontEnd
                         {
                             return null;
                         }
-                               $sqlQuert = "SELECT DISTINCT (Airline_id) FROM airline WHERE  Airline_id IN (SELECT airline_id FROM trajectairline WHERE Traject_id = (SELECT traject_id FROM traject WHERE airport_stop_id IN (SELECT airport_id FROM airports WHERE City=:stop)  AND airport_start_id =:start))";
+                               $sqlQuert = "SELECT DISTINCT (Airline_id) FROM airline WHERE  Airline_id IN (SELECT airline_id FROM trajectairline WHERE Traject_id IN (SELECT traject_id FROM traject WHERE airport_stop_id IN (SELECT airport_id FROM airports WHERE City=:stop)  AND airport_start_id =:start))";
                 $results = DbHandler::Query($sqlQuert, array
                 ("start" => $beginAir->AirportID, "stop" => $endAir));
                     }

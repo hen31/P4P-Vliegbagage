@@ -293,7 +293,7 @@ if (isset($specialeBagage))
     echo $stringSpec;
  }
     ?>
-	newwindow=window.open(url+'&class='+classnumber +'&'+ SpecLug,kerl, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=yes, copyhistory=no, width='+w+', height='+h+', left='+left);
+	newwindow=window.open(url+'&class='+classnumber +'&'+ SpecLug,kerl, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, copyhistory=no, width='+w+', height='+h+', left='+left);
 	if (window.focus) {newwindow.focus()}
 	return false;
 }
