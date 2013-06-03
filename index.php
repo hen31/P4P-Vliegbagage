@@ -317,17 +317,32 @@ if (isset($results) && count($results) > 0)
                 classes[0]->sizeTotalHL ? $airline->classes[0]->sizeTotalHL.'cm' : $airline->
                 classes[0]->sizeLenghtHL . 'cm x ' . $airline->classes[0]->SizeWidthHL .
                 'cm x ' . $airline->classes[0]->sizeHeightHL.'cm';
+                if($airline->classes[0]->MaxWeightHL  ==0)
+                {
+                    $airline->classes[0]->MaxWeightHL = 'NVT';
+                }
+                 if($airline->classes[0]->
+                pcsLuggage  ==0)
+                {
+                    $airline->classes[0]->
+                pcsLuggage = 'NVT';
+                }
+                if($airline->classes[0]->maxWeightLuggage == 0)
+                {
+                    $airline->classes[0]->maxWeightLuggage = 'NVT';
+                }
         if (count($results) - 1 == $s)
         {
-            echo '{logo:"<img style=\"width:100px;height:100px;\" src=\"images/airlines/' . $airline->logo . '\"/>",name:"' . $airline->name . '",' .
+            $dataString = '{logo:"<img style=\"width:100px;height:100px;\" src=\"images/airlines/' . $airline->logo . '\"/>",name:"' . $airline->name . '",' .
                 'GwGrts:"' . $airline->classes[0]->maxWeightLuggage . 'kg",Afmeting:"' . $afmetingen. '",Apcs:"' . $airline->classes[0]->
                 pcsLuggage . '",Gwhl:"' . $airline->classes[0]->MaxWeightHL . 'kg",AfmetingHL:"'.$afmetingenHL .'"}';
         } else
         {
-            echo '{logo:"<img style=\"width:100px;height:100px;\" src=\"images/airlines/' . $airline->logo . '\"/>",name:"' . $airline->name . '",' .
+             $dataString = '{logo:"<img style=\"width:100px;height:100px;\" src=\"images/airlines/' . $airline->logo . '\"/>",name:"' . $airline->name . '",' .
                 'GwGrts:"' . $airline->classes[0]->maxWeightLuggage . 'kg",Afmeting:"' . $afmetingen. '",Apcs:"' . $airline->classes[0]->
                 pcsLuggage . '",Gwhl:"' . $airline->classes[0]->MaxWeightHL . 'kg",AfmetingHL:"'.$afmetingenHL .'"},';
         }
+        echo  $dataString;
     }
 
 }
