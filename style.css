@@ -9,6 +9,9 @@ body {
 	font-weight: normal;
 	background-color: #006E81;
 }
+#list4 { 
+cursor: pointer; 
+}    
 #specListDiv 
 {
     width:300px;

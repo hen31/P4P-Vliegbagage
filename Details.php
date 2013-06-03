@@ -155,9 +155,13 @@ else
           Opmerkingen
             </th>
           </tr>
-                        <?php foreach($specialeBagage as $specbag)
+       
+                        <?php
+                         foreach($specialeBagage as $specbag)
                         {
-                            echo '<tr><td>'.htmlspecialchars($specbag->Name).'</td><td>' . htmlspecialchars($specbag->Notes).'</td></tr>';
+                            $naam =htmlspecialchars($specbag->Name);
+                            $notes =htmlspecialchars($specbag->Notes);
+                            echo '<tr><td>'.$naam.'</td><td>' .$notes .'</td></tr>';
                         }?>
             </table>
                     </div>

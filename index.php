@@ -184,11 +184,11 @@ if (isset($_GET["class"]))
                                 <div>
                                     <label for="spec">Extra bagage</label>
                                     <select name="spec" id="spec" >
-                                <?php    $specialeBagage = SpecialLuggage::GetSpecialLuggageList();
-for ($i = 0; $i < count($specialeBagage); $i++)
+                                <?php    $specialeBagage1 = SpecialLuggage::GetSpecialLuggageList();
+for ($i = 0; $i < count($specialeBagage1); $i++)
 {
 
-        echo '<option>' . $specialeBagage[$i]->Name . '</option>';
+        echo '<option>' . $specialeBagage1[$i]->Name . '</option>';
 
 }?></select>
                                     <button onClick="AddSpec(); return false;">Toevoegen</button>
@@ -228,9 +228,9 @@ if (isset($results))
 {
 
 ?>
-                        <div class="Message">
+                        <p>
                         Er zijn Vliegtuigmaatschapijen die aan deze voorwaarden voldoen.
-                        </div>
+                        </p>
                         <?php
 
 }
@@ -293,7 +293,7 @@ if (isset($specialeBagage))
     echo $stringSpec;
  }
     ?>
-	newwindow=window.open(url+'&class='+classnumber +'&'+ SpecLug,kerl, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', left='+left);
+	newwindow=window.open(url+'&class='+classnumber +'&'+ SpecLug,kerl, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=yes, copyhistory=no, width='+w+', height='+h+', left='+left);
 	if (window.focus) {newwindow.focus()}
 	return false;
 }
@@ -407,7 +407,6 @@ $('#'+counter).remove();
    $('#specLug'+counter).remove();
    
   }
-  
   </script>
           
 <?php
