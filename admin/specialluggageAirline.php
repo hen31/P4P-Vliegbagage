@@ -4,42 +4,187 @@ require_once ("../data/includeAll.php");
 $titel = "SpecialluggageAirline";
 require_once ("bovenkant.php");
 ?>
-<!-- Hier alles neerzetten-->
+<a href="specialluggageAirline.php?action=add">Koppelen</a>
+<a href="specialluggageAirline.php?action=edit">Beheren</a>
+<br />
+<?php
+if (!empty($_SERVER['QUERY_STRING'])) {
+    if (isset($_GET['action'])) {
+        if ($_GET['action'] == "add") {
+?>
+<br />
+<h1>Speciale baggage koppelen</h1>
+<p>Via onderstaand formulier kunt u speciale baggage koppelen aan een luchtvaartmaatschappij.</p>
+<?php
+        }
+        if ($_GET['action'] == "edit") {
+?>
+<br />
+            <h1>Gekoppelde speciale baggage wijzigen of ontkoppelen</h1>
+<p>Via onderstaand formulier kunt u opmerkingen bij gekoppelde speciale bagagge wijzigen, of gekoppelde speciale baggage ontkoppelen.</p>
+            <?php
+        } else {
+        }
+    }
+} else {
+?>
+    <br />
+<h1>Speciale baggage koppelen en ontkoppelen</h1>
+<p>Dit gedeelte omvat het koppelen en ontkoppelen van speciale baggage aan een luchtvaartmaatschappij.</p>
+    <?php
+}
+?>
 
-<h1>1. Slecteer vliegmaatschappij</h1>
+            <form action="specialluggageAirline.php" method="get">
+<?php
+if (!empty($_SERVER['QUERY_STRING'])) {
+    if (isset($_GET['action'])) {
+        if ($_GET['action'] == "add" || $_GET['action'] == "edit") {
+            if (isset($_GET['AirlineName'])) {
+                if (!airline::get_airline_by_name($_GET["AirlineName"])) {
+                    $message = '<script type="text/javascript"> window.alert("De door u ingevoerde luchtvaartmaatschappij bestaat niet. Probeer het opnieuw alstublieft.")</script>';
+                } else {
+                    $valid = true;
+                }
+            }
+?>
+    <input type="hidden" name="action" value="<?php if ($_GET['action'] == "add") {
+                echo "add";
+            }
+            if ($_GET['action'] == "edit") {
+                echo "edit";
 
-<form action="trajectenAirline.php" method="get">
-  <label for="AirlineName">Vliegmaatschapij:</label>
-<input name="AirlineName" id="AirlineName" value="<?php
-
-if (isset($_GET["AirlineName"]) && !isset($added)) {
-    echo htmlspecialchars($_GET["AirlineName"]);
-} ?>"  />
+            } ?>" />
+  <label for="AirlineName">Luchtvaartmaatschappij:</label>
+  <br />
+<input name="AirlineName" id="AirlineName" value="<?php if (isset($_GET["AirlineName"])) {
+                echo ($_GET["AirlineName"]);
+            } else {
+                echo null;
+            } ?>"/>
 <input type="submit" value="Selecteer" />
 </form>
-
-<br />
-
-<h1>2. Selecteer speciale bagage</h1>
-
-<form action="trajectenAirline.php" method="get">
-<select id="CurrentAirlines" name="CurrentAirlines" size="6" style="width:150px;" >
 <?php
+        }
+        if ($_GET['action'] == "add") {
+            if (isset($_POST["checkPostedAdd"]) && $valid == true) {
+                if (isset($_POST["SelectedSpecialLuggage"])) {
+                    if (empty($_POST["SpecialLuggageNotes"])) {
+                        SpecialLuggage::AddItem(airline::get_airline_by_name($_GET["AirlineName"])->
+                            airline_id, $_POST["SelectedSpecialLuggage"], "");
+                    } else {
+                        SpecialLuggage::AddItem(airline::get_airline_by_name($_GET["AirlineName"])->
+                            airline_id, $_POST["SelectedSpecialLuggage"], $_POST["SpecialLuggageNotes"]);
+                    }
+                } else {
+                    $message = '<script type="text/javascript"> window.alert("Er is geen speciale baggage geselecteerd. Probeer het opnieuw alstublieft.")</script>';
+                }
+            }
+?>
+<br />
+<form action="specialluggageAirline.php?action=add&AirlineName=<?php echo $_GET["AirlineName"] ?>" method="post">
+<label for="SelectedSpecialLuggage">Speciale bagage:</label>
+  <br />
+<select id="SelectedSpecialLuggage" name="SelectedSpecialLuggage" size="7" style="width:150px">
+<?php
+            if (isset($_GET["AirlineName"])) {
 
-if (isset($traject) && isset($airlinesList)) {
-    foreach ($airlinesList as $air) {
-        echo '<option value="' . $air->airline_id . '">' . htmlspecialchars($air->name) .
-            '</option>';
-    }
-}
-
+                if ($valid == true) {
+                    $result = SpecialLuggage::GetSpecialLuggageListTest(airline::
+                        get_airline_by_name($_GET["AirlineName"])->airline_id);
+                    for ($i = 0; $i < count($result); $i++) {
+?>
+    <option value="<?php echo ($result[$i]->Name); ?>"><?php echo ($result[$i]->
+                        Name); ?></option>
+<?php
+                    }
+                }
+            }
 ?>
 </select>
-<input type="submit" value="Verwijderen" /> 
-<input type="hidden" value="Verwijderen" id="actie" />
+<br />
+<br />
+  <label for="SpecialLuggageNotes">Opmerkingen:</label>
+  <br />
+<textarea id="SpecialLuggageNotes" name="SpecialLuggageNotes" cols="40" rows="10" wrap="virtual" maxlength="1000" style="resize:none"></textarea>
+<br />
+<input type="submit" value="Koppelen" /> 
+    <input type="hidden" name="checkPostedAdd" value="yes" />
 </form>
 
-<form
 <?php
+        }
+        if ($_GET['action'] == "edit") {
+
+            if (isset($_POST["submitChangeRemove"])) {
+                if ($_POST["submitChangeRemove"] == "Ontkoppelen") {
+
+                    $resulta = SpecialLuggage::GetSpecialLuggageName($_POST["ConnectedSpecialLuggage"]);
+
+                    SpecialLuggage::RemoveAirLineSpecialLuggage($resulta->specialluggage_id, airline::
+                        get_airline_by_name($_GET["AirlineName"])->airline_id);
+                }
+                if ($_POST["submitChangeRemove"] == "Wijzigen") {
+
+                    if ($_POST["ConnectedSpecialLuggage"]) {
+                        $resulta = SpecialLuggage::GetSpecialLuggageName($_POST["ConnectedSpecialLuggage"]);
+                        $resultb = SpecialLuggage::EditAirlineNotes($resulta->specialluggage_id, airline::
+                            get_airline_by_name($_GET["AirlineName"])->airline_id, $_POST["ConnectedSpecialLuggageNotes"]);
+                    }
+                }
+            }
+?>
+<br />
+<form name="ConnectedSpecialLuggageForm" action="specialluggageAirline.php?action=edit&AirlineName=<?php echo
+            $_GET["AirlineName"] ?>" method="post">
+  <label for="ConnectedSpecialLuggage">Speciale bagage:</label>
+  <br />
+<select id="ConnectedSpecialLuggage" name="ConnectedSpecialLuggage" size="7" style="width:150px" onChange="document.ConnectedSpecialLuggageForm.submit();">
+<?php
+            if (isset($_GET["AirlineName"])) {
+
+                if ($valid == true) {
+                    $result = SpecialLuggage::GetSpecialLuggageListNotTest(airline::
+                        get_airline_by_name($_GET["AirlineName"])->airline_id);
+                    for ($i = 0; $i < count($result); $i++) {
+?>
+    <option value="<?php echo ($result[$i]->Name); ?>" <?php if (isset($_POST["ConnectedSpecialLuggage"])) {
+                            if ($_POST["ConnectedSpecialLuggage"] == $result[$i]->Name) {                                {
+                                    echo "selected = 'selected'";
+                                }
+                            }
+                        } ?>><?php echo ($result[$i]->Name); ?></option>
+<?php
+                    }
+                }
+            }
+?>
+</select>
+<br />
+<br />
+  <label for="ConnectedSpecialLuggageNotes">Opmerkingen:</label>
+  <br />
+<textarea id="ConnectedSpecialLuggageNotes" name="ConnectedSpecialLuggageNotes" cols="40" rows="10" wrap="virtual" maxlength="1000" style="resize:none">
+<?php if (!empty($_POST["ConnectedSpecialLuggage"])) {
+                $resulta = SpecialLuggage::GetSpecialLuggageName($_POST["ConnectedSpecialLuggage"]);
+                $resultb = SpecialLuggage::GetCombo(airline::get_airline_by_name($_GET["AirlineName"])->
+                    airline_id, $resulta->specialluggage_id);
+                echo ($resultb->Notes);
+            } ?></textarea>
+<br />
+<input type="submit" name="submitChangeRemove" value="Wijzigen" /> 
+<input type="submit" name="submitChangeRemove" value="Ontkoppelen" /> 
+    <input type="hidden" name="checkPostedAdd" value="yes" />
+</form>
+<?php
+        }
+    }
+}
 require_once ("onderkant.php");
+?>
+<?php
+
+if (isset($message)) {
+    echo $message;
+}
 ?>

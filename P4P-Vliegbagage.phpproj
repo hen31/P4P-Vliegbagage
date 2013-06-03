@@ -54,6 +54,10 @@
     {
     "ProjRelPath" = "T"
     }
+    "admin\\specialluggageAirline.php"
+    {
+    "ProjRelPath" = "T"
+    }
     "admin\\trajecten.php"
     {
     "ProjRelPath" = "T"

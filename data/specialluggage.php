@@ -93,13 +93,6 @@ class SpecialLuggage
     {
         DbHandler::Query("DELETE FROM airlinespecialluggage WHERE specialluggage_id = :SID AND airline_id = :AID ;",
             array("SID" => $SpecialLuggage_id, "AID" => $AirlineID));
-        $query = DbHandler::Query("SELECT Count(Specialluggage_id) AS csl FROM airlinespecialluggage WHERE specialluggage_id = :SID ;",
-            array("SID" => $SpecialLuggage_id));
-
-        if ($query[0]["csl"] == 0) {
-			DbHandler::NonQuery("DELETE FROM specialluggage WHERE specialluggage_id = :ID",
-				array("ID" => $SpecialLuggage_id));
-        }
     }
 
     //door gebruik van deze functie wordt de id van de speciale bagage opgehaald

@@ -49,7 +49,6 @@ if (isset($toegevoegd) && $toegevoegd == true) {
 require_once ("bovenkant.php");
 
 ?>
-<!-- Hier alles neerzetten-->
 
 <script type="text/javascript">
 	function expand(a) {
@@ -72,32 +71,30 @@ require_once ("bovenkant.php");
     <select name="beginPunt" id="beginPunt">
     <?php
 $airports = airports::GetAirports();
-for ($i = 0; $i < count($airports); $i++)
-{
-    if(isset($_GET['beginPunt']) && htmlspecialchars($_GET["beginPunt"]) == $airports[$i]->AirportName)
-    {
-         echo '<option selected="true" value="' . $airports[$i]->AirportName . '">'. $airports[$i]->AirportName . '('. $airports[$i]->AirportCity. ')'.'</option>';
-        }
-        else
-        {
-        echo '<option value="' . $airports[$i]->AirportName . '">'. $airports[$i]->AirportName . '('. $airports[$i]->AirportCity. ')'.'</option>';
-}
-}?></select>
+for ($i = 0; $i < count($airports); $i++) {
+    if (isset($_GET['beginPunt']) && htmlspecialchars($_GET["beginPunt"]) == $airports[$i]->
+        AirportName) {
+        echo '<option selected="true" value="' . $airports[$i]->AirportName . '">' . $airports[$i]->
+            AirportName . '(' . $airports[$i]->AirportCity . ')' . '</option>';
+    } else {
+        echo '<option value="' . $airports[$i]->AirportName . '">' . $airports[$i]->
+            AirportName . '(' . $airports[$i]->AirportCity . ')' . '</option>';
+    }
+} ?></select>
     <label for="eindPunt">Eindpunt: </label>
     <select name="eindPunt" id="eindPunt" >
     <?php
 $airports = airports::GetAirports();
-for ($i = 0; $i < count($airports); $i++)
-{
-    if(isset($_GET['eindPunt']) && htmlspecialchars($_GET["eindPunt"]) == $airports[$i]->AirportName)
-    {
-         echo '<option selected="true" value="' . $airports[$i]->AirportName . '">'. $airports[$i]->AirportName . '('. $airports[$i]->AirportCity. ')'.'</option>';
-        }
-        else
-        {
-        echo '<option value="' . $airports[$i]->AirportName . '">'. $airports[$i]->AirportName . '('. $airports[$i]->AirportCity. ')'.'</option>';
-}
-}?></select>
+for ($i = 0; $i < count($airports); $i++) {
+    if (isset($_GET['eindPunt']) && htmlspecialchars($_GET["eindPunt"]) == $airports[$i]->
+        AirportName) {
+        echo '<option selected="true" value="' . $airports[$i]->AirportName . '">' . $airports[$i]->
+            AirportName . '(' . $airports[$i]->AirportCity . ')' . '</option>';
+    } else {
+        echo '<option value="' . $airports[$i]->AirportName . '">' . $airports[$i]->
+            AirportName . '(' . $airports[$i]->AirportCity . ')' . '</option>';
+    }
+} ?></select>
     <input id="submit" type="submit" value="Toevoegen" />
     <input type="hidden" name="checkPostedAdd" value="yes" />
   </div>
@@ -122,34 +119,32 @@ for ($i = 0; $i < count($airports); $i++)
         <option value="">Alles</option>
 <?php
 $airports = airports::GetAirports();
-for ($i = 0; $i < count($airports); $i++)
-{
-    if(isset($_GET['filterBeginpunt']) && htmlspecialchars($_GET["filterBeginpunt"]) == $airports[$i]->AirportName)
-    {
-         echo '<option selected="true" value="' . $airports[$i]->AirportName . '">'. $airports[$i]->AirportName . '('. $airports[$i]->AirportCity. ')'.'</option>';
-        }
-        else
-        {
-        echo '<option value="' . $airports[$i]->AirportName . '">'. $airports[$i]->AirportName . '('. $airports[$i]->AirportCity. ')'.'</option>';
-}
-}?>
+for ($i = 0; $i < count($airports); $i++) {
+    if (isset($_GET['filterBeginpunt']) && htmlspecialchars($_GET["filterBeginpunt"]) ==
+        $airports[$i]->AirportName) {
+        echo '<option selected="true" value="' . $airports[$i]->AirportName . '">' . $airports[$i]->
+            AirportName . '(' . $airports[$i]->AirportCity . ')' . '</option>';
+    } else {
+        echo '<option value="' . $airports[$i]->AirportName . '">' . $airports[$i]->
+            AirportName . '(' . $airports[$i]->AirportCity . ')' . '</option>';
+    }
+} ?>
 </select>
     <label for="filterEindpunt">Eindpunt: </label>
     <select name="filterEindpunt" id="filterEindpunt" >
     <option value="">Alles</option>
     <?php
 $airports = airports::GetAirports();
-for ($i = 0; $i < count($airports); $i++)
-{
-    if(isset($_GET['filterEindpunt']) && htmlspecialchars($_GET["filterEindpunt"]) == $airports[$i]->AirportName)
-    {
-         echo '<option selected="true" value="' . $airports[$i]->AirportName . '">'. $airports[$i]->AirportName . '('. $airports[$i]->AirportCity. ')'.'</option>';
-        }
-        else
-        {
-        echo '<option value="' . $airports[$i]->AirportName . '">'. $airports[$i]->AirportName . '('. $airports[$i]->AirportCity. ')'.'</option>';
-}
-}?>
+for ($i = 0; $i < count($airports); $i++) {
+    if (isset($_GET['filterEindpunt']) && htmlspecialchars($_GET["filterEindpunt"]) ==
+        $airports[$i]->AirportName) {
+        echo '<option selected="true" value="' . $airports[$i]->AirportName . '">' . $airports[$i]->
+            AirportName . '(' . $airports[$i]->AirportCity . ')' . '</option>';
+    } else {
+        echo '<option value="' . $airports[$i]->AirportName . '">' . $airports[$i]->
+            AirportName . '(' . $airports[$i]->AirportCity . ')' . '</option>';
+    }
+} ?>
 </select>
     <input id="submit" type="submit" value="Filter" />
     </div>
