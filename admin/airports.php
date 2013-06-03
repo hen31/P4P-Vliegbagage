@@ -5,7 +5,8 @@ $titel = "Vliegvelden";
 require_once ("bovenkant.php");
 //<!-- Hier alles neerzetten-->
 
-
+if (isset($_GET["action"]))
+{
 if ($_GET["action"] == "edit") 
 {
     if (isset($_GET["Edited"])) 
@@ -29,11 +30,34 @@ if ($_GET["action"] == "edit")
                         airports::EditItem($ItemID, $FullName, $City);
                     }
                     
-                }
+                }   
                 
-                
-                    
+                             }
+    if (isset($_GET["zoekQuery"] ))
+        {   
+            $Airports = airports::SearchAirports($_POST["Zoekveld"]);
+            $listnumber = 0;
+            
+        }
+        else
+        {
+            $Airports = airports::GetAirports();
+            $listnumber = 0;
+        }
+        
+        if (count($Airports) < 35) {
+            if (count ($Airports) < 15) {
+                $listnumber = 15;
+            }
+            else {
+                $listnumber = count($Airports);
+            }
+        } else {
+            $listnumber = 35;
+        }                                     
 }    
+
+
 ?>
 <div id="menu">
     <ul>
@@ -116,31 +140,15 @@ if (isset($_GET["action"])) {
         
     <?php
     }
+    
+    
+    
+    
+    
+    
+    
     //Beheer gedeelte:
-    if ($_GET["action"] == "edit") {
-        if (isset($_GET["zoekQuery"] ))
-        {   
-            $Airports = airports::SearchAirports($_POST["Zoekveld"]);
-            $listnumber = 0;
-            
-        }
-        else
-        {
-            $Airports = airports::GetAirports();
-            $listnumber = 0;
-        }
-        
-        if (count($Airports) < 35) {
-            if (count ($Airports) < 15) {
-                $listnumber = 15;
-            }
-            else {
-                $listnumber = count($Airports);
-            }
-        } else {
-            $listnumber = 35;
-        }
-        
+    if ($_GET["action"] == "edit") {       
 ?>
         <br />
         <table>
@@ -168,10 +176,10 @@ if (isset($_GET["action"])) {
                                                                                 ?>
                                                 <option value="<?php echo $Airport->
                                                 AirportID; ?>"> <?php echo $Airport->AirportName; ?></option>
-                                                <?php
+                                        <?php
                                             }
 
-                                                ?>
+                                       ?>
                                         </select>
                                         <input type="submit" style="width:350px;" value="Geselecteerd vliegveld bewerken"/></div>
                                     </form>
@@ -203,6 +211,8 @@ if (isset($_GET["action"])) {
                 //verwijdercheckbox is scheef
 
 
+
+
 ?>
                                                                 </h1>
                                                                 <br />
@@ -220,6 +230,8 @@ if (isset($_GET["action"])) {
                                                                     <div><label>&nbsp;</label><input type="submit" value="Vliegveld wijzigen"/></div>
                                                                 </form> 
                                                             </div>
+                    
+                    
                                                         <?php
             } else {
                 if (isset($_GET["zoekQuery"]))
@@ -296,6 +308,18 @@ if (isset($_GET["action"])) {
         </table>
         <?php
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     //Importeer gedeelte:
     if ($_GET["action"] == "Import") {
         if (!isset($_GET["Stap2"])) {
