@@ -28,8 +28,7 @@ class  DbHandler
                 {
                     foreach ($parameters as $key => &$value)
                     {
-                        $escaped =htmlspecialchars($value);
-                        $statement->bindParam(':' . $key, $escaped);
+                        $statement->bindParam(':' . $key, $value);
 
                     }
                 }
@@ -72,8 +71,7 @@ class  DbHandler
                 {
                     foreach ($parameters as $key =>  &$value)
                     {
-                                  $escaped =htmlspecialchars($value);
-                        $statement->bindParam(':' . $key,$escaped);
+                        $statement->bindParam(':' . $key, $value);
 
                     }
                 }
@@ -106,8 +104,7 @@ class  DbHandler
                 {
                     foreach ($parameters as $key => &$value)
                     {
-                          $escaped =htmlspecialchars($value);
-                        $statement->bindParam(':' . $key, $escaped);
+                        $statement->bindParam(':' . $key, $value);
 
                     }
                 }
@@ -151,8 +148,7 @@ static public function QueryLimit($sql, $parameters = null, $limitBegin,$limitEn
                 {
                     foreach ($parameters as $key => &$value)
                     {
-                                                  $escaped =htmlspecialchars($value);
-                        $statement->bindParam(':' . $key, $escaped);
+                        $statement->bindParam(':' . $key, $value);
 
                     }
                 }
