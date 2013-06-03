@@ -22,6 +22,9 @@ require("includeAll.php");
         
         public static function AddItem($Name, $AirportCity) 
         {    
+            $Name = htmlspecialchars($Name);
+            $AirportCity = htmlspecialchars($AirportCity);
+            
             DbHandler::NonQuery("INSERT INTO airports(name, City) VALUES (:Name , :City); ", array("Name" => $Name, "City" => $AirportCity));
             $id =  DbHandler::Query("SELECT airport_ID FROM airports WHERE name = (:Name);", array("Name" => $Name));   
             
@@ -32,7 +35,10 @@ require("includeAll.php");
         }
         
         public static function EditItem ($id, $Name, $AirportCity)
-        {            
+        {
+            $Name = htmlspecialchars($Name);
+            $AirportCity = htmlspecialchars($AirportCity);
+            
             DbHandler::Query("UPDATE airports SET name = (:Name), City = :City WHERE airport_id = (:ID)", array("Name" => $Name, "ID" => $id, "City" => $AirportCity));
             
             $ClassObject = new airports();
@@ -98,6 +104,8 @@ require("includeAll.php");
         }
         public static function SearchAirports($SearchQuery)
         {   
+            $SearchQuery = htmlspecialchars($SearchQuery);
+            
             $Query =  DbHandler::Query("SELECT * FROM airports WHERE name LIKE  :SearchQuery ", array("SearchQuery" => "%" . $SearchQuery . "%"));
             $AirportCOllection = array();
                
