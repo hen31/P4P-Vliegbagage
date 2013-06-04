@@ -4,12 +4,23 @@ $titel = "Speciale bagage koppelen";
 require_once ("bovenkant.php");
 ?>
 
-<div id="menu"> <a <?php if (isset($_GET["action"]) && $_GET["action"] == "add") {
+<div id="menu">
+    <ul>
+        <li>
+             <a <?php if (isset($_GET["action"]) && $_GET["action"] == "add") {
     echo "class='active'";
-} ?> href="specialluggageAirline.php?action=add">Koppelen</a> <a <?php if (isset
-($_GET["action"]) && $_GET["action"] == "edit") {
+} ?> href="specialluggageAirline.php?action=add">Koppelen</a>
+        </li>
+        <li>
+            <a <?php if (isset($_GET["action"]) && $_GET["action"] == "edit") {
     echo "class='active'";
-} ?> href="specialluggageAirline.php?action=edit">Beheren</a> <a href="specialluggage.php">Speciale bagage toevoegen</a> </div>
+} ?> href="specialluggageAirline.php?action=edit">Beheren</a>
+        </li>
+        <li>
+        <a href="specialluggage.php">Speciale bagage toevoegen</a>
+        </li>
+    </ul>
+ </div>
 <?php
 
 //Determine what mode is selected (add or edit). - Wim
@@ -26,7 +37,7 @@ if (!empty($_SERVER["QUERY_STRING"])) {
 ?>
 <br />
 <h1>Gekoppelde speciale bagage wijzigen of ontkoppelen</h1>
-<p>Via onderstaand formulier kunt u opmerkingen bij gekoppelde speciale bagage wijzigen, of gekoppelde speciale bagage ontkoppelen.</p>
+<p>Via dit formulier kunt u opmerkingen wijzigen of speciale bagage ontkoppelen bij de desbetreffende luchtvaartmaatschappij.</p>
 <?php
         } else {
         }
@@ -104,7 +115,7 @@ if (!empty($_SERVER["QUERY_STRING"])) {
                         }
                     }
                 } else {
-                    $message = '<script type="text/javascript"> window.alert("Er is geen speciale baggage geselecteerd. Probeer het opnieuw alstublieft.")</script>';
+                    $message = '<script type="text/javascript"> window.alert("Er is geen speciale bagage geselecteerd. Probeer het opnieuw alstublieft.")</script>';
                 }
             }
 
@@ -117,7 +128,7 @@ if (!empty($_SERVER["QUERY_STRING"])) {
 ?>
 <br />
 <form action="specialluggageAirline.php?action=add&airlineName=<?php echo $_GET["airlineName"] ?>" method="post">
-  <label for="selectedSpecialLuggage">Speciale baggage:</label>
+  <label for="selectedSpecialLuggage">Speciale bagage:</label>
   <br />
   <select id="selectedSpecialLuggage" name="selectedSpecialLuggage" size="7" style="width:150px">
     <?php
@@ -163,7 +174,7 @@ if (!empty($_SERVER["QUERY_STRING"])) {
                         session_start();
                         $_SESSION["removedSpecialLuggage"] = true;
                     } else {
-                        $message = '<script type="text/javascript"> window.alert("Er is geen speciale baggage geselecteerd. Probeer het opnieuw alstublieft.")</script>';
+                        $message = '<script type="text/javascript"> window.alert("Er is geen speciale bagage geselecteerd. Probeer het opnieuw alstublieft.")</script>';
                     }
                 }
                 if ($_POST["submitChangeRemove"] == "Wijzigen") {
@@ -174,11 +185,12 @@ if (!empty($_SERVER["QUERY_STRING"])) {
                             $result = SpecialLuggage::GetSpecialLuggageName($_POST["linkedSpecialLuggage"]);
                             SpecialLuggage::EditAirlineNotes($result->specialluggage_id, airline::
                                 get_airline_by_name($_GET["airlineName"])->airline_id, $_POST["linkedSpecialLuggageNotes"]);
+                                 $message = '<script type="text/javascript"> window.alert("Wijziging is met succes doorgevoerd.")</script>';
                         } else {
                             $message = '<script type="text/javascript"> window.alert("Wijziging niet opgeslagen: een opmerking mag maximaal 1000 tekens bevatten.")</script>';
                         }
                     } else {
-                        $message = '<script type="text/javascript"> window.alert("Er is geen speciale baggage geselecteerd. Probeer het opnieuw alstublieft.")</script>';
+                        $message = '<script type="text/javascript"> window.alert("Er is geen speciale bagage geselecteerd. Probeer het opnieuw alstublieft.")</script>';
                     }
                 }
             }
