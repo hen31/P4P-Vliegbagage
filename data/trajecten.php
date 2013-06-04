@@ -84,22 +84,26 @@ class trajecten
     {
         // TODO: REPLACE WITH DBHANDLER QUERYLIMIT - Wim
         if (empty($startAirport) && empty($stopAirport)) {
-           // $result = DbHandler::Query("SELECT * FROM traject LIMIT " . $begin . ", 5", null);
-        $result = DbHandler::QueryLimit("SELECT * FROM traject",null,$begin, 5 );
+            // $result = DbHandler::Query("SELECT * FROM traject LIMIT " . $begin . ", 5", null);
+            $result = DbHandler::QueryLimit("SELECT * FROM traject", null, $begin, 10);
         }
         if ($startAirport && $stopAirport) {
-                    $result = DbHandler::QueryLimit("SELECT * FROM traject WHERE airport_start_id = :startAirportId && airport_stop_id = :stopAirportId",array("startAirportId" => $startAirport, "stopAirportId" => $stopAirport),$begin, 5 );
-        /*    $result = DbHandler::Query("SELECT * FROM traject WHERE airport_start_id = :startAirportId && airport_stop_id = :stopAirportId LIMIT " .
-                $begin . ", 5", array("startAirportId" => $startAirport, "stopAirportId" => $stopAirport));*/
+            $result = DbHandler::QueryLimit("SELECT * FROM traject WHERE airport_start_id = :startAirportId && airport_stop_id = :stopAirportId",
+                array("startAirportId" => $startAirport, "stopAirportId" => $stopAirport), $begin,
+                10);
+            /*    $result = DbHandler::Query("SELECT * FROM traject WHERE airport_start_id = :startAirportId && airport_stop_id = :stopAirportId LIMIT " .
+            $begin . ", 5", array("startAirportId" => $startAirport, "stopAirportId" => $stopAirport));*/
         }
         if ($startAirport && empty($stopAirport)) {
-            $result = DbHandler::QueryLimit("SELECT * FROM traject WHERE airport_start_id = :startAirportId", array("startAirportId" => $startAirport), $begin, 5);
+            $result = DbHandler::QueryLimit("SELECT * FROM traject WHERE airport_start_id = :startAirportId",
+                array("startAirportId" => $startAirport), $begin, 10);
         }
         if (empty($startAirport) && $stopAirport) {
-           
-           $result = DbHandler::QueryLimit("SELECT * FROM traject WHERE airport_stop_id = :stopAirportId", array("stopAirportId" => $stopAirport),$begin, 5);
-          /*  $result = DbHandler::Query("SELECT * FROM traject WHERE airport_stop_id = :stopAirportId LIMIT " .
-                $begin . ", 5", array("stopAirportId" => $stopAirport));*/
+
+            $result = DbHandler::QueryLimit("SELECT * FROM traject WHERE airport_stop_id = :stopAirportId",
+                array("stopAirportId" => $stopAirport), $begin, 10);
+            /*  $result = DbHandler::Query("SELECT * FROM traject WHERE airport_stop_id = :stopAirportId LIMIT " .
+            $begin . ", 5", array("stopAirportId" => $stopAirport));*/
         }
         for ($i = 0; $i < count($result); $i++) {
             $result[$i]["airport_start_id"] = airports::GetAirportByID($result[$i]["airport_start_id"]);

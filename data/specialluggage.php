@@ -167,7 +167,7 @@ class SpecialLuggage
     }
 
 
-    public static function GetSpecialLuggageListTest($airlineID)
+    public static function GetLinkedSpecialLuggageList($airlineID)
     {
         $Query = DbHandler::Query("SELECT * FROM SPECIALLUGGAGE WHERE specialluggage_id NOT IN (SELECT specialluggage_id FROM airlineSpecialluggage WHERE airline_id=:ID);",
             array("ID" => $airlineID));
@@ -182,7 +182,7 @@ class SpecialLuggage
         return $SpecialLuggageCollection;
     }
 
-    public static function GetSpecialLuggageListNotTest($airlineID)
+    public static function GetNotLinkedSpecialLuggageList($airlineID)
     {
         $Query = DbHandler::Query("SELECT * FROM SPECIALLUGGAGE WHERE specialluggage_id  IN (SELECT specialluggage_id FROM airlineSpecialluggage WHERE airline_id=:ID);",
             array("ID" => $airlineID));
