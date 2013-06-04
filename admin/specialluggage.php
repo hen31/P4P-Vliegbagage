@@ -16,6 +16,7 @@ if (isset($_GET["Edited"]) && !isset($_GET["ItemSelected"])) {
     $nietSuc6BestaatAl = false;
     if (strlen($_POST["name"]) > 0 && strlen($_POST["name"]) < 51  && trim($_POST["name"])!= '') {
         $Verwijderen = "";
+        $_POST["name"] = trim($_POST["name"]);
         $Name = $_POST["name"];
         if (isset($_POST["verwijderen"])) {
             $Verwijderen = $_POST["verwijderen"];
@@ -58,6 +59,7 @@ if (isset($_GET["action"])) {
         if (!empty($_POST["name"])) {
             if (strlen($_POST["name"]) > 0 && strlen($_POST["name"]) < 51 && trim($_POST["name"]) != '') {
                 $name = $_POST["name"];
+                $name = trim($_POST["name"]);
                 $CheckIfExists = specialluggage::GetSpecialLuggageName($name);
 
                 if ($CheckIfExists != null) {
