@@ -15,8 +15,10 @@ if ($_GET["action"] == "edit")
                     $Iata = trim($_POST["Iata"]);
                     $City = trim($_POST["airportCity"]);
                     
-                    if (strlen($_POST["name"]) > 0 && strlen($_POST["name"]) < 101 && strlen($_POST["Iata"]) >
-                    0 && strlen($_POST["Iata"]) < 5 && strlen($_POST["airportCity"]) > 0 && strlen($_POST["airportCity"]) < 101) {
+                    var_dump($name);
+                    
+                    if (strlen($name) > 0 && strlen($name) < 101 && strlen($Iata) >
+                    0 && strlen($Iata) < 5 && strlen($City) > 0 && strlen($City) < 101) {
                     
                     $Verwijderen = "";
                     
@@ -269,7 +271,7 @@ if (isset($_GET["action"])) {
                 
                 if (!(strlen($name) > 1 && strlen($name) < 101))
                 {   
-                    if ($name = "a")
+                    if ($name == "a")
                     {
                         echo "
                                                         <h1>
