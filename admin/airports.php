@@ -144,7 +144,7 @@ if (isset($_GET["action"])) {
 
         if (!empty($AirportObject)) {
 ?>          
-            <div><label for="airportAdded">Vliegveld toegevoegd: <?php echo $AirportObject->AirportName . "in " . $AirportObject->AirportCity; ?></label></div><br /><br />
+            <div><label for="airportAdded">Vliegveld toegevoegd: <?php echo $AirportObject->AirportName . " in " . $AirportObject->AirportCity; ?></label></div><br /><br />
             <?php
         } else {
             echo $name;
