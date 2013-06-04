@@ -43,7 +43,7 @@ if (isset($_GET["Edited"]) && !isset($_GET["ItemSelected"])) {
     ' class="active" ' : "") ?> href="specialluggage.php?action=edit">Beheren</a>  
     </li>
     <li> 
-    <a href="specialluggageAirline.php">Koppelen aan luchtvaartmaatschappij</a>
+    <a href="specialluggageAirline.php?action=add">Koppelen aan luchtvaartmaatschappij</a>
         </li>
     </ul>  
 </div>

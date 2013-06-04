@@ -21,6 +21,7 @@ require_once ("bovenkant.php");
         </li>
     </ul>
  </div>
+ <br />
 <?php
 
 //Determine what mode is selected (add or edit). - Wim
@@ -39,7 +40,6 @@ if (!empty($_SERVER["QUERY_STRING"])) {
 <h1>Gekoppelde speciale bagage wijzigen of ontkoppelen</h1>
 <p>Via dit formulier kunt u opmerkingen wijzigen of speciale bagage ontkoppelen bij de desbetreffende luchtvaartmaatschappij.</p>
 <?php
-        } else {
         }
     }
 } else {
