@@ -151,6 +151,8 @@ if (isset($_GET["action"])) {
 
         }
         ?>
+        <br />
+        <br />
                 <div><label>&nbsp;</label><input type="submit" value="Vliegveld toevoegen"/></div>
             </form>
         <br />
@@ -192,7 +194,7 @@ if (isset($_GET["action"])) {
                                                 foreach ($Airports as $Airport) {
                                                                                 ?>
                                                 <option value="<?php echo $Airport->
-                                                AirportID; ?>"> <?php echo utf8_decode($Airport->AirportName); ?></option>
+                                                AirportID; ?>"> <?php echo $Airport->AirportName; ?></option>
                                         <?php
                                             }
 
