@@ -1,7 +1,11 @@
 <?php
 
 require_once("includeAll.php");
-
+/**
+ * @Auteur Mathé Jacobs
+ * @Datum 13-5-2013
+ * @uses in deze class zitten alle database code voor het maken, wijzigen en verwijderen.
+ */
 class user
 {
     public $id;
