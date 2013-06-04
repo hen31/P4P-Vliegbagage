@@ -301,10 +301,10 @@ class airline
             "petsAllowedHL" => $petsAllowedHL));
     }
     //klasse verwijderen van airline
-    public static function remove_class($class_id)
+    public static function remove_class($airline_id, $class_number)
     {
-        DbHandler::NonQuery("DELETE FROM `airlineclass` WHERE `class_id` = :id", array("id" =>
-                $class_id));
+        DbHandler::NonQuery("DELETE FROM `airlineclass` WHERE `classnumber` = :id AND `airline` = :airline_id", array("id" =>
+                $class_number, "airline_id" => $airline_id));
     }
     //hele vliegmaatschapij verwijderen
     public static function remove_airline($airline_id)
