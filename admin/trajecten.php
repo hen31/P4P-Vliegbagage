@@ -32,16 +32,11 @@ if ((isset($_POST["checkPostedAdd"]))) {
                 if (trajecten::check_traject_exist($_POST["startingPoint"], $_POST["endingPoint"])) {
                     $message = '<script type="text/javascript"> window.alert("Het door u ingevoerde traject bestaat al. Probeer het opnieuw alstublieft.")</script>';
                 } else {
-                    try {
-                        //Add traject to database. - Wim
-                        trajecten::add_traject($_POST["startingPoint"], $_POST["endingPoint"]);
-                        $added = true;
-                        session_start();
-                        $_SESSION["added"] = true;
-                    }
-                    catch (exception $e) {
-                        $message = '<script type="text/javascript"> window.alert("Er ging iets mis tijdens het toevoegen van het traject. Probeer het opnieuw altublieft.")</script>';
-                    }
+                    //Add traject to database. - Wim
+                    trajecten::add_traject($_POST["startingPoint"], $_POST["endingPoint"]);
+                    $added = true;
+                    session_start();
+                    $_SESSION["added"] = true;
                 }
             }
         }
