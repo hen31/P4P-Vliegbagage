@@ -11,11 +11,15 @@ if ($_GET["action"] == "edit")
 {
     if (isset($_GET["Edited"])) 
                 {
+                    $name = trim($_POST["name"]);
+                    $Iata = trim($_POST["Iata"]);
+                    $City = trim($_POST["airportCity"]);
+                    
+                    if (strlen($_POST["name"]) > 0 && strlen($_POST["name"]) < 101 && strlen($_POST["Iata"]) >
+                    0 && strlen($_POST["Iata"]) < 5 && strlen($_POST["airportCity"]) > 0 && strlen($_POST["airportCity"]) < 101) {
                     
                     $Verwijderen = "";
-                    $name = $_POST["name"];
-                    $Iata = $_POST["Iata"];
-                    $City = $_POST["airportCity"];
+                    
                     if (isset($_POST["verwijderen"])) {
                         $Verwijderen = $_POST["verwijderen"];
                     }
@@ -27,7 +31,14 @@ if ($_GET["action"] == "edit")
                         airports::RemoveItem($ItemID);
                     } 
                     else {
-                        airports::EditItem($ItemID, $FullName, $City);
+                        if (!(airports::GetAirportByName($FullName) == null))
+                        {
+                            $name = "a";
+                        }
+                        else
+                        {
+                            airports::EditItem($ItemID, $FullName, $City);
+                        }
                     }
                     
                 }   
@@ -57,7 +68,7 @@ if ($_GET["action"] == "edit")
         }                                     
 }    
 
-
+}
 ?>
 <div id="menu">
     <ul>
@@ -86,11 +97,15 @@ $city;
 if (isset($_GET["action"])) {
     if ($_GET["action"] == "add") {
         if (!empty($_POST["name"])) {
-            if (strlen($_POST["name"]) > 0 && strlen($_POST["name"]) < 101 && strlen($_POST["Iata"]) >
-                0 && strlen($_POST["Iata"]) < 5 && strlen($_POST["City"]) > 0 && strlen($_POST["City"]) < 101){
+            $AddName = trim($_POST["name"]);
+            $AddIata = trim($_POST["Iata"]);
+            $AddCity = trim($_POST["City"]);
+            
+            if (strlen($AddName) > 0 && strlen($AddName) < 101 && strlen($AddIata) >
+                0 && strlen($AddIata) < 5 && strlen($AddCity) > 0 && strlen($AddCity) < 101){
                     
-                $name = $_POST["name"] . " (" . $_POST["Iata"] . ")";
-                $city = $_POST["City"];
+                $name = $AddName . " (" . $AddIata . ")";
+                $city = $AddCity;
                           
                 $CheckIfExists = airports::GetAirportByName($name);
 
@@ -175,7 +190,7 @@ if (isset($_GET["action"])) {
                                                 foreach ($Airports as $Airport) {
                                                                                 ?>
                                                 <option value="<?php echo $Airport->
-                                                AirportID; ?>"> <?php echo $Airport->AirportName; ?></option>
+                                                AirportID; ?>"> <?php echo utf8_decode($Airport->AirportName); ?></option>
                                         <?php
                                             }
 
@@ -248,28 +263,67 @@ if (isset($_GET["action"])) {
             }
         } else {
             //item moet worden aangepast in de database
+            
+            
             if (isset($_GET["Edited"])) {
-                if (strlen($_POST["name"]) > 0 && strlen($_POST["name"]) < 101 && strlen($_POST["Iata"]) >
-                    0 && strlen($_POST["Iata"]) < 5 && strlen($_POST["airportCity"]) > 0 && strlen($_POST["airportCity"]) < 101) {
-                   
-                    /*
-                    $Verwijderen = "";
-                    $name = $_POST["name"];
-                    $Iata = $_POST["Iata"];
-                    $City = $_POST["airportCity"];
-                    if (isset($_POST["verwijderen"])) {
-                        $Verwijderen = $_POST["verwijderen"];
+                
+                if (!(strlen($name) > 1 && strlen($name) < 101))
+                {   
+                    if ($name = "a")
+                    {
+                        echo "
+                                                        <h1>
+                                                        Bewerken niet succesvol. <br /><br />
+                                                        </h1>
+                                                        
+                                                        Vliegveld naam bestaat al <br /><hr /><br />
+                                                        ";
                     }
-                    $ItemID = $_GET["Edited"];
-                    $FullName = ($name . " (" . $Iata . ")");
-
-                    if ($Verwijderen == "true") {
-                        airports::RemoveItem($ItemID);
-                    } else {
-                        airports::EditItem($ItemID, $FullName, $City);
+                    else
+                    {
+                        echo "
+                                                        <h1>
+                                                        Bewerken niet succesvol. <br /><br />
+                                                        </h1>
+                                                        
+                                                        Vliegveld naam is niet correct ingevult. <br /><br />
+                                                        
+                                                        *Vliegveld naam mag niet korter zijn dan 1 teken. <br />
+                                                        *Vliegveld naam mag niet langer zijn dan 100 tekens.<br /><hr /><br />
+                                                        ";
                     }
-                    */
-                    echo "
+                }
+                elseif (!(strlen($Iata) > 1 && strlen($Iata) < 5  ))
+                {
+                     echo "
+                                                        <h1>
+                                                        Bewerken niet succesvol. <br /><br />
+                                                        </h1>
+                                                        
+                                                        Vliegveld IATA code is niet correct ingevult. <br /><br />
+                                                        
+                                                        *Vliegveld IATA code mag niet korter zijn dan 1 teken. <br />
+                                                        *Vliegveld IATA code mag niet langer zijn dan 4 tekens.<br /><hr /><br />
+                                                        ";
+                    
+                }
+                elseif (!(strlen($City) > 1 && strlen($City) < 101))
+                {
+                     echo "
+                                                        <h1>
+                                                        Bewerken niet succesvol. <br /><br />
+                                                        </h1>
+                                                        
+                                                        Vliegveld Stad is niet correct ingevult. <br /><br />
+                                                        
+                                                        *Vliegveld Stad mag niet korter zijn dan 1 teken. <br />
+                                                        *Vliegveld Stad mag niet langer zijn dan 100 tekens.<br /><hr /><br />
+                                                        ";    
+                    
+                }
+                else
+                {
+                     echo "
                                                         <h1>
                                                         Bewerken succesvol.
                                                         </h1> 
@@ -278,20 +332,8 @@ if (isset($_GET["action"])) {
                                                         </script>
                                                         <br />
                                                         ";
-                } else {
-                    echo "
-                                                        <h1>
-                                                        Bewerken niet succesvol. <br /><br />
-                                                        </h1>
-                                                        
-                                                        Niet alle velden zijn juist ingevuld. <br /><br />
-                                                        Denk om het volgende:<br />
-                                                        
-                                                        *Vliegveld naam mag niet langer zijn dan 100 tekens.<br />
-                                                        *IATA code mag niet langer zijn dan 4 tekens.<br /><hr /><br />
-                                                        ";
                 }
-
+                  
 
             }
             echo "Stappen om een vliegveld te bewerken of te verwijderen: <br /><br />";
@@ -441,7 +483,12 @@ if (isset($_GET["action"])) {
                     unset($StringLineAray[Count($StringLineAray) - 1]);
                     $Name = implode(',', $StringLineAray);
                     
-                    airports::AddItem($Name, $City);
+                    $Name = trim($Name);
+                    
+                     if (airports::GetAirportByName($Name) == null)
+                     {
+                        airports::AddItem($Name, $City);
+                     }
                 }
             }
 
