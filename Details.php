@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: text/html; charset=UTF-8');
 session_start();
 //Alle data classes includen
 require_once ("data/includeAll.php");
