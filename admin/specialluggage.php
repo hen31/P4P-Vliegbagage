@@ -14,7 +14,7 @@ require_once ("bovenkant.php");
 //item moet worden aangepast in de database
 if (isset($_GET["Edited"]) && !isset($_GET["ItemSelected"])) {
     $nietSuc6BestaatAl = false;
-    if (strlen($_POST["name"]) > 0 && strlen($_POST["name"]) < 51) {
+    if (strlen($_POST["name"]) > 0 && strlen($_POST["name"]) < 51  && trim($_POST["name"])!= '') {
         $Verwijderen = "";
         $Name = $_POST["name"];
         if (isset($_POST["verwijderen"])) {
@@ -56,7 +56,7 @@ if (isset($_GET["action"])) {
     if ($_GET["action"] == "add") {
         $name;
         if (!empty($_POST["name"])) {
-            if (strlen($_POST["name"]) > 0 && strlen($_POST["name"]) < 51) {
+            if (strlen($_POST["name"]) > 0 && strlen($_POST["name"]) < 51 && trim($_POST["name"]) != '') {
                 $name = $_POST["name"];
                 $CheckIfExists = specialluggage::GetSpecialLuggageName($name);
 
