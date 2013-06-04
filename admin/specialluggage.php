@@ -202,7 +202,7 @@ if (isset($_GET["action"])) {
         } else {
             //Item wordt aangepast in de database
             if (isset($_GET["Edited"])) {
-                if (strlen($_POST["name"]) > 0 && strlen($_POST["name"]) < 51 && $nietSuc6BestaatAl == false) {
+                if (strlen($_POST["name"]) > 0 && strlen($_POST["name"]) < 51 && $nietSuc6BestaatAl == false && trim($_POST["name"]) != '' ) {
                     $Verwijderen = "";
                     $Name = $_POST["name"];
                     if (isset($_POST["verwijderen"])) {
@@ -221,6 +221,28 @@ if (isset($_GET["action"])) {
                                                         <br />
                                                         ";
                 } else {
+                    if($nietSuc6BestaatAl == true)
+                    {
+                                       echo "
+                                                        <h1>
+                                                        Speciale Bagage bestaat al. <br /><br />
+                                                        </h1>
+                                                        
+                                                        Er bestaat al een speciale bagage met deze naam.<br /><br />
+                                                        ";  
+                    }
+                    else if(trim($_POST["name"]) == '')
+                    {
+                                   echo "
+                                                        <h1>
+                                                        Onjuiste invoer. <br /><br />
+                                                        </h1>
+                                                        
+                                                        De naam mag niet alleen uit spaties bestaan.<br /><br />
+                                                        ";  
+                    }
+                    else
+                    {
                     echo "
                                                         <h1>
                                                         Bewerken niet succesvol. <br /><br />
@@ -231,6 +253,7 @@ if (isset($_GET["action"])) {
                                                         
                                                         *Speciale bagage naam mag niet langer zijn dan 50 tekens.<br />
                                                         ";
+                }
                 }
             }
             echo "Stappen om speciale bagage te bewerken of te verwijderen: <br /><br />";
