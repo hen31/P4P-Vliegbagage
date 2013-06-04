@@ -58,7 +58,11 @@ class trajecten
             $result = DbHandler::QueryScalar("SELECT COUNT(*) FROM traject WHERE airport_stop_id = :filterEndingPoint;",
                 array("filterEndingPoint" => $filterEndingPoint));
         }
-        return $result;
+        if (isset($result)) {
+            return $result;
+        } else {
+            return null;
+        }
     }
 
     //Check if an traject exists.
@@ -82,7 +86,6 @@ class trajecten
     //Get all trajecten.
     public static function get_all_trajecten($begin, $startAirport, $stopAirport)
     {
-        // TODO: REPLACE WITH DBHANDLER QUERYLIMIT - Wim
         if (empty($startAirport) && empty($stopAirport)) {
             // $result = DbHandler::Query("SELECT * FROM traject LIMIT " . $begin . ", 5", null);
             $result = DbHandler::QueryLimit("SELECT * FROM traject", null, $begin, 10);
@@ -105,14 +108,18 @@ class trajecten
             /*  $result = DbHandler::Query("SELECT * FROM traject WHERE airport_stop_id = :stopAirportId LIMIT " .
             $begin . ", 5", array("stopAirportId" => $stopAirport));*/
         }
-        for ($i = 0; $i < count($result); $i++) {
-            $result[$i]["airport_start_id"] = airports::GetAirportByID($result[$i]["airport_start_id"]);
-            $result[$i]["airport_stop_id"] = airports::GetAirportByID($result[$i]["airport_stop_id"]);
-        }
-        if ($result == null) {
-            return null;
+        if (isset($result)) {
+            for ($i = 0; $i < count($result); $i++) {
+                $result[$i]["airport_start_id"] = airports::GetAirportByID($result[$i]["airport_start_id"]);
+                $result[$i]["airport_stop_id"] = airports::GetAirportByID($result[$i]["airport_stop_id"]);
+            }
+            if ($result == null) {
+                return null;
+            } else {
+                return $result;
+            }
         } else {
-            return $result;
+            return null;
         }
     }
 
@@ -194,6 +201,7 @@ class trajecten
         if ($result > 0) {
             return true;
         }
+        return false;
     }
 
     //Get airlines from linked traject.

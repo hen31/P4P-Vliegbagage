@@ -65,19 +65,15 @@ if (!empty($_SERVER["QUERY_STRING"])) {
   <select name="airlineName" id="airlineName">
             <?php
             $airs = airline::get_airlines();
-            foreach($airs as $air)
-            {
-                
-                if (isset($_GET["airlineName"]) && $_GET["airlineName"] == $air->name)
-                {
-                              echo '<option selected="true">' . $air->name . '</option>';
-                    
+            foreach ($airs as $air) {
+
+                if (isset($_GET["airlineName"]) && $_GET["airlineName"] == $air->name) {
+                    echo '<option selected="true">' . $air->name . '</option>';
+
+                } else {
+                    echo '<option>' . $air->name . '</option>';
                 }
-                else
-                {
-                echo '<option>' . $air->name . '</option>';
-            }
-            }?>
+            } ?>
             </select>
   <input type="submit" value="Selecteer" />
 </form>

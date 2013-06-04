@@ -65,7 +65,7 @@ require_once ("bovenkant.php");
 	}
 </script>
 
-<a href="trajectenairline.php">Traject koppelen aan vliegtuigmaatschapij</a><br/>
+<a href="trajectenAirline.php">Traject koppelen aan luchtvaartmaatschappij</a><br/>
 <br />
 <h1>Traject toevoegen</h1>
 <p>Via onderstaand formulier kunt u een nieuw traject toevoegen. Selecteer een begin- en eindpunt, en klik vervolgens op "Toevoegen".</p>
@@ -155,7 +155,7 @@ for ($i = 0; $i < count($airports); $i++) {
   </form>
 </div>
 <br />
-<table width="100%" border="0">
+<table id="trajectentable" border="0">
   <?php
 
 $startAirportId = null;
@@ -215,10 +215,10 @@ if (!$filter) {
 $idmin = $id - 1;
 $idplus = $id + 1;
 
-//Populate the table in which the trajecten are displayed. - Wim.
-$count = count($result);
+if (isset($result)) {
+    //Populate the table in which the trajecten are displayed. - Wim.
+    $count = count($result);
 
-if (count($result) != 0) {
 ?>
   <td><b>Beginpunt</b></td>
     <td><b>Eindpunt</b></td>
