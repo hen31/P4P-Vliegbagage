@@ -38,9 +38,11 @@ if (isset($_GET["Edited"]) && !isset($_GET["ItemSelected"])) {
     <ul>
         <li>
             <a<?php echo (isset($_GET["action"]) && $_GET["action"] == "add" ?
-' class="active" ' : "") ?> href="specialluggage.php?action=add">Toevoegen</a>
-            <a<?php echo (isset($_GET["action"]) && $_GET["action"] == "edit" ?
-    ' class="active" ' : "") ?> href="specialluggage.php?action=edit">Beheren</a>   
+' class="active" ' : "") ?> href="specialluggage.php?action=add">Toevoegen</a></li>
+<li>            <a<?php echo (isset($_GET["action"]) && $_GET["action"] == "edit" ?
+    ' class="active" ' : "") ?> href="specialluggage.php?action=edit">Beheren</a>  
+    </li>
+    <li> 
     <a href="specialluggageAirline.php">Koppelen aan luchtvaartmaatschappij</a>
         </li>
     </ul>  
