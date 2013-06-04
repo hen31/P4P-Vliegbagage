@@ -25,7 +25,12 @@ class airline
     {
         $this->airline_id = $airline["airline_id"];
         $this->name = $airline["name"];
-        $this->logo = $airline["logo"];
+        if($airline["logo"] == ""){
+            $this->logo = "default.png";
+        }
+        else{
+            $this->logo = $airline["logo"];
+        }
         $this->OverweightChargeG = $airline["OverweightChargeG"];
         $this->OverweightChargeBag = $airline["OverweightChargeBag"];
         
@@ -58,10 +63,14 @@ class airline
             array("airline_id" => $airline_id));
         if (count($airline) == 0) {
             return null;
-        } 
-        $classes = DbHandler::Query("SELECT * FROM `airlineclass` WHERE `airline` = :airline AND `classnumber` = :class_number",
-            array("airline" => $airline_id, "class_number" => $class_number));
-
+        }
+        if($class_number == "all"){
+            $classes = DbHandler::Query("SELECT * FROM `airlineclass` WHERE `airline` = :airline", array("airline" => $airline_id));
+        }
+        else{
+            $classes = DbHandler::Query("SELECT * FROM `airlineclass` WHERE `airline` = :airline AND `classnumber` = :class_number",
+                array("airline" => $airline_id, "class_number" => $class_number));
+        }
         $charge = DbHandler::Query("SELECT * FROM `chargeExtraBag` WHERE `airline` = :airline", array("airline" => $airline_id));
 
         return new airline($airline[0], $classes, $charge);
