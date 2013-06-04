@@ -32,6 +32,9 @@ class SpecialLuggage
     //deze functie zorgt ervoor dat de beheerder specifieke airline informatie per spec bagage toe kan voegen
     public static function AddItem($AirlineID, $Name, $Notes)
     {
+        $Name = htmlspecialchars($Name);
+        $Notes = htmlspecialchars($Notes);
+        
         $QueryResult = DbHandler::Query("SELECT specialluggage_id FROM specialluggage WHERE name = :Name ;",
             array("Name" => $Name));
 
@@ -60,6 +63,8 @@ class SpecialLuggage
     //deze functie voegt de optie toe om bestaande notes te wijzigen
     public static function EditAirlineNotes($Specialluggage_id, $airlineID, $Notes)
     {
+        $Notes = htmlspecialchars($Notes);
+        
 		if ($airlineID != 0 && $Notes != "") {
             DbHandler::NonQuery("UPDATE airlinespecialluggage SET airline_id = :airlineID, notes = :notes WHERE specialluggage_id = :ID",
                 array(
@@ -73,7 +78,8 @@ class SpecialLuggage
     //deze functie laat de beheerder bestaande speciale bagage informatie wijzigen
     public static function EditSpecialLuggage($Specialluggage_id, $Name)
     {
-
+        $Name = htmlspecialchars($Name);
+        
         DbHandler::NonQuery("UPDATE specialluggage SET name = :Name WHERE specialluggage_id = :ID",
             array("Name" => $Name, "ID" => $Specialluggage_id));
         return SpecialLuggage::GetCombo($airlineID, $Specialluggage_id);
@@ -112,6 +118,8 @@ class SpecialLuggage
     //deze functie haalt de naam van de speciale bagage op
     public static function GetSpecialLuggageName($Name)
     {
+        $Name = htmlspecialchars($Name);
+        
         $Result = DbHandler::Query("Select * FROM specialluggage WHERE  NAME = :Name;",
             array("Name" => $Name));
         if (count($Result) < 1) {
@@ -142,6 +150,8 @@ class SpecialLuggage
     //deze functie laat de beheerder bestaande bagage wijzigen (naam)
     public static function EditItem($id, $Name)
     {
+        $Name = htmlspecialchars($Name);
+        
         DbHandler::Query("UPDATE specialluggage SET name = (:Name) WHERE specialluggage_id = (:ID)",
             array("Name" => $Name, "ID" => $id));
 
@@ -199,6 +209,8 @@ class SpecialLuggage
     //dit is de zoekfunctie waarmee de beheerder later zijn informatie sneller voor zich kan krijgen
     public static function SearchSpecialLuggage($SearchQuery)
     {
+        $SearchQuery = htmlspecialchars($SearchQuery);
+        
         $Query = DbHandler::Query("SELECT * FROM specialluggage WHERE name LIKE  :SearchQuery ",
             array("SearchQuery" => "%" . $SearchQuery . "%"));
         $SpecialLuggageCollection = array();
