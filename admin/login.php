@@ -4,17 +4,21 @@ session_start();
 require_once ("../data/includeAll.php");
 $error1 = " ";
 $error2 = " ";
-
+//kijken of er gepost is
 if (isset($_POST['Submit'])) {
+    //kijken of er een username is meegegeven
     if (isset($_POST["uname"])) {
+        //kijken of ze niet leeg zijn
         if (!empty($_POST['uname']) && !empty($_POST['pword'])) {
-            
+            //wachtwoord encrypten
             $password = user::incryptPass($_POST["pword"]);
+            //login in database verwerken
             $user = user::login($_POST["uname"], $password);
-            
+            //als gebruiker null is bestaat de combinatie niet
             if ($user == null) {
                 $error1 =  'Gebruikersnaam of wachtwoord klopt niet';
             } else {
+                //als het goed is gegaan redirecten naar adminpagina
                 $fatalerror = false;
                 $_SESSION["user"] = $user;
                 header("Location: admin.php");
@@ -23,6 +27,7 @@ if (isset($_POST['Submit'])) {
             }
             else
             {
+                //error weergeven
                 $error2 =  '1 of meer velden zijn niet ingevuld';
             }
         
@@ -63,6 +68,7 @@ Wachtwoord: <br>
 <input type="submit" name="Submit" value="Inloggen"><br>
 </br>
 <?php
+//errors weergeven
 echo $error1;
 echo $error2;
 ?>
