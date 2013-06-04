@@ -123,18 +123,18 @@ else
             
             <tr>
              <td>Kosten overwicht(per kg):</td>
-            <td>€<?php echo number_format($airline->OverweightChargeG,2, ',', ' ');?></td>
+            <td>&euro;<?php echo number_format($airline->OverweightChargeG,2, ',', ' ');?></td>
                  <td>Kosten te grote koffer:</td>
-            <td>€<?php echo number_format($airline->OversizeCharge,2, ',', ' ');?></td>
+            <td>&euro;<?php echo number_format($airline->OversizeCharge,2, ',', ' ');?></td>
             </tr>
              <tr>
              <td>Kosten extra koffer:</td>
             <td><?php foreach($airline->ChargeExtraBag as $bag)
             {
-                echo 'koffer ' . ($bag->number+1 ). ': €'. number_format($bag->costs,2, ',', ' ') . '</br>';
+                echo 'koffer ' . ($bag->number+1 ). ': &euro;'. number_format($bag->costs,2, ',', ' ') . '</br>';
             }?></td>
                  <td>Kosten overgewicht per koffer:</td>
-            <td>€<?php echo  number_format($airline->OverweightChargeBag,2, ',', ' ');?><br />Is alleen van toepassing als per koffer wordt gerekend</td>
+            <td>&euro;<?php echo  number_format($airline->OverweightChargeBag,2, ',', ' ');?><br />Is alleen van toepassing als per koffer wordt gerekend</td>
             </tr>
             
                    <tr>
@@ -240,7 +240,7 @@ else
                 <td>
                 Maximale waarde afgifte:
                 </td>
-                <td>€
+                <td>&euro;
                 <?php echo number_format($airline->classes[$_GET["class"]]->MaxDeclarationOfValue,2, ',', ' ');?>
                 </td>
                     <?php }?>
