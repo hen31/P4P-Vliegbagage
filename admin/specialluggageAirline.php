@@ -62,11 +62,23 @@ if (!empty($_SERVER["QUERY_STRING"])) {
             } ?>" />
   <label for="airlineName">Luchtvaartmaatschappij:</label>
   <br />
-  <input name="airlineName" id="airlineName" value="<?php if (isset($_GET["airlineName"])) {
-                echo ($_GET["airlineName"]);
-            } else {
-                echo null;
-            } ?>"/>
+  <select name="airlineName" id="airlineName">
+            <?php
+            $airs = airline::get_airlines();
+            foreach($airs as $air)
+            {
+                
+                if (isset($_GET["airlineName"]) && $_GET["airlineName"] == $air->name)
+                {
+                              echo '<option selected="true">' . $air->name . '</option>';
+                    
+                }
+                else
+                {
+                echo '<option>' . $air->name . '</option>';
+            }
+            }?>
+            </select>
   <input type="submit" value="Selecteer" />
 </form>
 <?php
