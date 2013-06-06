@@ -58,7 +58,7 @@ if (!empty($_SERVER["QUERY_STRING"])) {
             if (isset($_GET["airlineName"])) {
                 //Check if airline exists in database. - Wim
                 if (!airline::get_airline_by_name($_GET["airlineName"])) {
-                    $message = '<script type="text/javascript"> window.alert("De door u ingevoerde luchtvaartmaatschappij bestaat niet. Probeer het opnieuw alstublieft.")</script>';
+                    $airlineMessage = "De door u ingevoerde luchtvaartmaatschappij bestaat niet. Probeer het opnieuw alstublieft.";
                 } else {
                     $valid = true;
                 }
@@ -89,6 +89,11 @@ if (!empty($_SERVER["QUERY_STRING"])) {
   <input type="submit" value="Selecteer" />
 </form>
 <?php
+            if (isset($airlineMessage)) {
+                echo ("<p class='error'>" . $airlineMessage . "</p>");
+            } else {
+                echo ("<br>");
+            }
         }
         if ($_GET["action"] == "add") {
             if (isset($_POST["checkPostedAdd"]) && $valid == true) {
@@ -111,11 +116,11 @@ if (!empty($_SERVER["QUERY_STRING"])) {
                             session_start();
                             $_SESSION["linkedSpecialLuggage"] = true;
                         } else {
-                            $message = '<script type="text/javascript"> window.alert("Een opmerking mag maximaal 1000 tekens bevatten.")</script>';
+                            $selectMessage = "<p class='error'> Een opmerking mag maximaal 1000 tekens bevatten.";
                         }
                     }
                 } else {
-                    $message = '<script type="text/javascript"> window.alert("Er is geen speciale bagage geselecteerd. Probeer het opnieuw alstublieft.")</script>';
+                    $selectMessage = "<p class='error'> Er is geen speciale bagage geselecteerd. Probeer het opnieuw alstublieft.";
                 }
             }
 
@@ -126,7 +131,6 @@ if (!empty($_SERVER["QUERY_STRING"])) {
                 exit;
             }
 ?>
-<br />
 <form action="specialluggageAirline.php?action=add&airlineName=<?php echo $_GET["airlineName"] ?>" method="post">
   <label for="selectedSpecialLuggage">Speciale bagage:</label>
   <br />
@@ -174,7 +178,7 @@ if (!empty($_SERVER["QUERY_STRING"])) {
                         session_start();
                         $_SESSION["removedSpecialLuggage"] = true;
                     } else {
-                        $message = '<script type="text/javascript"> window.alert("Er is geen speciale bagage geselecteerd. Probeer het opnieuw alstublieft.")</script>';
+                        $linkMessage = "Er is geen speciale bagage geselecteerd. Probeer het opnieuw alstublieft.";
                     }
                 }
                 if ($_POST["submitChangeRemove"] == "Wijzigen") {
@@ -185,12 +189,12 @@ if (!empty($_SERVER["QUERY_STRING"])) {
                             $result = SpecialLuggage::GetSpecialLuggageName($_POST["linkedSpecialLuggage"]);
                             SpecialLuggage::EditAirlineNotes($result->specialluggage_id, airline::
                                 get_airline_by_name($_GET["airlineName"])->airline_id, $_POST["linkedSpecialLuggageNotes"]);
-                                 $message = '<script type="text/javascript"> window.alert("Wijziging is met succes doorgevoerd.")</script>';
+                            $linkMessage = "<p class='good'>Wijziging is met succes doorgevoerd.";
                         } else {
-                            $message = '<script type="text/javascript"> window.alert("Wijziging niet opgeslagen: een opmerking mag maximaal 1000 tekens bevatten.")</script>';
+                            $linkMessage = "<p class='error'>Wijziging niet opgeslagen: een opmerking mag maximaal 1000 tekens bevatten.";
                         }
                     } else {
-                        $message = '<script type="text/javascript"> window.alert("Er is geen speciale bagage geselecteerd. Probeer het opnieuw alstublieft.")</script>';
+                        $linkMessage = "<p class='error'>Er is geen speciale bagage geselecteerd. Probeer het opnieuw alstublieft.";
                     }
                 }
             }
@@ -250,20 +254,22 @@ if (!empty($_SERVER["QUERY_STRING"])) {
         }
     }
 }
-require_once ("onderkant.php");
-?>
-<?php
-
-//Show messages to inform the user when needed. - Wim
-if (isset($message)) {
-    echo $message;
-}
 if (isset($_SESSION["linkedSpecialLuggage"]) && $_SESSION["linkedSpecialLuggage"] == true) {
     $_SESSION["linkedSpecialLuggage"] = false;
-    echo '<script type="text/javascript"> window.alert("Speciale bagage is met succes toegevoegd.")</script>';
+    echo ("<p class='good'>Speciale bagage is met succes gekoppeld.</p>");
 }
 if (isset($_SESSION["removedSpecialLuggage"]) && $_SESSION["removedSpecialLuggage"] == true) {
     $_SESSION["removedSpecialLuggage"] = false;
-    echo '<script type="text/javascript"> window.alert("Speciale bagage is met succes ontkoppeld.")</script>';
+    echo ("<p class='good'>Speciale bagage is met succes ontkoppeld.</p>");
 }
+
+//Show messages to inform the user when needed. - Wim
+if (isset($selectMessage)) {
+    echo ("<p class='error'>" . $selectMessage . "</p>");
+}
+if (isset($linkMessage)) {
+    echo ($linkMessage . "</p>");
+}
+
+require_once ("onderkant.php");
 ?>

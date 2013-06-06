@@ -16,21 +16,21 @@ if (!empty($_SERVER["QUERY_STRING"])) {
 if ((isset($_POST["checkPostedAdd"]))) {
     //Check if starting point and ending point arre the same. - Wim
     if (($_POST["startingPoint"] == $_POST["endingPoint"])) {
-        $message = '<script type="text/javascript"> window.alert("Beginpunt en eindpunt mogen niet gelijk zijn.")</script>';
+        $addedMessage = "Beginpunt en eindpunt mogen niet gelijk zijn.";
     }
     //Check if starting point and ending point are set. - Wim
     if (!($_POST["startingPoint"] == $_POST["endingPoint"])) {
         if ((!$_POST["startingPoint"] || !$_POST["endingPoint"])) {
-            $message = '<script type="text/javascript"> window.alert("Beginpunt en eindpunt mogen niet leeg zijn.")</script>';
+            $addedMessage = "Beginpunt en eindpunt mogen niet leeg zijn.";
         } else {
             //Check if starting point and endeing point exists. - Wim
             if (!airports::GetAirportByName($_POST["startingPoint"]) || !airports::
                 GetAirportByName($_POST["endingPoint"])) {
-                $message = '<script type="text/javascript"> window.alert("Het door u ingevoerde beginpunt of eindpunt bestaat niet. Probeer het opnieuw alstublieft.")</script>';
+                $addedMessage = "Het door u ingevoerde beginpunt of eindpunt bestaat niet. Probeer het opnieuw alstublieft.";
             } else {
                 //Check if traject already exists in database. - Wim
                 if (trajecten::check_traject_exist($_POST["startingPoint"], $_POST["endingPoint"])) {
-                    $message = '<script type="text/javascript"> window.alert("Het door u ingevoerde traject bestaat al. Probeer het opnieuw alstublieft.")</script>';
+                    $addedMessage = "Het door u ingevoerde traject bestaat al. Probeer het opnieuw alstublieft.";
                 } else {
                     //Add traject to database. - Wim
                     trajecten::add_traject($_POST["startingPoint"], $_POST["endingPoint"]);
@@ -42,7 +42,6 @@ if ((isset($_POST["checkPostedAdd"]))) {
         }
     }
 }
-
 //Clear POST. - Wim
 if (isset($added) && $added == true) {
     $added = false;
@@ -105,7 +104,22 @@ for ($i = 0; $i < count($airports); $i++) {
   <input id="submit" type="submit" value="Toevoegen" />
   <input type="hidden" name="checkPostedAdd" value="yes" />
 </form>
-<br />
+<?php //Show messages to inform the user when needed. - Wim
+
+if (isset($addedMessage)) {
+    echo ('<p class="error">' . $addedMessage . '</p>');
+    $showBlank = true;
+}
+if (isset($_SESSION["added"]) && $_SESSION["added"] == true) {
+    $_SESSION["added"] = false;
+    echo ('<p class="good">Traject is met succes toegevoegd.</p>');
+    $showBlank = true;
+}
+if(!isset($showBlank)){
+    echo("<br>");
+}
+?>
+
 <h1>Aanwezige trajecten</h1>
 <p>In onderstaande tabel ziet u een overzicht van de trajecten die momenteel aanwezig zijn in de database. Indien gewenst kunt u een filter instellen om specifieke trajecten weer te geven.</p>
 <input style="float:left;" type="button" onclick="return expand('Filter')" value="Filterinstellingen"/>
@@ -154,8 +168,6 @@ for ($i = 0; $i < count($airports); $i++) {
     <input id="submit" type="submit" value="Filter" />
   </form>
 </div>
-<br />
-<table id="trajectentable" border="0">
   <?php
 
 $startAirportId = null;
@@ -178,36 +190,50 @@ if (!empty($_SERVER["QUERY_STRING"])) {
     if (isset($_GET["filterStartingPoint"]) || isset($_GET["filterEndingPoint"])) {
 
         //Determine what the user selected for filtering and apply the filter. - Wim
-        if (airports::GetAirportByName($_GET["filterStartingPoint"]) || airports::
-            GetAirportByName($_GET["filterEndingPoint"])) {
+        $filter = true;
+        $id = 0;
+        $begin = $id;
+        $end = ($begin + 10);
 
-            $filter = true;
-            $id = 0;
-            $begin = $id;
-            $end = ($begin + 10);
-
+        if (isset($_GET["filterStartingPoint"])) {
             if (!empty($_GET["filterStartingPoint"])) {
-                $startAirportName = airports::GetAirportByName($_GET["filterStartingPoint"]);
-                $startAirportId = $startAirportName->AirportID;
-            }
-
-            if (!empty($_GET["filterEndingPoint"])) {
-                $stopAirportName = airports::GetAirportByName($_GET["filterEndingPoint"]);
-                $stopAirportId = $stopAirportName->AirportID;
-            }
-            if (!empty($_SERVER["QUERY_STRING"])) {
-                if (isset($_GET["pageId"])) {
-                    $id = $_GET["pageId"];
-                    $begin = $_GET["pageId"] * 10;
-                    $end = ($begin + 10);
+                if (airports::GetAirportByName($_GET["filterStartingPoint"])) {
+                    $startAirportName = airports::GetAirportByName($_GET["filterStartingPoint"]);
+                    $startAirportId = $startAirportName->AirportID;
+                } else {
+                    $filterMessage = "Het door u ingevoerde beginpunt bestaat niet. Probeer het opnieuw alstublieft.";
                 }
-                $result = trajecten::get_all_trajecten($begin, $startAirportId, $stopAirportId);
             }
-        } else {
-            $message = '<script type="text/javascript"> window.alert("Het door u ingevoerde beginpunt of eindpunt bestaat niet. Probeer het opnieuw alstublieft.")</script>';
+        }
+
+        if (isset($_GET["filterEndingPoint"])) {
+            if (!empty($_GET["filterEndingPoint"])) {
+                if (airports::GetAirportByName($_GET["filterEndingPoint"])) {
+                    $stopAirportName = airports::GetAirportByName($_GET["filterEndingPoint"]);
+                    $stopAirportId = $stopAirportName->AirportID;
+                } else {
+                    $filterMessage = "Het door u ingevoerde eindpunt bestaat niet. Probeer het opnieuw alstublieft.";
+                }
+            }
+        }
+        if (!empty($_SERVER["QUERY_STRING"])) {
+            if (isset($_GET["pageId"])) {
+                $id = $_GET["pageId"];
+                $begin = $_GET["pageId"] * 10;
+                $end = ($begin + 10);
+            }
+            $result = trajecten::get_all_trajecten($begin, $startAirportId, $stopAirportId);
         }
     }
 }
+if (isset($filterMessage)) {
+    echo ('<p class="error">' . $filterMessage . '</p>');
+} else {
+    echo ("<br>");
+}
+?>
+<table id="trajectentable" border="0">
+<?php
 if (!$filter) {
     $result = trajecten::get_all_trajecten($begin, null, null);
 }
@@ -241,25 +267,44 @@ if (isset($result)) {
 <?php
 if ($idmin > 0 || $idmin == 0) {
 ?>
-<a href="trajecten.php?pageId=<?php echo $idmin ?>">Vorige</a>
+<a href="trajecten.php<?php if (isset($_GET["filterStartingPoint"]) && isset($_GET["filterEndingPoint"])) {
+        echo ("?filterStartingPoint=" . $_GET["filterStartingPoint"] .
+            "&filterEndingPoint=" . $_GET["filterEndingPoint"] . "&pageId=" . $idmin);
+    }
+    if (isset($_GET["filterStartingPoint"]) && !isset($_GET["filterEndingPoint"])) {
+
+        echo ("?filterStartingPoint=" . $_GET["filterStartingPoint"] .
+            "&filterEndingPoint=&pageId=" . $idmin);
+    }
+    if (!isset($_GET["filterStartingPoint"]) && isset($_GET["filterEndingPoint"])) {
+        echo ("?filterStartingPoint=&filterEndingPoint=" . $_GET["filterEndingPoint"] .
+            "&pageId=" . $idmin);
+    }
+    if (!isset($_GET["filterStartingPoint"]) && !isset($_GET["filterEndingPoint"])) {
+        echo ("?pageId=" . $idmin);
+    } ?>">Vorige</a>
 <?php
 }
 
 if (($idplus * 10) < trajecten::get_traject_amount($startAirportId, $stopAirportId)) {
 ?>
-<a href="trajecten.php?pageId=<?php echo $idplus ?>">Volgende</a>
+<a href="trajecten.php<?php if (isset($_GET["filterStartingPoint"]) && isset($_GET["filterEndingPoint"])) {
+        echo ("?filterStartingPoint=" . $_GET["filterStartingPoint"] .
+            "&filterEndingPoint=" . $_GET["filterEndingPoint"] . "&pageId=" . $idplus);
+    }
+    if (isset($_GET["filterStartingPoint"]) && !isset($_GET["filterEndingPoint"])) {
+
+        echo ("?filterStartingPoint=" . $_GET["filterStartingPoint"] .
+            "&filterEndingPoint=&pageId=" . $idplus);
+    }
+    if (!isset($_GET["filterStartingPoint"]) && isset($_GET["filterEndingPoint"])) {
+        echo ("?filterStartingPoint=&filterEndingPoint=" . $_GET["filterEndingPoint"] .
+            "&pageId=" . $idplus);
+    }
+    if (!isset($_GET["filterStartingPoint"]) && !isset($_GET["filterEndingPoint"])) {
+        echo ("?pageId=" . $idplus);
+    } ?>">Volgende</a>
 <?php
 }
 require_once ("onderkant.php");
-?>
-<?php
-
-//Show messages to inform the user when needed. - Wim
-if (isset($message)) {
-    echo $message;
-}
-if (isset($_SESSION["added"]) && $_SESSION["added"] == true) {
-    $_SESSION["added"] = false;
-    echo '<script type="text/javascript"> window.alert("Traject is met succes toegevoegd.")</script>';
-}
 ?>
