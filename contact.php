@@ -48,9 +48,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <form action="contact.php" method="post">
             <?php echo (isset($error["base"]) ? $error["base"] : ""); ?>
             Naam:<br /><input type="text" name="naam" value="<?php echo (isset($_POST["naam"]) ? htmlspecialchars($_POST["naam"]) : ""); ?>" /><br />
-            E-mail: <?php echo (isset($error["mail"]) ? $error["mail"] : ""); ?><br /><input type="email" name="mail" value="<?php echo (isset($_POST["mail"]) ? htmlspecialchars($_POST["mail"]) : ""); ?>"/><br />
+            Uw emailadres: <?php echo (isset($error["mail"]) ? $error["mail"] : ""); ?><br /><input type="email" name="mail" value="<?php echo (isset($_POST["mail"]) ? htmlspecialchars($_POST["mail"]) : ""); ?>"/><br />
             Onderwerp:<br /><input type="text" name="onderwerp" value="<?php echo (isset($_POST["onderwerp"]) ? htmlspecialchars($_POST["onderwerp"]) : ""); ?>" /><br />
-            Bericht: <?php echo (isset($error["bericht"]) ? $error["bericht"] : ""); ?><br /><textarea name="bericht" rows="10" cols="30"><?php echo (isset($_POST["bericht"]) ? htmlspecialchars($_POST["bericht"]) : ""); ?></textarea>
+            Uw vraag: <?php echo (isset($error["bericht"]) ? $error["bericht"] : ""); ?><br /><textarea name="bericht" rows="10" cols="30"><?php echo (isset($_POST["bericht"]) ? htmlspecialchars($_POST["bericht"]) : ""); ?></textarea>
             <br /><br />
             <img src="captcha/captcha.php" alt="Code"/><br />
             Vul de bovenstaande code in: <?php echo (isset($error["code"]) ? $error["code"] : "") ?><br />
