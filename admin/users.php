@@ -22,9 +22,16 @@ if (isset($_POST['editUsername'])) {
     if (!empty($_SESSION['user_id'])) {
         if (!empty($_POST['newUser'])) {
             if (!user::UsernameExists($_POST['newUser'])) {
+                if(trim($_POST['newUser']) == '')
+                {
+                   $text1 = 'Gebruikersnaam mag niet uit alleen spaties bestaan'; 
+                }
+                else
+                {
                 $changeCheck = user::changeUser($_SESSION['user_id'], $_POST['newUser'], null);
                 unset($_SESSION['user_id']);
                 $text1 = 'Gebruikersnaam gewijzigd';
+                }
             } else {
                 $text1 = 'Nieuwe gebruikersnaam bestaat al';
             }
@@ -99,8 +106,15 @@ if (isset($_GET["action"])) {
                 if (!user::UsernameExists($_POST['username'])) {
                     if ($_POST['password'] == $_POST['passControle']) {
                         if (!empty($_POST['username']) && !empty($_POST['password'])) {
-                            $addedCheck;
+                            if(trim($_POST['username']) == '')
+                            {
+                                     $text2 = 'Gebruikersnaam mag niet uit alleen spaties bestaan.';
+                            }
+                            else
+                            {     
+                                $addedCheck;
                             $addedCheck = $user = user::createUser($_POST["username"], $_POST["password"]);
+                            }
                         } else {
 
                         }
