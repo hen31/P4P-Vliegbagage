@@ -1059,7 +1059,7 @@ if(isset($_GET["airline_name"]) || isset($_GET["airline_id"])){
     <h1 style="margin-left: 20px;">Vliegmaatschappij beheren</h1><br />
     <?php 
     if(isset($succes_airline) && $succes_airline){
-        echo "<strong>Vliegmaatschappij succesvol bijgewerkt.</strong>";
+        echo '<strong style="margin-left: 20px;">Vliegmaatschappij succesvol bijgewerkt.</strong>';
     }
     ?>
     <form action="airline.php?action=edit&airline_id=<?php echo htmlspecialchars($edit_airline->airline_id); ?>" method="post" class="form" enctype="multipart/form-data">
