@@ -227,6 +227,9 @@ form {margin-left:15px;}
     width:100%;
 }
 
-#error{
+.error{
     color: red;
+}
+.good{
+    color: green;
 }
