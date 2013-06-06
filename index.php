@@ -234,7 +234,7 @@ if (isset($results))
 
 ?>
                         <p>
-                        Er zijn Vliegtuigmaatschapijen die aan deze voorwaarden voldoen.
+                        Er zijn geen luchtvaartmaatschapijen die aan deze voorwaarden voldoen.
                         </p>
                         <?php
 
@@ -270,7 +270,7 @@ jQuery("#list4").jqGrid({
     onSelectRow: function (id) {
         var selr = jQuery('#list4').jqGrid('getGridParam', 'selrow')
 var kelr = jQuery('#list4').jqGrid('getCell', selr, 'name');
-        popitup("details.php?name=" + kelr, kelr);
+        popitup("Details.php?name=" + kelr, kelr);
 }
 });
 function popitup(url, kerl) {
@@ -333,26 +333,36 @@ if (isset($results) && count($results) > 0)
                 {
                     $airline->classes[0]->MaxWeightHL = 'NVT';
                 }
+                else
+                {
+                    $airline->classes[0]->MaxWeightHL .= 'kg';
+                }
+                
                  if($airline->classes[0]->
                 pcsLuggage  ==0)
                 {
                     $airline->classes[0]->
                 pcsLuggage = 'NVT';
                 }
+                
                 if($airline->classes[0]->maxWeightLuggage == 0)
                 {
                     $airline->classes[0]->maxWeightLuggage = 'NVT';
                 }
+                else
+                {
+                    $airline->classes[0]->maxWeightLuggage .= 'kg';
+                }
         if (count($results) - 1 == $s)
         {
             $dataString = '{logo:"<img style=\"width:100px;height:100px;\" src=\"images/airlines/' . $airline->logo . '\"/>",name:"' .htmlspecialchars( $airline->name) . '",' .
-                'GwGrts:"' . $airline->classes[0]->maxWeightLuggage . 'kg",Afmeting:"' . $afmetingen. '",Apcs:"' . $airline->classes[0]->
-                pcsLuggage . '",Gwhl:"' . $airline->classes[0]->MaxWeightHL . 'kg",AfmetingHL:"'.$afmetingenHL .'"}';
+                'GwGrts:"' . $airline->classes[0]->maxWeightLuggage . '",Afmeting:"' . $afmetingen. '",Apcs:"' . $airline->classes[0]->
+                pcsLuggage . '",Gwhl:"' . $airline->classes[0]->MaxWeightHL . '",AfmetingHL:"'.$afmetingenHL .'"}';
         } else
         {
              $dataString = '{logo:"<img style=\"width:100px;height:100px;\" src=\"images/airlines/' . $airline->logo . '\"/>",name:"' . htmlspecialchars($airline->name) . '",' .
-                'GwGrts:"' . $airline->classes[0]->maxWeightLuggage . 'kg",Afmeting:"' . $afmetingen. '",Apcs:"' . $airline->classes[0]->
-                pcsLuggage . '",Gwhl:"' . $airline->classes[0]->MaxWeightHL . 'kg",AfmetingHL:"'.$afmetingenHL .'"},';
+                'GwGrts:"' . $airline->classes[0]->maxWeightLuggage . '",Afmeting:"' . $afmetingen. '",Apcs:"' . $airline->classes[0]->
+                pcsLuggage . '",Gwhl:"' . $airline->classes[0]->MaxWeightHL . '",AfmetingHL:"'.$afmetingenHL .'"},';
         }
         echo  $dataString;
     }

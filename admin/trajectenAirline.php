@@ -121,14 +121,29 @@ if (isset($traject) == false)
 <?php    if (isset($_SESSION["traject"])){?>
 <form action="trajectenAirline.php" method="get">
   <label for="AirlineName">Vliegmaatschapij:</label>: </label>
-<input name="AirlineName" id="AirlineName" value="<?php
-//vorige ingevulde waarde terugzetten
-if (isset($_GET["AirlineName"])&& !isset($added))
+<select name="AirlineName" id="AirlineName">
+<?php
+$airlines = airline::get_airlines();
+for ($i = 0; $i < count($airlines); $i++)
 {
-    echo htmlspecialchars($_GET["AirlineName"]);
+   if (isset($_GET["AirlineName"])&& !isset($added) &&$_GET["AirlineName"]==$airlines[$i]->name )
+{
+    echo '<option selected="true">' . htmlspecialchars($_GET["AirlineName"]) . '</option>';
+}
+else
+    {
+      echo  '<option>'.  $airlines[$i]->name  . '</option>';
+    }
 }
 
-?>"  />
+?>
+//vorige ingevulde waarde terugzetten
+
+
+?>
+
+
+</select> 
 <label for="Zone">Zone:</label>
 <select id="Zone" name="Zone">
 <option value="1">1</option>
@@ -173,32 +188,7 @@ if (isset($traject) && isset($airlinesList))
 <script src="../js/grid.locale-nl.js" type="text/javascript"></script>
 <script src="../js/jquery.jqGrid.min.js" type="text/javascript"></script>
 <script src="../js/javascript.js"></script>
-<script type="text/javascript">
-  $(function() {
-    
-    var availableairlines = [
-    <?php
-//typeahead klaar zetten
-$airlines = airline::get_airlines();
-for ($i = 0; $i < count($airlines); $i++)
-{
-    if ($i == count($airlines) - 1)
-    {
 
-        echo '"' . $airlines[$i]->name . '"';
-    } else
-    {
-        echo '"' . $airlines[$i]->name . '"' . ",";
-    }
-}
-
-?>
-    ];
-        $( "#AirlineName" ).autocomplete({
-      source: availableairlines
-    });
-  });
-  </script>
   
 <?php
 
