@@ -75,15 +75,15 @@ function set_selected($post, $postindex, $value, $succes_var){
 
 /**
  * set_selected_on_set()
- * Functie die wordt gebruikt om bij een select een waarde te selecteren
- * @param mixed $post
- * @param mixed $postindex
- * @param mixed $value
- * @param mixed $succes_var
- * @param mixed $obValues
- * @param mixed $object
- * @param mixed $not
- * @return
+ * Functie die wordt gebruikt om bij een select een waarde te selecteren, als de post waarde niet isset dan wordt de waarde uit het object geselecteerd
+ * @param array $post De $_GET of $_POST variabele
+ * @param string $postindex Naam van de index in de post array
+ * @param string $value De waarde die de post array met index moet hebben om selected te zijn
+ * @param bool $succes_var Succes variabele
+ * @param array $obValues Waarden in het object die gechecked moeten worden
+ * @param object $object Object die gecontroleerd wordt
+ * @param array $not Waarden die NIET geset moeten zijn
+ * @return Html attribute die een <option> selecteerd
  */
 function set_selected_on_set($post, $postindex, $value, $succes_var, $obValues, $object, $not = null){
     if(!$succes_var && isset($post[$postindex]) && $post[$postindex] == $value){
@@ -109,15 +109,15 @@ function set_selected_on_set($post, $postindex, $value, $succes_var, $obValues, 
 
 /**
  * set_selected_tf()
- * 
- * @param mixed $post
- * @param mixed $postindex
- * @param mixed $value
- * @param mixed $succes_var
- * @param mixed $object
- * @param mixed $property
- * @param mixed $obvalue
- * @return
+ * Functie die wordt gebruikt om bij een select een waarde te selecteren, als de post waarde niet isset dan wordt gekeken of een property uit een object voldoet aan de obvalue
+ * @param array $post De $_GET of $_POST variabele
+ * @param string $postindex Index uit de post array
+ * @param string $value De waarde die de post array met index moet hebben om selected te zijn
+ * @param bool $succes_var Succes variabele
+ * @param object $object Object die gecontroleerd wordt
+ * @param string $property Property uit het object die gechecked wordt
+ * @param string $obvalue Value die de property uit het object moet hebben
+ * @return Html attribute die een <option> selecteerd
  */
 function set_selected_tf($post, $postindex, $value, $succes_var, $object, $property, $obvalue){
     if(!$succes_var && isset($post[$postindex]) && $post[$postindex] == $value){
@@ -569,7 +569,7 @@ elseif($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["act"]) && $_POST["a
             <a<?php echo (isset($_GET["action"]) && $_GET["action"] == "add" ?' class="active"' : "") ?> href="airline.php?action=add">Toevoegen</a>
         </li>
         <li>
-            <a<?php echo ((isset($_GET["action"]) && $_GET["action"] == "edit") || (isset($_GET["action"]) && $_GET["action"]) == "del" ?' class="active"' : "") ?> href="airline.php?action=edit">Beheren</a>
+            <a<?php echo ((isset($_GET["action"]) && $_GET["action"] == "edit") || (isset($_GET["action"]) && $_GET["action"] == "del") ? ' class="active"' : "") ?> href="airline.php?action=edit">Beheren</a>
         </li>
     </ul>
 </div>
@@ -827,6 +827,17 @@ elseif($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["act"]) && $_POST["a
     $(".class_edit").change(function(){
         $("#class_form").submit();
     });
+    
+    $("#airline_id_select").change(function(){
+        var option = $("#airline_id_select option:selected").val();
+        if(typeof option != 'undefined'){
+            alert(option);
+            $("#airline_select_box").submit();
+        }
+    });
+   
+   
+    
   });
   
   $(function() {
@@ -854,6 +865,7 @@ elseif($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["act"]) && $_POST["a
     $("#koffers").append('<label>Kosten extra koffer ' +(koffer_num+2) +'</label><input type="text" name="ChargeExtraBag[' +(koffer_num+1) +']" />');
     return false;
   }
+  
   </script>
 
 <?php
@@ -995,6 +1007,21 @@ elseif (isset($_GET["action"]) && $_GET["action"] == "edit") {
                                                                                         } ?> />
     <input type="hidden" name="action" value="edit" />
     <input type="submit" value="Beheren" />
+</form>
+
+<form action="airline.php" method="get" style="text-align: center;" id="airline_select_box">
+    <input type="hidden" name="action" value="edit" />
+    <select name="airline_id" id="airline_id_select" multiple="true" style="width: 300px;">
+    <?php
+    $airlines = airline::get_airlines();
+    if(count($airlines) > 0){
+        foreach($airlines as $airline){
+            echo '<option value="' .$airline->airline_id .'">' .htmlspecialchars($airline->name) .'</option>';
+        }
+    }
+    ?>
+
+    </select>
 </form>
 
 <?php
