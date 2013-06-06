@@ -23,7 +23,7 @@ $background = imagecolorallocate($im, 240, 240, 240);
 
 imagefilledrectangle($im, 0, 0, 300, 60, $background);
 
-$font = 'font.ttf';
+$font = dirname(__FILE__) .'/font.ttf';
 
 imagettftext($im, 35, 0, 0, 40, $grey, $font, $randomnr);
 
