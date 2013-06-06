@@ -53,7 +53,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             Bericht: <?php echo (isset($error["bericht"]) ? $error["bericht"] : ""); ?><br /><textarea name="bericht" rows="10" cols="30"><?php echo (isset($_POST["bericht"]) ? htmlspecialchars($_POST["bericht"]) : ""); ?></textarea>
             <br /><br />
             <img src="captcha/captcha.php" alt="Code"/><br />
-            Code: <?php echo (isset($error["code"]) ? $error["code"] : "") ?><br />
+            Vul de bovenstaande code in: <?php echo (isset($error["code"]) ? $error["code"] : "") ?><br />
             <input type="text" name="code" /><br /><br />
             <input type="submit" value="Verzenden" />
             

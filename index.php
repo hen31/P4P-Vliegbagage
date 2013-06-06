@@ -345,12 +345,12 @@ if (isset($results) && count($results) > 0)
                 }
         if (count($results) - 1 == $s)
         {
-            $dataString = '{logo:"<img style=\"width:100px;height:100px;\" src=\"images/airlines/' . $airline->logo . '\"/>",name:"' . $airline->name . '",' .
+            $dataString = '{logo:"<img style=\"width:100px;height:100px;\" src=\"images/airlines/' . $airline->logo . '\"/>",name:"' .htmlspecialchars( $airline->name) . '",' .
                 'GwGrts:"' . $airline->classes[0]->maxWeightLuggage . 'kg",Afmeting:"' . $afmetingen. '",Apcs:"' . $airline->classes[0]->
                 pcsLuggage . '",Gwhl:"' . $airline->classes[0]->MaxWeightHL . 'kg",AfmetingHL:"'.$afmetingenHL .'"}';
         } else
         {
-             $dataString = '{logo:"<img style=\"width:100px;height:100px;\" src=\"images/airlines/' . $airline->logo . '\"/>",name:"' . $airline->name . '",' .
+             $dataString = '{logo:"<img style=\"width:100px;height:100px;\" src=\"images/airlines/' . $airline->logo . '\"/>",name:"' . htmlspecialchars($airline->name) . '",' .
                 'GwGrts:"' . $airline->classes[0]->maxWeightLuggage . 'kg",Afmeting:"' . $afmetingen. '",Apcs:"' . $airline->classes[0]->
                 pcsLuggage . '",Gwhl:"' . $airline->classes[0]->MaxWeightHL . 'kg",AfmetingHL:"'.$afmetingenHL .'"},';
         }
