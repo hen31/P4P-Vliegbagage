@@ -112,7 +112,7 @@ for ($i = 0; $i < count($airports); $i++)
 
 if (isset($traject) == false)
 {
-    echo 'Er is geen traject tussen deze vliegvelden.<br/>U kunt deze <a href="trajecten.php">hier toevoegen.</a>';
+    echo '<p>Er is geen traject tussen deze vliegvelden.<br/>U kunt deze <a href="trajecten.php">hier toevoegen.</a></p>';
 }
 
 ?>
