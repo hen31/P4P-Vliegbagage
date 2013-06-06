@@ -1,4 +1,9 @@
 <?php
+/**
+ * @author  Robert de Jong
+ * @copyright 21-5-2013
+ */
+ 
 //Alle data classes includen
 require_once ("../data/includeAll.php");
 $titel = "Vliegmaatschappijen";
@@ -9,17 +14,41 @@ $succes_class = false;
 $edit_succes = false;
 $error = null;
 
+/**
+ * display_error()
+ * Functie die kijkt of er een error is geset voor de gegeven index name.
+ * @param array $error Array die alle errors bevat per veld
+ * @param string $indexname Naam van de index in de errors array
+ * @return Html error string
+ */
 function display_error($error, $indexname){
     if(isset($error[$indexname])){
-        return '<span style="color:red;">' .$error[$indexname] ."</span>";
+        return '<span class="error">' .$error[$indexname] ."</span>";
     }
 }
+/**
+ * add_value()
+ * Functie die een value attribute geeft met een waarde uit een $_POST of $_GET array
+ * @param array $post De $_GET of $_POST variabele
+ * @param string $postindex Naam van de index in de post array
+ * @param bool $succes_var Succes variabele
+ * @return Html value attribute met de waarde uit de post array
+ */
 function add_value($post, $postindex, $succes_var){
     if(!$succes_var && isset($post[$postindex])){
         return 'value="' .htmlspecialchars($post[$postindex]) .'"';
     }
 }
 
+/**
+ * add_existing_value()
+ * Functie die een bestaande waarde als value attribute geeft, tenzij de post variabele bestaat dan wordt die terug gegeven
+ * @param string $value Bestaande waarde
+ * @param array $post $_GET of $_POST array
+ * @param string $postindex De index van de post array
+ * @param bool $succes_var Succes variabele
+ * @return Html attribute met de waarde van $value tenzij de post waarde isset
+ */
 function add_existing_value($value, $post, $postindex, $succes_var){
     if(isset($post[$postindex]) && !$succes_var){
         return 'value="' .htmlspecialchars($post[$postindex]) .'"';
@@ -29,12 +58,33 @@ function add_existing_value($value, $post, $postindex, $succes_var){
     }
 }
 
+/**
+ * set_selected()
+ * Functie die wordt gebruikt om bij een select een waarde te selecteren
+ * @param array $post De $_GET of $_POST variabele
+ * @param string $postindex Naam van de index in de post array
+ * @param string $value De waarde die de post array met index moet hebben om selected te zijn
+ * @param bool $succes_var Succes variabele
+ * @return Html attribute die een <option> selecteerd
+ */
 function set_selected($post, $postindex, $value, $succes_var){
     if(!$succes_var && isset($post[$postindex]) && $post[$postindex] == $value){
         return 'selected="true"';
     }
 }
 
+/**
+ * set_selected_on_set()
+ * Functie die wordt gebruikt om bij een select een waarde te selecteren
+ * @param mixed $post
+ * @param mixed $postindex
+ * @param mixed $value
+ * @param mixed $succes_var
+ * @param mixed $obValues
+ * @param mixed $object
+ * @param mixed $not
+ * @return
+ */
 function set_selected_on_set($post, $postindex, $value, $succes_var, $obValues, $object, $not = null){
     if(!$succes_var && isset($post[$postindex]) && $post[$postindex] == $value){
         return 'selected="true"';
@@ -57,6 +107,18 @@ function set_selected_on_set($post, $postindex, $value, $succes_var, $obValues, 
     }
 }
 
+/**
+ * set_selected_tf()
+ * 
+ * @param mixed $post
+ * @param mixed $postindex
+ * @param mixed $value
+ * @param mixed $succes_var
+ * @param mixed $object
+ * @param mixed $property
+ * @param mixed $obvalue
+ * @return
+ */
 function set_selected_tf($post, $postindex, $value, $succes_var, $object, $property, $obvalue){
     if(!$succes_var && isset($post[$postindex]) && $post[$postindex] == $value){
         return 'selected="true"';
@@ -103,13 +165,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["act"]) && $_POST["act"
         }
         
         if($_FILES["logo"]["error"] == 0){
-            $permitted = array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/png');
+            $permitted = array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/png', 'image/x-png', 'image/x-citrix-png', 'image/x-citrix-jpeg');
             if(in_array($_FILES["logo"]["type"], $permitted)){
                 $type = explode("/", $_FILES["logo"]["type"]);
                 $type = $type[1];
-                if($type == "pjpeg"){
-                    $type = "jpeg";
+                switch($type){
+                    case "pjpeg": $type = "jpeg";
+                    break;
+                    
+                    case "x-png": $type = "png";
+                    break;
+                    
+                    case "x-citrix-png": $type = "png";
+                    break;
+                    
+                    case "x-citrix-jpeg": $type = "jpeg";
+                    break;
                 }
+                
                 $name = time() ."." .$type;
                 move_uploaded_file($_FILES["logo"]["tmp_name"], "../images/airlines/" .$name);
             }
@@ -297,12 +370,22 @@ elseif($_SERVER["REQUEST_METHOD"] == "POST" && isset($_GET["action"]) && $_GET["
         }
         
         if($_FILES["logo"]["error"] == 0){
-            $permitted = array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/png');
+            $permitted = array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/png', 'image/x-png', 'image/x-citrix-png', 'image/x-citrix-jpeg');
             if(in_array($_FILES["logo"]["type"], $permitted)){
                 $type = explode("/", $_FILES["logo"]["type"]);
                 $type = $type[1];
-                if($type == "pjpeg"){
-                    $type = "jpeg";
+                switch($type){
+                    case "pjpeg": $type = "jpeg";
+                    break;
+                    
+                    case "x-png": $type = "png";
+                    break;
+                    
+                    case "x-citrix-png": $type = "png";
+                    break;
+                    
+                    case "x-citrix-jpeg": $type = "jpeg";
+                    break;
                 }
                 $name = time() ."." .$type;
                 move_uploaded_file($_FILES["logo"]["tmp_name"], "../images/airlines/" .$name);
