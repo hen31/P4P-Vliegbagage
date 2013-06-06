@@ -109,17 +109,15 @@ for ($i = 0; $i < count($airports); $i++) {
 if (isset($addedMessage)) {
     echo ('<p class="error">' . $addedMessage . '</p>');
     $showBlank = true;
-}
-else if (isset($_SESSION["added"]) && $_SESSION["added"] == true) {
-    $_SESSION["added"] = false;
-    echo ('<p class="good">Traject is met succes toegevoegd.</p>');
-    $showBlank = true;
-}
-else{
-    echo("<br>");
-}
+} else
+    if (isset($_SESSION["added"]) && $_SESSION["added"] == true) {
+        $_SESSION["added"] = false;
+        echo ('<p class="good">Traject is met succes toegevoegd.</p>');
+        $showBlank = true;
+    } else {
+        echo ("<br>");
+    }
 ?>
-
 <h1>Aanwezige trajecten</h1>
 <p>In onderstaande tabel ziet u een overzicht van de trajecten die momenteel aanwezig zijn in de database. Indien gewenst kunt u een filter instellen om specifieke trajecten weer te geven.</p>
 <input style="float:left;" type="button" onclick="return expand('Filter')" value="Filterinstellingen"/>
@@ -128,8 +126,8 @@ else{
 </form>
 <br />
 <div id="Filter" <?php if (!isset($_GET["filterStartingPoint"]) || !isset($_GET["filterEndingPoint"])) {
-    echo "style='display:none'";
-} ?> > <br />
+        echo "style='display:none'";
+    } ?> > <br />
   <form action="trajecten.php" method="get" >
     <label for="filterStartingPoint">Beginpunt: </label>
     <select name="filterStartingPoint" id="filterStartingPoint">
@@ -168,7 +166,7 @@ for ($i = 0; $i < count($airports); $i++) {
     <input id="submit" type="submit" value="Filter" />
   </form>
 </div>
-  <?php
+<?php
 
 $startAirportId = null;
 $stopAirportId = null;
@@ -233,7 +231,7 @@ if (isset($filterMessage)) {
 }
 ?>
 <table id="trajectentable" border="0">
-<?php
+  <?php
 if (!$filter) {
     $result = trajecten::get_all_trajecten($begin, null, null);
 }

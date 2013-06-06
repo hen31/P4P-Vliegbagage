@@ -2,26 +2,21 @@
 require_once ("../data/includeAll.php");
 $titel = "Speciale bagage koppelen";
 require_once ("bovenkant.php");
+$valid = false;
 ?>
 
 <div id="menu">
-    <ul>
-        <li>
-             <a <?php if (isset($_GET["action"]) && $_GET["action"] == "add") {
+  <ul>
+    <li> <a <?php if (isset($_GET["action"]) && $_GET["action"] == "add") {
     echo "class='active'";
-} ?> href="specialluggageAirline.php?action=add">Koppelen</a>
-        </li>
-        <li>
-            <a <?php if (isset($_GET["action"]) && $_GET["action"] == "edit") {
+} ?> href="specialluggageAirline.php?action=add">Koppelen</a> </li>
+    <li> <a <?php if (isset($_GET["action"]) && $_GET["action"] == "edit") {
     echo "class='active'";
-} ?> href="specialluggageAirline.php?action=edit">Beheren</a>
-        </li>
-        <li>
-        <a href="specialluggage.php">Speciale bagage toevoegen</a>
-        </li>
-    </ul>
- </div>
- <br />
+} ?> href="specialluggageAirline.php?action=edit">Beheren</a> </li>
+    <li> <a href="specialluggage.php">Speciale bagage toevoegen</a> </li>
+  </ul>
+</div>
+<br />
 <?php
 
 //Determine what mode is selected (add or edit). - Wim
@@ -50,7 +45,7 @@ if (!empty($_SERVER["QUERY_STRING"])) {
 <?php
 }
 ?>
-<form action="specialluggageAirline.php" method="get">
+<form name="specialLuggageAirlineForm" action="specialluggageAirline.php" method="get" >
   <?php
 if (!empty($_SERVER["QUERY_STRING"])) {
     if (isset($_GET["action"])) {
@@ -73,8 +68,9 @@ if (!empty($_SERVER["QUERY_STRING"])) {
             } ?>" />
   <label for="airlineName">Luchtvaartmaatschappij:</label>
   <br />
-  <select name="airlineName" id="airlineName">
-            <?php
+  <select name="airlineName" id="airlineName" onChange="document.specialLuggageAirlineForm.submit();">
+    <option value=""></option>
+    <?php
             $airs = airline::get_airlines();
             foreach ($airs as $air) {
 
@@ -85,8 +81,7 @@ if (!empty($_SERVER["QUERY_STRING"])) {
                     echo '<option>' . $air->name . '</option>';
                 }
             } ?>
-            </select>
-  <input type="submit" value="Selecteer" />
+  </select>
 </form>
 <?php
             if (isset($airlineMessage)) {
@@ -123,6 +118,9 @@ if (!empty($_SERVER["QUERY_STRING"])) {
                     $selectMessage = "<p class='error'> Er is geen speciale bagage geselecteerd. Probeer het opnieuw alstublieft.";
                 }
             }
+            if (isset($_POST["checkPostedAdd"]) && empty($_POST["selectedSpecialLuggage"])) {
+                $selectMessage = "<p class='error'> Er is geen speciale bagage geselecteerd. Probeer het opnieuw alstublieft.";
+            }
 
             //Clear POST. - Wim
             if (isset($linkedSpecialLuggage) && $linkedSpecialLuggage == true) {
@@ -131,10 +129,12 @@ if (!empty($_SERVER["QUERY_STRING"])) {
                 exit;
             }
 ?>
-<form action="specialluggageAirline.php?action=add&airlineName=<?php echo $_GET["airlineName"] ?>" method="post">
+<form action="specialluggageAirline.php?action=add&airlineName=<?php if ($valid) {
+                echo ($_GET["airlineName"]);
+            } ?>" method="post">
   <label for="selectedSpecialLuggage">Speciale bagage:</label>
   <br />
-  <select id="selectedSpecialLuggage" name="selectedSpecialLuggage" size="7" style="width:150px">
+  <select id="selectedSpecialLuggage" name="selectedSpecialLuggage" size="7" style="width:150px" >
     <?php
             if (isset($_GET["airlineName"])) {
 
@@ -178,7 +178,7 @@ if (!empty($_SERVER["QUERY_STRING"])) {
                         session_start();
                         $_SESSION["removedSpecialLuggage"] = true;
                     } else {
-                        $linkMessage = "Er is geen speciale bagage geselecteerd. Probeer het opnieuw alstublieft.";
+                        $linkMessage = "<p class='error'> Er is geen speciale bagage geselecteerd. Probeer het opnieuw alstublieft.";
                     }
                 }
                 if ($_POST["submitChangeRemove"] == "Wijzigen") {
@@ -206,9 +206,9 @@ if (!empty($_SERVER["QUERY_STRING"])) {
                 exit;
             }
 ?>
-<br />
-<form name="linkedSpecialLuggageForm" action="specialluggageAirline.php?action=edit&airlineName=<?php echo
-            $_GET["airlineName"] ?>" method="post">
+<form name="linkedSpecialLuggageForm" action="specialluggageAirline.php?action=edit&airlineName=<?php if ($valid) {
+                echo $_GET["airlineName"];
+            } ?>" method="post">
   <label for="linkedSpecialLuggage">Gekoppelde speciale bagage:</label>
   <br />
   <select id="linkedSpecialLuggage" name="linkedSpecialLuggage" size="7" style="width:150px" onChange="document.linkedSpecialLuggageForm.submit();">
