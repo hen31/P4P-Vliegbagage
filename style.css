@@ -226,3 +226,7 @@ form {margin-left:15px;}
 #trajectentable{
     width:100%;
 }
+
+#error{
+    color: red;
+}
