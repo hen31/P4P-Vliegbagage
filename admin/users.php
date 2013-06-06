@@ -1,6 +1,11 @@
 <?php
 //Alle data classes includen
 require_once ("../data/includeAll.php");
+/**
+ * @Auteur Matthé Jacobs
+ * @Datum 13-5-2013
+ * @uses in deze class zitten alle database code voor het maken, wijzigen en verwijderen.
+ */
 $text1 = ' ';
 $text2 = ' ';
 
@@ -15,14 +20,14 @@ if (isset($_POST['editUsername'])) {
     //Check of oude gebruikdersnaam en oude wachtwoord overeen komen.
     //Check of de textboxes niet leeg zijn
     if (!empty($_SESSION['user_id'])) {
-        if ( !empty($_POST['newUser']) ) {
+        if (!empty($_POST['newUser'])) {
             if (!user::UsernameExists($_POST['newUser'])) {
-                    $changeCheck = user::changeUser($_SESSION['user_id'], $_POST['newUser'],null);
-                    unset($_SESSION['user_id']);
-                    $text1 = 'Gebruikersnaam gewijzigd';    
+                $changeCheck = user::changeUser($_SESSION['user_id'], $_POST['newUser'], null);
+                unset($_SESSION['user_id']);
+                $text1 = 'Gebruikersnaam gewijzigd';
             } else {
-                    $text1 = 'Nieuwe gebruikersnaam bestaat al';
-                }
+                $text1 = 'Nieuwe gebruikersnaam bestaat al';
+            }
         } else {
             $text1 = '1 of meer velden zijn niet ingevuld';
         }
@@ -32,31 +37,31 @@ if (isset($_POST['editUsername'])) {
 if (isset($_POST['editPassword'])) {
     if (!empty($_SESSION['user_id'])) {
         if (!empty($_POST['oldPass']) && !empty($_POST['newPass'])) {
-                $changeCheck = user::changeUser($_SESSION['user_id'], null, $_POST['newPass']);
-                unset($_SESSION['user_id']);
-                if ($changeCheck) {
-                    $text1 = 'Wachtwoord gewijzigd';
-                } else {
-                    $text1 = 'Wachtwoord wijzigen mislukt';
-                }
-            } 
-        } else {
-            $text1 = '1 of meer velden zijn leeg';
+            $changeCheck = user::changeUser($_SESSION['user_id'], null, $_POST['newPass']);
+            unset($_SESSION['user_id']);
+            if ($changeCheck) {
+                $text1 = 'Wachtwoord gewijzigd';
+            } else {
+                $text1 = 'Wachtwoord wijzigen mislukt';
+            }
         }
+    } else {
+        $text1 = '1 of meer velden zijn leeg';
     }
+}
 
-if (isset($_GET['action']) && isset($_GET['actie'])&&$_GET['actie'] == 'Delete') {
-        $check = user::deleteUser($_GET['id']);
-        if($check){
-            $text1 = 'Gebruiker verwijderd';
-        }
-        else{
-            $text1 = 'Gebruiker kan niet verwijderd worden. Moet minstens 1 gebruiker blijven bestaan';
-        }
+if (isset($_GET['action']) && isset($_GET['actie']) && $_GET['actie'] ==
+    'Delete') {
+    $check = user::deleteUser($_GET['id']);
+    if ($check) {
+        $text1 = 'Gebruiker verwijderd';
+    } else {
+        $text1 = 'Gebruiker kan niet verwijderd worden. Moet minstens 1 gebruiker blijven bestaan';
+    }
 }
 
 if (isset($_GET['id'])) {
-    
+
 
     $submitUser = user::GetUser($_GET['id']);
 
@@ -90,19 +95,23 @@ if (isset($_GET['id'])) {
 if (isset($_GET["action"])) {
     if ($_GET["action"] == "add") {
         if (isset($_POST['addUser'])) {
-            if (!user::UsernameExists($_POST['username'])) {
-                if ($_POST['password'] == $_POST['passControle']) {
-                    if (!empty($_POST['username']) && !empty($_POST['password'])) {
-                        $addedCheck;
-                        $addedCheck = $user = user::createUser($_POST["username"], $_POST["password"]);
-                    } else {
+            if (!empty($_POST['username']) && !empty($_POST['password']) && !empty($_POST['passControle'])) {
+                if (!user::UsernameExists($_POST['username'])) {
+                    if ($_POST['password'] == $_POST['passControle']) {
+                        if (!empty($_POST['username']) && !empty($_POST['password'])) {
+                            $addedCheck;
+                            $addedCheck = $user = user::createUser($_POST["username"], $_POST["password"]);
+                        } else {
 
+                        }
+                    } else {
+                        $text2 = 'Wachtwoorden komen niet overeen!';
                     }
                 } else {
-                    $text2 = 'Wachtwoorden komen niet overeen!';
+                    $text2 = 'Gebruikersnaam bestaat al';
                 }
             } else {
-                $text2 = 'Gebruikersnaam bestaat al';
+                $text2 = 'Een of meer velden zijn leeg';
             }
         }
 
