@@ -393,7 +393,7 @@ if (isset($_GET["action"])) {
                             </td>
                             <td style="width: 499px;" >
                             <h1>Handleiding vliegvelden importeren.</h1><br /><br />
-                            Met deze pagina kan er op een snellere mannier vliegvelden worden toegevoegd doormiddel van een vooraf gemaakt tekst bestand. <br /><br />
+                            Met deze pagina kan er op een snellere manier vliegvelden worden toegevoegd doormiddel van een vooraf gemaakt tekst bestand. <br /><br />
                             
                             - Stap 1: Maak in het windows programma kladblok een bestand aan met vliegvelden. Vliegvelden moeten als volgt in het tekstbestand staan: <br /><br />
                             &nbsp; &nbsp; Amsterdam Airport Schiphol (AMS), Amsterdam <br />
