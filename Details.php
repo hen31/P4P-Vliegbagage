@@ -75,13 +75,13 @@ else
             
             <tr>
             <td>Gratis gewicht:</td>
-            <td><?php if($airline->classes[$_GET["class"]]->maxWeightLuggage !=0){ echo $airline->classes[$_GET["class"]]->maxWeightLuggage.'kg';}
+            <td><?php if($airline->classes[0]->maxWeightLuggage !=0){ echo $airline->classes[0]->maxWeightLuggage.'kg';}
             else
             {
                                 echo 'Deze vliegmaatschapij rekent</br> met aantal koffers en niet met gewicht.';
             }?></td>
            <td>Gratis aantal handbagage:</td>
-            <td><?php if($airline->classes[$_GET["class"]]->pcsHL !=0){echo $airline->classes[$_GET["class"]]->pcsHL.'kg';}
+            <td><?php if($airline->classes[0]->pcsHL !=0){echo $airline->classes[0]->pcsHL.'kg';}
             else{
                 echo 'Deze vliegmaatschapij rekent met gewichten</br> en niet met aantal koffers.';
             }?></td>
@@ -91,12 +91,12 @@ else
                 <tr>
                   
             <td>Gratis aantal ruim koffers:</td>
-            <td><?php if($airline->classes[$_GET["class"]]->pcsLuggage !=0){echo $airline->classes[$_GET["class"]]->pcsLuggage;}
+            <td><?php if($airline->classes[0]->pcsLuggage !=0){echo $airline->classes[0]->pcsLuggage;}
             else{
                 echo 'Deze vliegmaatschapij rekent met gewichten</br> en niet met aantal koffers.';
             }?></td>
             <td>Gratis gewicht handbagage:</td>
-            <td><?php if($airline->classes[$_GET["class"]]->MaxWeightHL !=0){echo $airline->classes[$_GET["class"]]->MaxWeightHL.'kg';}
+            <td><?php if($airline->classes[0]->MaxWeightHL !=0){echo $airline->classes[0]->MaxWeightHL.'kg';}
             else{
                 echo 'Deze vliegmaatschapij rekent met aantal koffers</br> en niet met gewicht.';
             }?></td>
@@ -106,18 +106,18 @@ else
               <tr>
               <td>Ruim bagage afmetingen:</td>
             <td><?php  $afmetingen = $airline->
-                classes[$_GET["class"]]->sizeTotalPerItem ? $airline->classes[$_GET["class"]]->sizeTotalPerItem.'cm' : $airline->
-                classes[$_GET["class"]]->sizeLenghtPerItem . 'cm x ' . $airline->classes[$_GET["class"]]->sizeWidthPerItem .
-                'cm x ' . $airline->classes[$_GET["class"]]->sizeHeightPerItem.'cm';
+                classes[0]->sizeTotalPerItem ? $airline->classes[0]->sizeTotalPerItem.'cm' : $airline->
+                classes[0]->sizeLenghtPerItem . 'cm x ' . $airline->classes[0]->sizeWidthPerItem .
+                'cm x ' . $airline->classes[0]->sizeHeightPerItem.'cm';
                 echo $afmetingen;
             ?></td>
             <td>Handbagage afmetingen:</td>
-            <td><?php if($airline->classes[$_GET["class"]]->sizeTotalHL !=0 ){ echo $airline->classes[$_GET["class"]]->sizeTotalHL.'cm';}
+            <td><?php if($airline->classes[0]->sizeTotalHL !=0 ){ echo $airline->classes[0]->sizeTotalHL.'cm';}
             else
             {
               $afmetingen =   $airline->
-                classes[$_GET["class"]]->sizeLenghtHL . 'cm x ' . $airline->classes[$_GET["class"]]->SizeWidthHL .
-                'cm x ' . $airline->classes[$_GET["class"]]->sizeHeightHL.'cm';
+                classes[0]->sizeLenghtHL . 'cm x ' . $airline->classes[0]->SizeWidthHL .
+                'cm x ' . $airline->classes[0]->sizeHeightHL.'cm';
                 echo $afmetingen;
             }?></td>
             
@@ -184,13 +184,13 @@ else
             Stukken bagage kind:
             </td>
             <td>
-            <?php echo $airline->classes[$_GET["class"]]->pcsLuggageInfant;?>
+            <?php echo $airline->classes[0]->pcsLuggageInfant;?>
             </td>
                  <td>
                  Max. gewicht bagage kind:
             </td>
             <td>
-                        <?php echo $airline->classes[$_GET["class"]]->pcsLuggageInfantMaxWeight;?>kg</td></tr>
+                        <?php echo $airline->classes[0]->pcsLuggageInfantMaxWeight;?>kg</td></tr>
             </table>
         
             </div>
@@ -203,7 +203,7 @@ else
             Laptop gratis handbagage:
             </td>
             <td>
-            <?php if( $airline->classes[$_GET["class"]]->LaptopAllowedHL == true) {echo 'ja';}else
+            <?php if( $airline->classes[0]->LaptopAllowedHL == true) {echo 'ja';}else
             {
                 echo 'nee';
             };?>
@@ -212,7 +212,7 @@ else
             Pooling toegestaan:
             </td>
             <td>
-            <?php if( $airline->classes[$_GET["class"]]->Pooling == true) {echo 'ja';}else
+            <?php if( $airline->classes[0]->Pooling == true) {echo 'ja';}else
             {
                 echo 'nee';
             };?>
@@ -224,7 +224,7 @@ else
             Rolstoel gratis:
             </td>
             <td>
-            <?php if( $airline->classes[$_GET["class"]]->FreeWheelChair == true) {echo 'ja';}else
+            <?php if( $airline->classes[0]->FreeWheelChair == true) {echo 'ja';}else
             {
                 echo 'nee';
             };?>
@@ -233,7 +233,7 @@ else
             Hulphond gratis:
             </td>
             <td>
-            <?php if( $airline->classes[$_GET["class"]]->FreeServiceDog == true) {echo 'ja';}else
+            <?php if( $airline->classes[0]->FreeServiceDog == true) {echo 'ja';}else
             {
                 echo 'nee';
             };?>
@@ -242,39 +242,39 @@ else
             <tr>
             <td> Waarde aangifte toegestaan:
                 </td>
-                <td><?php if($airline->classes[$_GET["class"]]->DeclarationOfValue == true){ echo 'ja';}else{echo 'nee';}?></td>
-                <?php if($airline->classes[$_GET["class"]]->DeclarationOfValue == true){?>
+                <td><?php if($airline->classes[0]->DeclarationOfValue == true){ echo 'ja';}else{echo 'nee';}?></td>
+                <?php if($airline->classes[0]->DeclarationOfValue == true){?>
                 <td>
                 Maximale waarde afgifte:
                 </td>
                 <td>&euro;
-                <?php echo number_format($airline->classes[$_GET["class"]]->MaxDeclarationOfValue,2, ',', ' ');?>
+                <?php echo number_format($airline->classes[0]->MaxDeclarationOfValue,2, ',', ' ');?>
                 </td>
                     <?php }?>
                 </tr>
                 <tr>
                 <td> Loyalty programma:
                 </td>
-                <td><?php if($airline->classes[$_GET["class"]]->LoyaltyProgramme == true){ echo 'ja';}else{echo 'nee';}?></td>
-                <?php if($airline->classes[$_GET["class"]]->LoyaltyProgramme == true){?>
+                <td><?php if($airline->classes[0]->LoyaltyProgramme == true){ echo 'ja';}else{echo 'nee';}?></td>
+                <?php if($airline->classes[0]->LoyaltyProgramme == true){?>
                 <td>
                 Extra koffers loyalty:
                 </td>
                 <td>
-                <?php echo $airline->classes[$_GET["class"]]->LPextraPcsLuggage;?>
+                <?php echo $airline->classes[0]->LPextraPcsLuggage;?>
                 </td>
                 <tr>
                  <td>
                 Extra gewicht loyalty:
                 </td>
                 <td>
-                <?php echo $airline->classes[$_GET["class"]]->LPextraWeightLuggage;?>
+                <?php echo $airline->classes[0]->LPextraWeightLuggage;?>
                 </td>
                    <td>
                 Maximaal gewicht:
                 </td>
                 <td>
-                <?php echo $airline->classes[$_GET["class"]]->AbsoluteMaxPerItem;?>
+                <?php echo $airline->classes[0]->AbsoluteMaxPerItem;?>
                 </td>
                     <?php }?>
                 </tr>
@@ -288,24 +288,24 @@ else
                 <tr>
                 <td> Huisdier in ruim toegestaan:
                 </td>
-                <td><?php if($airline->classes[$_GET["class"]]->PetsAllowed == true){ echo 'ja';}else{echo 'nee';}?></td>
+                <td><?php if($airline->classes[0]->PetsAllowed == true){ echo 'ja';}else{echo 'nee';}?></td>
                 <td> Huisdier in kabine toegestaan:
                 </td>
-                <td><?php if($airline->classes[$_GET["class"]]->petsAllowedHL == true){ echo 'ja';}else{echo 'nee';}?></td>
+                <td><?php if($airline->classes[0]->petsAllowedHL == true){ echo 'ja';}else{echo 'nee';}?></td>
                 </tr>
                 <tr>
-                                <?php if($airline->classes[$_GET["class"]]->PetsAllowed == true){?>
+                                <?php if($airline->classes[0]->PetsAllowed == true){?>
                 <td>
                 Max. totaal gewicht ruim:
                 </td>
                 <td>
-                <?php echo $airline->classes[$_GET["class"]]->MaxWeightPet;?>
+                <?php echo $airline->classes[0]->MaxWeightPet;?>
                 </td>
                         <td> Max. afmetingen kooi ruim:</td>
                       <td>  <?php  $afmetingen = $airline->
-                classes[$_GET["class"]]->MaxWeightPet ? $airline->classes[$_GET["class"]]->MaxWeightPet.'cm' : $airline->
-                classes[$_GET["class"]]->sizeLenghtPet . 'cm x ' . $airline->classes[$_GET["class"]]->sizeWidthPet .
-                'cm x ' . $airline->classes[$_GET["class"]]->sizeHeightPet.'cm';
+                classes[0]->MaxWeightPet ? $airline->classes[0]->MaxWeightPet.'cm' : $airline->
+                classes[0]->sizeLenghtPet . 'cm x ' . $airline->classes[0]->sizeWidthPet .
+                'cm x ' . $airline->classes[0]->sizeHeightPet.'cm';
                 echo $afmetingen;
             ?></td>
                     <?php }?>
