@@ -1,7 +1,7 @@
 <?php
 session_start();
 header('Content-Type: text/html; charset=UTF-8');
-if((!isset($_SESSION["user"]) || $_SESSION["user"]==null) && $titel !="Administratie" && !DEBUG)
+if((!isset($_SESSION["user"]) || $_SESSION["user"]==null) && !DEBUG)
 {
     header("Location: login.php");
     exit();

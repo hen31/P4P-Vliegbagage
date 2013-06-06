@@ -831,7 +831,6 @@ elseif($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["act"]) && $_POST["a
     $("#airline_id_select").change(function(){
         var option = $("#airline_id_select option:selected").val();
         if(typeof option != 'undefined'){
-            alert(option);
             $("#airline_select_box").submit();
         }
     });
@@ -862,7 +861,7 @@ elseif($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["act"]) && $_POST["a
     koffer_num = koffer_num.split("ChargeExtraBag[");
     koffer_num = koffer_num[1].split("]");
     koffer_num = parseInt(koffer_num[0]);
-    $("#koffers").append('<label>Kosten extra koffer ' +(koffer_num+2) +'</label><input type="text" name="ChargeExtraBag[' +(koffer_num+1) +']" />');
+    $("#koffers").append('<label>Kosten extra koffer ' +(koffer_num+2) +' &euro;</label><input type="text" name="ChargeExtraBag[' +(koffer_num+1) +']" />');
     return false;
   }
   
@@ -880,29 +879,29 @@ if (isset($_GET["action"]) && $_GET["action"] == "add") {
     <?php } ?>
     <form action="airline.php?action=add" method="post" class="form" enctype="multipart/form-data">
         <input type="hidden" name="act" value="airline" />
-        <?php echo display_error($error, "naam"); ?><label title="Naam van de vliegmaatschappij">Naam</label><input type="text" name="naam" <?php echo add_value($_POST, "naam", $succes_airline); ?> />
-        <?php echo display_error($error, "logo"); ?><label title="Logo van de vligmaatschappij">Logo</label><input type="file" name="logo" />
-        <?php echo display_error($error, "iata"); ?><label title="Iata code van de vliegmaatschappij">Iata code</label><input type="text" name="iata" <?php echo add_value($_POST, "iata", $succes_airline); ?> />
-        <?php echo display_error($error, "OverweightChargeG"); ?><label title="Kosten in euro's die extra worden gerekend per extra kilogram gewicht">Kosten per extra kilogram:</label><input type="text" name="OverweightChargeG" <?php echo add_value($_POST, "OverweightChargeG", $succes_airline) ?> />
-        <?php echo display_error($error, "OverweightChargeBag"); ?><label title="Kosten die extra worden gerekend bij overgewicht van een koffer">Kosten overgewicht koffer:</label><input type="text" name="OverweightChargeBag" <?php echo add_value($_POST, "OverweightChargeBag", $succes_airline) ?> /> 
+        <?php echo display_error($error, "naam"); ?><label>Naam</label><input type="text" name="naam" <?php echo add_value($_POST, "naam", $succes_airline); ?> />
+        <?php echo display_error($error, "logo"); ?><label>Logo</label><input type="file" name="logo" />
+        <?php echo display_error($error, "iata"); ?><label>Iata code</label><input type="text" name="iata" <?php echo add_value($_POST, "iata", $succes_airline); ?> />
+        <?php echo display_error($error, "OverweightChargeG"); ?><label>Kosten per extra kilogram &euro;</label><input type="text" name="OverweightChargeG" <?php echo add_value($_POST, "OverweightChargeG", $succes_airline) ?> />
+        <?php echo display_error($error, "OverweightChargeBag"); ?><label>Kosten overgewicht koffer &euro;</label><input type="text" name="OverweightChargeBag" <?php echo add_value($_POST, "OverweightChargeBag", $succes_airline) ?> /> 
         
         <div id="koffers">
             <?php
             if(!$succes_airline && (isset($_POST["ChargeExtraBag"]) && is_array($_POST["ChargeExtraBag"]))){
                 foreach($_POST["ChargeExtraBag"] as $value => $koffer){
-                    echo display_error($error, "ChargeExtraBag". $value) .'<label>Kosten extra koffer ' .($value +1) .'</label><input type="text" name="ChargeExtraBag[' .$value .']" value="' .htmlspecialchars($koffer) .'" />';
+                    echo display_error($error, "ChargeExtraBag". $value) .'<label>Kosten extra koffer ' .($value +1) .' &euro;</label><input type="text" name="ChargeExtraBag[' .$value .']" value="' .htmlspecialchars($koffer) .'" />';
                 }
             }
             else{        
             ?>
-            <?php echo display_error($error, "ChargeExtraBag0") ?><label>Kosten extra koffer 1</label><input type="text" name="ChargeExtraBag[0]" <?php echo add_value($_POST, "ChargeExtraBag0", $succes_airline) ?> />
+            <?php echo display_error($error, "ChargeExtraBag0") ?><label>Kosten extra koffer 1 &euro;</label><input type="text" name="ChargeExtraBag[0]" <?php echo add_value($_POST, "ChargeExtraBag0", $succes_airline) ?> />
             <?php
             }
             ?>
         </div>
         <label>&nbsp;</label><button class="input" onclick="return add_koffer();">Koffer toevoegen</button>
         
-        <?php echo display_error($error, "OversizeCharge"); ?><label title="Kosten die worden gerekend als een koffer te groot is">Kosten te grote koffer:</label><input type="text" name="OversizeCharge" <?php echo add_value($_POST, "OversizeCharge", $succes_airline) ?> /> 
+        <?php echo display_error($error, "OversizeCharge"); ?><label>Kosten te grote koffer &euro;</label><input type="text" name="OversizeCharge" <?php echo add_value($_POST, "OversizeCharge", $succes_airline) ?> /> 
         <?php echo display_error($error, "notes"); ?><label>Opmerkingen</label><textarea rows="10" cols="25" class="input" name="notes"><?php echo htmlspecialchars(!$succes_airline && isset($_POST["notes"]) ? $_POST["notes"] : ""); ?></textarea>
         
         <label>&nbsp;</label><input type="submit" value="Opslaan" />
@@ -950,12 +949,12 @@ if (isset($_GET["action"]) && $_GET["action"] == "add") {
         <?php echo display_error($error, "petsAllowedHL"); ?><label>Huisdieren toegestaan</label><select class="input" name="petsAllowedHL"><option></option><option value="true" <?php echo set_selected($_POST, "petsAllowedHL", "true", $succes_class) ?>>Ja</option><option value="false" <?php echo set_selected($_POST, "petsAllowedHL", "false", $succes_class) ?>>Nee</option></select><br />
         
         <!--Items-->
-        <label class="title">Items</label><br />
+        <label class="title">Koffers</label><br />
         <?php echo display_error($error, "lengte_totaalI"); ?><label>LxHxB of totaal</label><select class="input" id="lengte_selectI" name="lengte_totaalI"><option></option><option value="l" <?php echo set_selected($_POST, "lengte_totaalI", "l", $succes_class); ?>>LxHxB</option><option value="t" <?php echo set_selected($_POST, "lengte_totaalI", "t", $succes_class); ?>>Totaal</option></select>
-        <div class="lI"><?php echo display_error($error, "sizeLenghtPerItem"); ?><label>Lengte per item</label><input type="text" name="sizeLenghtPerItem"  <?php echo add_value($_POST, "sizeLenghtPerItem", $succes_class); ?> />
-        <?php echo display_error($error, "sizeHeightPerItem"); ?><label>Hoogte per item</label><input type="text" name="sizeHeightPerItem" <?php echo add_value($_POST, "sizeHeightPerItem", $succes_class); ?> />
-        <?php echo display_error($error, "sizeWidthPerItem"); ?><label>Breedte per item</label><input type="text" name="sizeWidthPerItem" <?php echo add_value($_POST, "sizeWidthPerItem", $succes_class); ?> /></div>
-        <div class="tI"><?php echo display_error($error, "sizeTotalPerItem"); ?><label>Totale grootte per item</label><input type="text" name="sizeTotalPerItem" <?php echo add_value($_POST, "sizeTotalPerItem", $succes_class); ?> /></div><br />
+        <div class="lI"><?php echo display_error($error, "sizeLenghtPerItem"); ?><label>Lengte per koffer</label><input type="text" name="sizeLenghtPerItem"  <?php echo add_value($_POST, "sizeLenghtPerItem", $succes_class); ?> />
+        <?php echo display_error($error, "sizeHeightPerItem"); ?><label>Hoogte per koffer</label><input type="text" name="sizeHeightPerItem" <?php echo add_value($_POST, "sizeHeightPerItem", $succes_class); ?> />
+        <?php echo display_error($error, "sizeWidthPerItem"); ?><label>Breedte per koffer</label><input type="text" name="sizeWidthPerItem" <?php echo add_value($_POST, "sizeWidthPerItem", $succes_class); ?> /></div>
+        <div class="tI"><?php echo display_error($error, "sizeTotalPerItem"); ?><label>Totale grootte per koffer</label><input type="text" name="sizeTotalPerItem" <?php echo add_value($_POST, "sizeTotalPerItem", $succes_class); ?> /></div><br />
         
         <!--LP-->
         <label class="title">Loyalty programma (LP)</label><br />
@@ -1055,34 +1054,34 @@ if(isset($_GET["airline_name"]) || isset($_GET["airline_id"])){
     <form action="airline.php?action=edit&airline_id=<?php echo htmlspecialchars($edit_airline->airline_id); ?>" method="post" class="form" enctype="multipart/form-data">
         <input type="hidden" name="act" value="airline" />
         <input type="hidden" name="airline_id" value="<?php echo $edit_airline->airline_id; ?>" />
-        <?php echo display_error($error, "naam"); ?><label title="Naam van de vliegmaatschappij">Naam</label><input type="text" name="naam" <?php echo add_existing_value($edit_airline->name,$_POST, "naam", $succes_airline); ?> />
+        <?php echo display_error($error, "naam"); ?><label>Naam</label><input type="text" name="naam" <?php echo add_existing_value($edit_airline->name,$_POST, "naam", $succes_airline); ?> />
         <img class="input" style="margin-left: 15px;" src="../images/airlines/<?php echo $edit_airline->logo ?>" alt="Logo vliegmaatschappij" height="100" width="100" />
-        <?php echo display_error($error, "logo"); ?><label title="Logo van de vligmaatschappij">Logo</label><input type="file" name="logo" />
-        <?php echo display_error($error, "iata"); ?><label title="Iata code van de vliegmaatschappij">Iata code</label><input type="text" name="iata" <?php echo add_existing_value($edit_airline->iata, $_POST, "iata", $succes_airline); ?> />
-        <?php echo display_error($error, "OverweightChargeG"); ?><label title="Kosten in euro's die extra worden gerekend per extra kilogram gewicht">Kosten per extra kilogram:</label><input type="text" name="OverweightChargeG" <?php echo add_existing_value($edit_airline->OverweightChargeG, $_POST, "OverweightChargeG", $succes_airline) ?> />
-        <?php echo display_error($error, "OverweightChargeBag"); ?><label title="Kosten die extra worden gerekend bij overgewicht van een koffer">Kosten overgewicht koffer:</label><input type="text" name="OverweightChargeBag" <?php echo add_existing_value($edit_airline->OverweightChargeBag, $_POST, "OverweightChargeBag", $succes_airline) ?> /> 
+        <?php echo display_error($error, "logo"); ?><label>Logo</label><input type="file" name="logo" />
+        <?php echo display_error($error, "iata"); ?><label>Iata code</label><input type="text" name="iata" <?php echo add_existing_value($edit_airline->iata, $_POST, "iata", $succes_airline); ?> />
+        <?php echo display_error($error, "OverweightChargeG"); ?><label>Kosten per extra kilogram &euro;</label><input type="text" name="OverweightChargeG" <?php echo add_existing_value($edit_airline->OverweightChargeG, $_POST, "OverweightChargeG", $succes_airline) ?> />
+        <?php echo display_error($error, "OverweightChargeBag"); ?><label>Kosten overgewicht koffer &euro;</label><input type="text" name="OverweightChargeBag" <?php echo add_existing_value($edit_airline->OverweightChargeBag, $_POST, "OverweightChargeBag", $succes_airline) ?> /> 
         
         <div id="koffers">
             <?php
             if(!$succes_airline && (isset($_POST["ChargeExtraBag"]) && is_array($_POST["ChargeExtraBag"]))){
                 foreach($_POST["ChargeExtraBag"] as $value => $koffer){
-                    echo display_error($error, "ChargeExtraBag". $value) .'<label>Kosten extra koffer ' .($value +1) .'</label><input type="text" name="ChargeExtraBag[' .$value .']" value="' .htmlspecialchars($koffer) .'" />';
+                    echo display_error($error, "ChargeExtraBag". $value) .'<label>Kosten extra koffer ' .($value +1) .' &euro;</label><input type="text" name="ChargeExtraBag[' .$value .']" value="' .htmlspecialchars($koffer) .'" />';
                 }
             }
             elseif(count($edit_airline->ChargeExtraBag) == 0){
-            echo display_error($error, "ChargeExtraBag0") ?><label>Kosten extra koffer 1</label><input type="text" name="ChargeExtraBag[0]" <?php echo add_value($_POST, "ChargeExtraBag0", $succes_airline) ?> />
+            echo display_error($error, "ChargeExtraBag0") ?><label>Kosten extra koffer 1 &euro;</label><input type="text" name="ChargeExtraBag[0]" <?php echo add_value($_POST, "ChargeExtraBag0", $succes_airline) ?> />
             <?php
             }
             else{
                 foreach($edit_airline->ChargeExtraBag as $charge){
-                    echo '<label>Kosten extra koffer ' .($charge->number +1) .'</label><input type="text" name="ChargeExtraBag[' .$charge->number .']" value="' .$charge->costs .'" />';
+                    echo '<label>Kosten extra koffer ' .($charge->number +1) .' &euro;</label><input type="text" name="ChargeExtraBag[' .$charge->number .']" value="' .$charge->costs .'" />';
                 }
             }
             ?>
         </div>
         <label>&nbsp;</label><button class="input" onclick="return add_koffer();">Koffer toevoegen</button>
         
-        <?php echo display_error($error, "OversizeCharge"); ?><label title="Kosten die worden gerekend als een koffer te groot is">Kosten te grote koffer:</label><input type="text" name="OversizeCharge" <?php echo add_existing_value($edit_airline->OversizeCharge, $_POST, "OversizeCharge", $succes_airline) ?> /> 
+        <?php echo display_error($error, "OversizeCharge"); ?><label>Kosten te grote koffer &euro;</label><input type="text" name="OversizeCharge" <?php echo add_existing_value($edit_airline->OversizeCharge, $_POST, "OversizeCharge", $succes_airline) ?> /> 
         <?php echo display_error($error, "notes"); ?><label>Opmerkingen</label><textarea rows="10" cols="25" class="input" name="notes"><?php echo htmlspecialchars(!$succes_airline && isset($_POST["notes"]) ? $_POST["notes"] : $edit_airline->notes); ?></textarea>
         
         <label>&nbsp;</label><input type="submit" value="Opslaan" />

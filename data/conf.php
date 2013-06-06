@@ -7,7 +7,7 @@ define("DATABASE_PORT", "3306");
 define("DATABASE_NAME", "p4p");
 
 //Debug
-define("DEBUG", true);
+define("DEBUG", false);
 
 //overig
 define("ERROR_MSG", "Er is iets ernstig mis gegegaan.<br/>Er is geen ");
