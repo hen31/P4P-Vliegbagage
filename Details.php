@@ -1,10 +1,5 @@
 <?php
 header('Content-Type: text/html; charset=UTF-8');
-/**
- * @Auteur Hendrik de Jonge
- * @Datum 20-5-2013
- * @uses Wordt gebruikt om de gebruiker zijn informatie te geven
- */
 session_start();
 //Alle data classes includen
 require_once ("data/includeAll.php");

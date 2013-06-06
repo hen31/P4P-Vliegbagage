@@ -1,9 +1,5 @@
 <?php
-/**
- * @Auteur Hendrik de Jonge
- * @Datum 20-5-2013
- * @uses Wordt gebruikt om de gebruiker zijn informatie te geven
- */
+
 //Alle data classes includen
 require_once ("data/includeAll.php");
 require_once ("data/frontend.php");

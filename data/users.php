@@ -42,7 +42,6 @@ class user
     }
 
     //Kan een nieuwe gebruiker aanmaken met wachtwoord.
-<<<<<<< HEAD
     public static function createUser($username, $userPassword)
     {
         $userPassword = sha1($userPassword . user::$SALT);
@@ -50,17 +49,6 @@ class user
         if ($check != true) {
             DbHandler::Query("INSERT INTO user(username,password) VALUES (:Name,:userPassword);",
                 array("Name" => $username, "userPassword" => $userPassword));
-=======
-    public static function createUser($username,$userPassword)
-    {                  $username = htmlspecialchars($username);
-        $userPassword = sha1($userPassword . user::$SALT);
-        $check = user::UserNameExists($username);
-        if($check != true)
-        {
-        
-            DbHandler::Query("INSERT INTO user(username,password) VALUES (:Name,:userPassword);", 
-            array("Name" => $username, "userPassword" => $userPassword));
->>>>>>> User data fix
             echo "user aangemaakt";
 
             return true;
@@ -84,12 +72,8 @@ class user
     //Gebruikersnaam en/of wachtwoord veranderen.
     public static function changeUser($userid, $username, $userPassword)
     {
-<<<<<<< HEAD
         if($username!= null && $userPassword!= null)
         {
-=======
-           $username = htmlspecialchars($username);
->>>>>>> User data fix
         $check = user::UsernameExists($username);
         $userPassword = sha1($userPassword . user::$SALT);
         DbHandler::NonQuery("UPDATE user SET username=:Name, password = :password WHERE user_id = :ID;",
@@ -102,7 +86,6 @@ class user
         }
         else if($username!= null && $userPassword== null)
         {
-<<<<<<< HEAD
                 $check = user::UsernameExists($username);
         $userPassword = sha1($userPassword . user::$SALT);
         DbHandler::NonQuery("UPDATE user SET username=:Name WHERE user_id = :ID;",
@@ -111,11 +94,6 @@ class user
             "ID" => $userid));
 
         return true; 
-=======
-        
-           DbHandler::NonQuery("UPDATE user SET username=:Name, password = :password WHERE user_id = :ID;", 
-           array("Name" => $username, "ID" => $userid, "password" => $userPassword));
->>>>>>> User data fix
         }
         else
         {
@@ -171,21 +149,11 @@ class user
     //als dit het geval is dan wordt er een object van gebruiker terug gegeven.
     public static function login($username, $userPassword)
     {
-<<<<<<< HEAD
         $results = DbHandler::Query("SELECT user_id, username FROM user WHERE username=:user AND password=:pass;",
             array("user" => $username, "pass" => $userPassword));
         //als er geen gebruiker bestaat met deze combinatie wordt null terug gegeven
         if ($results != null) {
 
-=======
-      $username = htmlspecialchars($username);
-      $results = DbHandler::Query("SELECT user_id, username FROM user WHERE username=:user AND password=:pass;", array(
-            "user"=> $username, "pass"=>$userPassword));
-            //als er geen gebruiker bestaat met deze combinatie wordt null terug gegeven
-        if($results !=null)
-        {
-            
->>>>>>> User data fix
             $gebruiker = new user();
 
             $gebruiker->id = $results[0]["user_id"];
@@ -201,19 +169,10 @@ class user
     public static function checkUser($username, $userPassword)
     {
         $check;
-<<<<<<< HEAD
         $results = DbHandler::Query("SELECT * FROM user WHERE username=:user AND password=:pass;",
             array("user" => $username, "pass" => $userPassword));
 
         if ($results != null) {
-=======
-        $username = htmlspecialchars($username);
-        $results = DbHandler::Query("SELECT * FROM user WHERE username=:user AND password=:pass;", array(
-            "user"=> $username, "pass"=>$userPassword));
-            
-        if($results != null)
-        {
->>>>>>> User data fix
             $check = true;
         } else {
             $check = false;
