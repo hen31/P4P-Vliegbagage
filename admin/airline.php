@@ -419,7 +419,9 @@ elseif($_SERVER["REQUEST_METHOD"] == "POST" && isset($_GET["action"]) && $_GET["
                 $_POST["notes"] = "";
             }
             $current_airline->name = $_POST["naam"];
-            $current_airline->logo = $name;
+            if($name != ""){
+                $current_airline->logo = $name;
+            }
             $current_airline->OverweightChargeG = $_POST["OverweightChargeG"];
             $current_airline->OverweightChargeBag = $_POST["OverweightChargeBag"];
             $current_airline->OversizeCharge = $_POST["OversizeCharge"];
