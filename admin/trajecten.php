@@ -110,12 +110,12 @@ if (isset($addedMessage)) {
     echo ('<p class="error">' . $addedMessage . '</p>');
     $showBlank = true;
 }
-if (isset($_SESSION["added"]) && $_SESSION["added"] == true) {
+else if (isset($_SESSION["added"]) && $_SESSION["added"] == true) {
     $_SESSION["added"] = false;
     echo ('<p class="good">Traject is met succes toegevoegd.</p>');
     $showBlank = true;
 }
-if(!isset($showBlank)){
+else{
     echo("<br>");
 }
 ?>
