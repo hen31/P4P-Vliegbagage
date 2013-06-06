@@ -573,6 +573,17 @@ elseif($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["act"]) && $_POST["a
         </li>
     </ul>
 </div>
+
+<?php
+if(!isset($_GET["action"])){
+?>
+<br /><br />
+<h1 style="margin-left: 20px;">Administratie vliegmaatschappijen</h1>    
+<p>Gebruik het menu om vliegmaatschappijen toe te voegen of te bewerken.</p>
+<?php
+}
+?>
+
 <div style="clear: both;"></div><br />
 
 <script src="../js/jquery-1.9.0.min.js"></script>
@@ -1310,4 +1321,17 @@ elseif(isset($_GET["airline_id"]) && isset($_GET["class_number"])){
 }
 }
 require_once ("onderkant.php");
+
+
+
+
+
+
+
+
+
+
+
+
+
 ?>
