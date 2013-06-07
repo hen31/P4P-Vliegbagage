@@ -2,7 +2,7 @@
 
 /**
  * @author Wim Dalof
- * @copyright 2013
+ * @copyright 2013, All rights reserved
  * @date 03-06-3013
  */
 

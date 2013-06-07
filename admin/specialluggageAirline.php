@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Wim Dalof
- * @copyright 2013
+ * @copyright 2013, All rights reserved
  * @date 07-06-3013
  */
 
@@ -15,10 +15,10 @@ $specialLuggageValid = false;
 <div id="menu">
   <ul>
     <li> <a <?php if (isset($_GET["action"]) && $_GET["action"] == "add") {
-    echo "class='active'";
+    echo ("class='active'");
 } ?> href="specialluggageAirline.php?action=add">Koppelen</a> </li>
     <li> <a <?php if (isset($_GET["action"]) && $_GET["action"] == "edit") {
-    echo "class='active'";
+    echo ("class='active'");
 } ?> href="specialluggageAirline.php?action=edit">Beheren</a> </li>
     <li> <a href="specialluggage.php">Speciale bagage toevoegen</a> </li>
   </ul>
@@ -125,15 +125,15 @@ if (!empty($_SERVER["QUERY_STRING"])) {
                             session_start();
                             $_SESSION["linkedSpecialLuggage"] = true;
                         } else {
-                            $selectMessage = "<p class='error'> Een opmerking mag maximaal 1000 tekens bevatten.";
+                            $availableMessage = "<p class='error'> Een opmerking mag maximaal 1000 tekens bevatten.";
                         }
                     }
                 } else {
-                    $selectMessage = "<p class='error'> Er is geen speciale bagage geselecteerd. Probeer het opnieuw alstublieft.";
+                    $availableMessage = "<p class='error'> Er is geen speciale bagage geselecteerd. Probeer het opnieuw alstublieft.";
                 }
             }
             if (isset($_POST["checkPostedAdd"]) && empty($_POST["availableSpecialLuggage"])) {
-                $selectMessage = "<p class='error'> Er is geen speciale bagage geselecteerd. Probeer het opnieuw alstublieft.";
+                $availableMessage = "<p class='error'> Er is geen speciale bagage geselecteerd. Probeer het opnieuw alstublieft.";
             }
 
             //Clear POST. - Wim
@@ -244,7 +244,7 @@ if (!empty($_SERVER["QUERY_STRING"])) {
 ?>
     <option value="<?php echo ($result[$i]->Name); ?>" <?php if (isset($_POST["linkedSpecialLuggage"])) {
                             if ($_POST["linkedSpecialLuggage"] == $result[$i]->Name) {                                {
-                                    echo "selected = 'selected'";
+                                    echo ("selected = 'selected'");
                                 }
                             }
                         } ?>><?php echo ($result[$i]->Name); ?></option>
@@ -286,8 +286,8 @@ if (isset($_SESSION["removedSpecialLuggage"]) && $_SESSION["removedSpecialLuggag
 }
 
 //Show messages to inform the user when needed. - Wim
-if (isset($selectMessage)) {
-    echo ("<p class='error'>" . $selectMessage . "</p>");
+if (isset($availableMessage)) {
+    echo ("<p class='error'>" . $availableMessage . "</p>");
 }
 if (isset($linkMessage)) {
     echo ($linkMessage . "</p>");

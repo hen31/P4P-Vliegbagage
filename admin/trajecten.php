@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Wim Dalof
- * @copyright 2013
+ * @copyright 2013, All rights reserved
  * @date 07-06-3013
  */
 
