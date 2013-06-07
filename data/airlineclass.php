@@ -36,6 +36,7 @@ class airlineclass
     public $DeclarationOfValue;
     public $MaxDeclarationOfValue;
     public $petsAllowedHL;
+    public $MaxWeightInfantHL;
 
     public function __construct($class)
     {
@@ -74,6 +75,7 @@ class airlineclass
         $this->DeclarationOfValue = $class["DeclarationOfValue"];
         $this->MaxDeclarationOfValue = $class["MaxDeclarationOfValue"];
         $this->petsAllowedHL = $class["petsAllowedHL"];
+        $this->MaxWeightInfantHL = $class["MaxWeightInfantHL"];
     }
 
     public static function edit_class($class)

@@ -22,9 +22,9 @@ if((!isset($_SESSION["user"]) || $_SESSION["user"]==null) && !DEBUG)
         <div class="name">
             <a href="airline.php">Vliegmaatschappijen</a>
             <a href="airports.php">Vliegvelden</a>
+            <a href="trajecten.php">Trajecten</a>
             <a href="specialluggage.php">Speciale bagage</a>
             <a href="users.php">Gebruikers</a>
-            <a href="trajecten.php">Trajecten</a>
             <a href="loguit.php">Uitloggen</a>
             <h1>VLIEGBAGAGE.NL</h1>
         </div>
