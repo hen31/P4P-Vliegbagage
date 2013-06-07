@@ -91,8 +91,8 @@ function set_selected_on_set($post, $postindex, $value, $succes_var, $obValues, 
     }
     else{
         foreach($obValues as $obValue){
-            if($object->{$obValue} == 0){
-                return;
+            if($object->{$obValue} != 0){
+                return 'selected="true"';
             }
         }
         if($not != null){
@@ -1080,7 +1080,9 @@ elseif (isset($_GET["action"]) && $_GET["action"] == "edit") {
                                                                                             echo 'value="' .htmlspecialchars($_GET["airline_name"]) .'"';
                                                                                         } else if(isset($_GET["airline_id"]) && $_GET["airline_id"] != ""){
                                                                                             $airline = airline::get_airline($_GET["airline_id"], 0);
-                                                                                            echo 'value="' .htmlspecialchars($airline->name) .' (' .$airline->iata .')"';
+                                                                                            if(count($airline) > 0){
+                                                                                                echo 'value="' .htmlspecialchars($airline->name) .' (' .$airline->iata .')"';
+                                                                                            }
                                                                                         } ?> />
     <input type="hidden" name="action" value="edit" />
     <input type="submit" value="Beheren" />
@@ -1215,7 +1217,7 @@ if(isset($_GET["airline_name"]) || isset($_GET["airline_id"])){
 
         <!--Ruimbagage-->
         <label class="title">Ruimbagage</label><br />
-        <?php echo display_error($error, "pcs_weight"); ?><label>Stukken of gewicht</label><select id="ruimbagage" class="input" name="pcs_weight"><option></option><option value="pcs" <?php echo set_selected_on_set($_POST, "pcs_weight", "pcs", $succes_class, array("pcsLuggage", "pcsLuggageInfant"), $edit_class, array("maxWeightLuggage", "pcsLuggageInfantMaxWeight")); ?>>Stukken</option><option value="weight" <?php echo set_selected_on_set($_POST, "pcs_weight", "weight", $succes_class, array("maxWeightLuggage", "pcsLuggageInfantMaxWeight"), $edit_class, array("pcsLuggage", "pcsLuggageInfant")); ?>>Gewicht</option><option value="both" <?php echo set_selected_on_set($_POST, "pcs_weight", "both", $succes_class, array("pcsLuggage", "pcsLuggageInfant", "maxWeightLuggage", "pcsLuggageInfantMaxWeight"), $edit_class); ?>>Beide</option></select>
+        <?php echo display_error($error, "pcs_weight"); ?><label>Stukken of gewicht</label><select id="ruimbagage" class="input" name="pcs_weight"><option></option><option value="pcs" <?php echo $a[] = set_selected_on_set($_POST, "pcs_weight", "pcs", $succes_class, array("pcsLuggage", "pcsLuggageInfant"), $edit_class, array("maxWeightLuggage", "pcsLuggageInfantMaxWeight")); ?>>Stukken</option><option value="weight" <?php echo $a[] = set_selected_on_set($_POST, "pcs_weight", "weight", $succes_class, array("maxWeightLuggage", "pcsLuggageInfantMaxWeight"), $edit_class, array("pcsLuggage", "pcsLuggageInfant")); ?>>Gewicht</option><option value="both" <?php if(isset($a) && count($a) > 1){echo set_selected_on_set($_POST, "pcs_weight", "both", $succes_class, array("pcsLuggage", "pcsLuggageInfant", "maxWeightLuggage", "pcsLuggageInfantMaxWeight"), $edit_class);} ?>>Beide</option></select>
         <div class="pcs"><?php echo display_error($error, "pcsLuggage"); ?><label>Stukken bagage</label><input type="text" name="pcsLuggage" <?php echo add_existing_value($edit_class->pcsLuggage, $_POST, "pcsLuggage", $succes_class); ?> />
         <?php echo display_error($error, "pcsLuggageInfant"); ?><label>Stukken bagage baby</label><input type="text" name="pcsLuggageInfant" <?php echo add_existing_value($edit_class->pcsLuggageInfant, $_POST, "pcsLuggageInfant", $succes_class); ?> /></div>
         <div class="weight"><?php echo display_error($error, "maxWeightLuggage"); ?><label>Max. gewicht bagage kg</label><input type="text" name="maxWeightLuggage" <?php echo add_existing_value($edit_class->maxWeightLuggage, $_POST, "maxWeightLuggage", $succes_class); ?> />
@@ -1223,7 +1225,7 @@ if(isset($_GET["airline_name"]) || isset($_GET["airline_id"])){
         
         <!--Handbagage-->
         <label class="title">Handbagage</label><br />
-        <?php echo display_error($error, "pcs_weightHL"); ?><label>Stukken of gewicht</label><select id="handbagage" class="input" name="pcs_weightHL"><option></option><option value="pcs" <?php echo set_selected_on_set($_POST, "pcs_weightHL", "pcs", $succes_class, array("pcsHL", "pcsInfantHL"), $edit_class, array("MaxWeightHL")) ?>>Stukken</option><option value="weight" <?php echo set_selected_on_set($_POST, "pcs_weightHL", "weight", $succes_class, array("MaxWeightHL"), $edit_class, array("pcsHL", "pcsInfantHL")) ?>>Gewicht</option><option value="both" <?php echo set_selected_on_set($_POST, "pcs_weightHL", "both", $succes_class, array("MaxWeightHL", "pcsHL", "pcsInfantHL"), $edit_class) ?>>Beide</option></select>
+        <?php echo display_error($error, "pcs_weightHL"); ?><label>Stukken of gewicht</label><select id="handbagage" class="input" name="pcs_weightHL"><option></option><option value="pcs" <?php echo $b[] = set_selected_on_set($_POST, "pcs_weightHL", "pcs", $succes_class, array("pcsHL", "pcsInfantHL"), $edit_class, array("MaxWeightHL")) ?>>Stukken</option><option value="weight" <?php echo $b[] = set_selected_on_set($_POST, "pcs_weightHL", "weight", $succes_class, array("MaxWeightHL"), $edit_class, array("pcsHL", "pcsInfantHL")) ?>>Gewicht</option><option value="both" <?php if(isset($b) && count($b) > 1){ echo set_selected_on_set($_POST, "pcs_weightHL", "both", $succes_class, array("MaxWeightHL", "pcsHL", "pcsInfantHL"), $edit_class);} ?>>Beide</option></select>
         <div class="pcsHL"><?php echo display_error($error, "pcsHL"); ?><label>Stukken handbagage</label><input type="text" name="pcsHL" <?php echo add_existing_value($edit_class->pcsHL, $_POST, "pcsHL", $succes_class); ?> />
         <?php echo display_error($error, "pcsInfantHL"); ?><label>Stukken handbagage baby</label><input type="text" name="pcsInfantHL" <?php echo add_existing_value($edit_class->pcsInfantHL, $_POST, "pcsInfantHL", $succes_class); ?> /></div>
         <div class="weightHL"><?php echo display_error($error, "MaxWeightHL"); ?><label>Max. gewicht handbagage kg</label><input type="text" name="MaxWeightHL" <?php echo add_existing_value($edit_class->MaxWeightHL, $_POST, "MaxWeightHL", $succes_class); ?> />
