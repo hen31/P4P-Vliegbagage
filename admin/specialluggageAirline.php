@@ -1,8 +1,15 @@
 <?php
+/**
+ * @author Wim Dalof
+ * @copyright 2013
+ * @date 07-06-3013
+ */
+
 require_once ("../data/includeAll.php");
 $titel = "Speciale bagage koppelen";
 require_once ("bovenkant.php");
-$valid = false;
+$airlineValid = false;
+$specialLuggageValid = false;
 ?>
 
 <div id="menu">
@@ -55,15 +62,15 @@ if (!empty($_SERVER["QUERY_STRING"])) {
                 if (!airline::get_airline_by_name($_GET["airlineName"])) {
                     $airlineMessage = "De door u ingevoerde luchtvaartmaatschappij bestaat niet. Probeer het opnieuw alstublieft.";
                 } else {
-                    $valid = true;
+                    $airlineValid = true;
                 }
             }
 ?>
   <input type="hidden" name="action" value="<?php if ($_GET["action"] == "add") {
-                echo "add";
+                echo ("add");
             }
             if ($_GET["action"] == "edit") {
-                echo "edit";
+                echo ("edit");
 
             } ?>" />
   <label for="airlineName">Luchtvaartmaatschappij:</label>
@@ -75,10 +82,10 @@ if (!empty($_SERVER["QUERY_STRING"])) {
             foreach ($airs as $air) {
 
                 if (isset($_GET["airlineName"]) && $_GET["airlineName"] == $air->name) {
-                    echo '<option selected="true">' . $air->name . '</option>';
+                    echo ('<option selected="true">' . $air->name . '</option>');
 
                 } else {
-                    echo '<option>' . $air->name . '</option>';
+                    echo ('<option>' . $air->name . '</option>');
                 }
             } ?>
   </select>
@@ -91,21 +98,28 @@ if (!empty($_SERVER["QUERY_STRING"])) {
             }
         }
         if ($_GET["action"] == "add") {
-            if (isset($_POST["checkPostedAdd"]) && $valid == true) {
-                if (isset($_POST["selectedSpecialLuggage"])) {
+            //Check if special luggage is valid.
+            if (isset($_POST["availableSpecialLuggage"])) {
+                if (SpecialLuggage::GetSpecialLuggageName($_POST["availableSpecialLuggage"])) {
+                    $specialLuggageValid = true;
+                } else {
+                    $specialLuggageValid = false;
+                }
+            }
+            if (isset($_POST["checkPostedAdd"]) && $airlineValid == true) {
+                if (isset($_POST["availableSpecialLuggage"]) && $specialLuggageValid) {
                     //Check if notes is filled in. - Wim
                     if (empty($_POST["specialLuggageNotes"])) {
                         SpecialLuggage::AddItem(airline::get_airline_by_name($_GET["airlineName"])->
-                            airline_id, $_POST["selectedSpecialLuggage"], "");
+                            airline_id, $_POST["availableSpecialLuggage"], "");
 
                         $linkedSpecialLuggage = true;
                         session_start();
                         $_SESSION["linkedSpecialLuggage"] = true;
                     } else {
-
                         if (strlen($_POST["linkedSpecialLuggageNotes"]) < 1000) {
                             SpecialLuggage::AddItem(airline::get_airline_by_name($_GET["airlineName"])->
-                                airline_id, $_POST["selectedSpecialLuggage"], $_POST["specialLuggageNotes"]);
+                                airline_id, $_POST["availableSpecialLuggage"], $_POST["specialLuggageNotes"]);
 
                             $linkedSpecialLuggage = true;
                             session_start();
@@ -118,7 +132,7 @@ if (!empty($_SERVER["QUERY_STRING"])) {
                     $selectMessage = "<p class='error'> Er is geen speciale bagage geselecteerd. Probeer het opnieuw alstublieft.";
                 }
             }
-            if (isset($_POST["checkPostedAdd"]) && empty($_POST["selectedSpecialLuggage"])) {
+            if (isset($_POST["checkPostedAdd"]) && empty($_POST["availableSpecialLuggage"])) {
                 $selectMessage = "<p class='error'> Er is geen speciale bagage geselecteerd. Probeer het opnieuw alstublieft.";
             }
 
@@ -129,16 +143,16 @@ if (!empty($_SERVER["QUERY_STRING"])) {
                 exit;
             }
 ?>
-<form action="specialluggageAirline.php?action=add&airlineName=<?php if ($valid) {
+<form action="specialluggageAirline.php?action=add&airlineName=<?php if ($airlineValid) {
                 echo ($_GET["airlineName"]);
             } ?>" method="post">
-  <label for="selectedSpecialLuggage">Speciale bagage:</label>
+  <label for="availableSpecialLuggage">Speciale bagage:</label>
   <br />
-  <select id="selectedSpecialLuggage" name="selectedSpecialLuggage" size="7" style="width:150px" >
+  <select id="availableSpecialLuggage" name="availableSpecialLuggage" size="7" style="width:150px" >
     <?php
             if (isset($_GET["airlineName"])) {
 
-                if ($valid == true) {
+                if ($airlineValid == true) {
                     $result = SpecialLuggage::GetLinkedSpecialLuggageList(airline::
                         get_airline_by_name($_GET["airlineName"])->airline_id);
                     for ($i = 0; $i < count($result); $i++) {
@@ -163,10 +177,18 @@ if (!empty($_SERVER["QUERY_STRING"])) {
 <?php
         }
         if ($_GET['action'] == "edit") {
+            //Check if special luggage is valid.
+            if (isset($_POST["linkedSpecialLuggage"])) {
+                if (SpecialLuggage::GetSpecialLuggageName($_POST["linkedSpecialLuggage"])) {
+                    $specialLuggageValid = true;
+                } else {
+                    $specialLuggageValid = false;
+                }
+            }
             if (isset($_POST["submitChangeRemove"])) {
                 //Check what button is clicked ("Ontkoppelen" or "Wijzigen"). - Wim
                 if ($_POST["submitChangeRemove"] == "Ontkoppelen") {
-                    if (!empty($_POST["linkedSpecialLuggage"])) {
+                    if (!empty($_POST["linkedSpecialLuggage"]) && $specialLuggageValid) {
 
                         //Remove special luggage. - Wim
                         $result = SpecialLuggage::GetSpecialLuggageName($_POST["linkedSpecialLuggage"]);
@@ -182,7 +204,7 @@ if (!empty($_SERVER["QUERY_STRING"])) {
                     }
                 }
                 if ($_POST["submitChangeRemove"] == "Wijzigen") {
-                    if (!empty($_POST["linkedSpecialLuggage"])) {
+                    if (!empty($_POST["linkedSpecialLuggage"]) && $specialLuggageValid) {
 
                         if (strlen($_POST["linkedSpecialLuggageNotes"]) < 1000) {
                             //Edit existing linked special luggage. - Wim
@@ -206,7 +228,7 @@ if (!empty($_SERVER["QUERY_STRING"])) {
                 exit;
             }
 ?>
-<form name="linkedSpecialLuggageForm" action="specialluggageAirline.php?action=edit&airlineName=<?php if ($valid) {
+<form name="linkedSpecialLuggageForm" action="specialluggageAirline.php?action=edit&airlineName=<?php if ($airlineValid) {
                 echo $_GET["airlineName"];
             } ?>" method="post">
   <label for="linkedSpecialLuggage">Gekoppelde speciale bagage:</label>
@@ -215,7 +237,7 @@ if (!empty($_SERVER["QUERY_STRING"])) {
     <?php
             //Populated select box. - Wim
             if (isset($_GET["airlineName"])) {
-                if ($valid == true) {
+                if ($airlineValid == true) {
                     $result = SpecialLuggage::GetNotLinkedSpecialLuggageList(airline::
                         get_airline_by_name($_GET["airlineName"])->airline_id);
                     for ($i = 0; $i < count($result); $i++) {
@@ -237,7 +259,7 @@ if (!empty($_SERVER["QUERY_STRING"])) {
   <label for="linkedSpecialLuggageNotes">Opmerkingen:</label>
   <br />
   <textarea id="linkedSpecialLuggageNotes" name="linkedSpecialLuggageNotes" cols="40" rows="10" wrap="virtual" maxlength="1000" style="resize:none">
-<?php if (!empty($_POST["linkedSpecialLuggage"])) {
+<?php if (!empty($_POST["linkedSpecialLuggage"]) && $specialLuggageValid) {
                 //Populate notes texarea. - Wim
                 $resulta = SpecialLuggage::GetSpecialLuggageName($_POST["linkedSpecialLuggage"]);
                 $resultb = SpecialLuggage::GetCombo(airline::get_airline_by_name($_GET["airlineName"])->

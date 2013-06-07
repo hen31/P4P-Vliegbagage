@@ -1,5 +1,10 @@
 <?php
-//Alle data classes includen
+/**
+ * @author Wim Dalof
+ * @copyright 2013
+ * @date 07-06-3013
+ */
+
 require_once ("../data/includeAll.php");
 $titel = "Trajecten";
 
