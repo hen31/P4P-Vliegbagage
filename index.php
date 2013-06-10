@@ -7,7 +7,7 @@
 
 //Alle data classes includen
 require_once ("data/includeAll.php");
-require_once ("data/frontend.php");
+require_once ("data/FrontEnd.php");
 $titel = "Home";
 require_once ("bovenkant.php");
 //check if het is ingevuld

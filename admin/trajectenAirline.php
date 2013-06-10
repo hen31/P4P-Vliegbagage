@@ -2,6 +2,7 @@
 
 //Alle data classes includen
 require_once ("../data/includeAll.php");
+require_once ("../data/FrontEnd.php");
 $titel = "Trajecten koppelen";
 require_once ("bovenkant.php");
         $falseAirport= false;
@@ -77,7 +78,7 @@ unset($traject);
     <label for="beginPunt">Beginpunt: </label>
     <select name="beginPunt" id="beginPunt" class="input"> <?php
     //alle vliegvelden in een lijst zetten
-$airports = airports::GetAirports();
+$airports = frontend::GetAirportsBegin();
 for ($i = 0; $i < count($airports); $i++)
 {
     if((isset($_GET['beginPunt']) && htmlspecialchars($_GET["beginPunt"]) == $airports[$i]->AirportName)||(isset($_SESSION["traject"])&&$_SESSION["traject"]->Airport1->AirportName ==$airports[$i]->AirportName) )
@@ -93,7 +94,7 @@ for ($i = 0; $i < count($airports); $i++)
     <select name="eindPunt" id="eindPunt" class="input" >
     <?php
       //alle vliegvelden in een lijst zetten
-$airports = airports::GetAirports();
+$airports = frontend::GetAirportsEnd();
 for ($i = 0; $i < count($airports); $i++)
 {
     if((isset($_GET['eindPunt']) && htmlspecialchars($_GET["eindPunt"]) == $airports[$i]->AirportName)||(isset($_SESSION["traject"])&&$_SESSION["traject"]->Airport2->AirportName ==$airports[$i]->AirportName) )
