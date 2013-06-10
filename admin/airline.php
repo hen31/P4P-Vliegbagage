@@ -6,7 +6,7 @@
  
 //Alle data classes includen
 require_once ("../data/includeAll.php");
-$titel = "Vliegmaatschappijen";
+$titel = "Luchtvaartmaatschappijen";
 require_once ("bovenkant.php");
 
 $succes_airline = false;
@@ -160,7 +160,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["act"]) && $_POST["act"
             }
             elseif($postveld == "naam"){
                 if(airline::airline_name_exists($_POST[$postveld])){
-                    $error["naam"] = 'Vliegmaatschappij bestaat al.';
+                    $error["naam"] = 'Luchtvaartmaatschappij bestaat al.';
                 }
             }
             elseif($postveld == "iata"){
@@ -347,7 +347,7 @@ elseif($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["act"]) && $_POST["a
         }
         $airline = airline::get_airline_by_name($name);
         if(count($airline) < 1){
-            $error["airline_name"] = "Vliegmaatschappij bestaat niet.";
+            $error["airline_name"] = "Luchtvaartmaatschappij bestaat niet.";
         }
         else{
             airline::add_class($airline->airline_id, $_POST["classnumber"], $_POST["pcsHL"], $_POST["MaxWeightHL"], $_POST["sizeLenghtHL"], $_POST["sizeHeightHL"], $_POST["SizeWidthHL"], $_POST["sizeTotalHL"], $_POST["LaptopAllowedHL"], $_POST["pcsInfantHL"],
@@ -384,7 +384,7 @@ elseif($_SERVER["REQUEST_METHOD"] == "POST" && isset($_GET["action"]) && $_GET["
             }
             elseif($postveld == "naam" && $_POST[$postveld] != $current_airline->name){
                 if(airline::airline_name_exists($_POST[$postveld])){
-                    $error["naam"] = 'Vliegmaatschappij bestaat al.';
+                    $error["naam"] = 'Luchtvaartmaatschappij bestaat al.';
                 }
             }
             elseif($postveld == "iata"){
@@ -622,8 +622,8 @@ elseif($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["act"]) && $_POST["a
 if(!isset($_GET["action"])){
 ?>
 <br /><br />
-<h1 style="margin-left: 20px;">Administratie vliegmaatschappijen</h1>    
-<p>Gebruik het menu om vliegmaatschappijen toe te voegen of te bewerken.</p>
+<h1 style="margin-left: 20px;">Administratie Luchtvaartmaatschappijen</h1>    
+<p>Gebruik het menu om Luchtvaartmaatschappijen toe te voegen of te bewerken.</p>
 <?php
 }
 ?>
@@ -963,7 +963,7 @@ if (isset($_GET["action"]) && $_GET["action"] == "add") {
 <div id="left">
     <h1 style="margin-left: 20px;">Vliegmaatschappij toevoegen</h1><br />
     <?php if(isset($succes_airline) && $succes_airline){ ?>
-    <strong>Vliegmaatschappij <?php echo htmlspecialchars($_POST["naam"]); ?> succesvol toegevoegd.</strong>
+    <strong>Luchtvaartmaatschappij <?php echo htmlspecialchars($_POST["naam"]); ?> succesvol toegevoegd.</strong>
     <?php } ?>
     <form action="airline.php?action=add" method="post" class="form" enctype="multipart/form-data">
         <input type="hidden" name="act" value="airline" />
@@ -997,7 +997,7 @@ if (isset($_GET["action"]) && $_GET["action"] == "add") {
     </form>
 </div>
 <div id="right">
-    <h1 style="margin-right: 20px;">Class toevoegen aan vliegmaatschappij</h1><br />
+    <h1 style="margin-right: 20px;">Class toevoegen aan luchtvaartmaatschappij</h1><br />
     
     <?php if(isset($succes_class) && $succes_class){ ?>
     <strong>Class toegevoegd aan <?php echo htmlspecialchars($_POST["airline_name"]); ?></strong>
@@ -1044,7 +1044,7 @@ if (isset($_GET["action"]) && $_GET["action"] == "add") {
         <div class="l"><?php echo display_error($error, "sizeLenghtHL"); ?><label>Lengte handbagage cm</label><input type="text" name="sizeLenghtHL" <?php echo add_value($_POST, "sizeLenghtHL", $succes_class); ?> />
         <?php echo display_error($error, "sizeHeightHL"); ?><label>Hoogte handbagage cm</label><input type="text" name="sizeHeightHL" <?php echo add_value($_POST, "sizeHeightHL", $succes_class); ?> />
         <?php echo display_error($error, "SizeWidthHL"); ?><label>Breedte handbagage cm</label><input type="text" name="SizeWidthHL" <?php echo add_value($_POST, "SizeWidthHL", $succes_class); ?> /></div>
-        <div class="t"><?php echo display_error($error, "sizeTotalHL"); ?><label>Totale grootte handbagage cm<sup>3</sup></label><input type="text" name="sizeTotalHL" <?php echo add_value($_POST, "sizeTotalHL", $succes_class); ?> /></div>
+        <div class="t"><?php echo display_error($error, "sizeTotalHL"); ?><label>Totale omtrek handbagage cm</label><input type="text" name="sizeTotalHL" <?php echo add_value($_POST, "sizeTotalHL", $succes_class); ?> /></div>
         <?php echo display_error($error, "petsAllowedHL"); ?><label>Huisdieren toegestaan</label><select class="input" name="petsAllowedHL"><option></option><option value="true" <?php echo set_selected($_POST, "petsAllowedHL", "true", $succes_class) ?>>Ja</option><option value="false" <?php echo set_selected($_POST, "petsAllowedHL", "false", $succes_class) ?>>Nee</option></select><br />
         
         <!--Items-->
@@ -1053,7 +1053,7 @@ if (isset($_GET["action"]) && $_GET["action"] == "add") {
         <div class="lI"><?php echo display_error($error, "sizeLenghtPerItem"); ?><label>Lengte per koffer cm</label><input type="text" name="sizeLenghtPerItem"  <?php echo add_value($_POST, "sizeLenghtPerItem", $succes_class); ?> />
         <?php echo display_error($error, "sizeHeightPerItem"); ?><label>Hoogte per koffer cm</label><input type="text" name="sizeHeightPerItem" <?php echo add_value($_POST, "sizeHeightPerItem", $succes_class); ?> />
         <?php echo display_error($error, "sizeWidthPerItem"); ?><label>Breedte per koffer cm</label><input type="text" name="sizeWidthPerItem" <?php echo add_value($_POST, "sizeWidthPerItem", $succes_class); ?> /></div>
-        <div class="tI"><?php echo display_error($error, "sizeTotalPerItem"); ?><label>Totale grootte per koffer cm<sup>3</sup></label><input type="text" name="sizeTotalPerItem" <?php echo add_value($_POST, "sizeTotalPerItem", $succes_class); ?> /></div><br />
+        <div class="tI"><?php echo display_error($error, "sizeTotalPerItem"); ?><label>Totale omtrek per koffer cm</label><input type="text" name="sizeTotalPerItem" <?php echo add_value($_POST, "sizeTotalPerItem", $succes_class); ?> /></div><br />
         
         <!--LP-->
         <label class="title">Loyalty programma (LP)</label><br />
@@ -1072,7 +1072,7 @@ if (isset($_GET["action"]) && $_GET["action"] == "add") {
         <div class="pets_lengte"><?php echo display_error($error, "sizeLenghtPet"); ?><label>Lengte huisdier cm</label><input type="text" name="sizeLenghtPet" <?php echo add_value($_POST, "sizeLenghtPet", $succes_class); ?> />
         <?php echo display_error($error, "sizeHeightPet"); ?><label>Hoogte huisdier cm</label><input type="text" name="sizeHeightPet" <?php echo add_value($_POST, "sizeHeightPet", $succes_class); ?> />
         <?php echo display_error($error, "sizeWidthPet"); ?><label>Breedte huisdier cm</label><input type="text" name="sizeWidthPet" <?php echo add_value($_POST, "sizeWidthPet", $succes_class); ?> /></div>
-        <div class="pets_totaal"><?php echo display_error($error, "sizeTotalPet"); ?><label>Grootte huisdier cm<sup>3</sup></label><input type="text" name="sizeTotalPet" <?php echo add_value($_POST, "sizeTotalPet", $succes_class); ?> /></div></div><br />
+        <div class="pets_totaal"><?php echo display_error($error, "sizeTotalPet"); ?><label>Omtrek huisdier cm</label><input type="text" name="sizeTotalPet" <?php echo add_value($_POST, "sizeTotalPet", $succes_class); ?> /></div></div><br />
         
         <!--Waardeaangifte-->
         <label class="title">Waardeaangifte</label><br />
@@ -1097,10 +1097,10 @@ elseif (isset($_GET["action"]) && $_GET["action"] == "edit") {
 
 <!--Edit-->
 
-<h1 style="margin-left: 20px;">Vliegmaatschappijen beheren</h1><br /><br />
+<h1 style="margin-left: 20px;">Luchtvaartmaatschappijen beheren</h1><br /><br />
 
 <form action="airline.php" method="get" style="text-align: center;">
-    Vliegmaatschappij: <input type="text" name="airline_name" id="airline_name" <?php if(isset($_GET["airline_name"]) && $_GET["airline_name"] != ""){
+    Luchtvaartmaatschappij: <input type="text" name="airline_name" id="airline_name" <?php if(isset($_GET["airline_name"]) && $_GET["airline_name"] != ""){
                                                                                             echo 'value="' .htmlspecialchars($_GET["airline_name"]) .'"';
                                                                                         } else if(isset($_GET["airline_id"]) && $_GET["airline_id"] != ""){
                                                                                             $airline = airline::get_airline($_GET["airline_id"], 0);
@@ -1144,7 +1144,7 @@ if(isset($_GET["airline_name"]) || isset($_GET["airline_id"])){
         $edit_airline = airline::get_airline($_GET["airline_id"], "all");
     }
     if(count($edit_airline) == 0){
-        echo "<br /><p>De gekozen vliegmaatschappij bestaat niet.</p>";
+        echo "<br /><p>De gekozen luchtvaartmaatschappij bestaat niet.</p>";
     }  
     else{ ?>
 <br />
@@ -1152,14 +1152,14 @@ if(isset($_GET["airline_name"]) || isset($_GET["airline_id"])){
     <h1 style="margin-left: 20px;">Vliegmaatschappij beheren</h1><br />
     <?php 
     if(isset($succes_airline) && $succes_airline){
-        echo '<strong style="margin-left: 20px;">Vliegmaatschappij succesvol bijgewerkt.</strong>';
+        echo '<strong style="margin-left: 20px;">Luchtvaartmaatschappij succesvol bijgewerkt.</strong>';
     }
     ?>
     <form action="airline.php?action=edit&airline_id=<?php echo htmlspecialchars($edit_airline->airline_id); ?>" method="post" class="form" enctype="multipart/form-data">
         <input type="hidden" name="act" value="airline" />
         <input type="hidden" name="airline_id" value="<?php echo $edit_airline->airline_id; ?>" />
         <?php echo display_error($error, "naam"); ?><label>Naam</label><input type="text" name="naam" <?php echo add_existing_value($edit_airline->name,$_POST, "naam", $succes_airline); ?> />
-        <img class="input" style="margin-left: 15px;" src="../images/airlines/<?php echo $edit_airline->logo ?>" alt="Logo vliegmaatschappij" height="100" width="100" />
+        <img class="input" style="margin-left: 15px;" src="../images/airlines/<?php echo $edit_airline->logo ?>" alt="Logo luchtvaartmaatschappij" height="100" width="100" />
         <?php echo display_error($error, "logo"); ?><label>Logo</label><input type="file" name="logo" />
         <?php echo display_error($error, "iata"); ?><label>Iata code</label><input type="text" name="iata" <?php echo add_existing_value($edit_airline->iata, $_POST, "iata", $succes_airline); ?> />
         <?php echo display_error($error, "OverweightChargeG"); ?><label>Kosten per extra kilogram &euro;</label><input type="text" name="OverweightChargeG" <?php echo add_existing_value($edit_airline->OverweightChargeG, $_POST, "OverweightChargeG", $succes_airline) ?> />
@@ -1193,7 +1193,7 @@ if(isset($_GET["airline_name"]) || isset($_GET["airline_id"])){
 </div>
 
 <div id="right">
-    <h1 style="margin-right: 20px;">Classes vliegmaatschappij beheren</h1><br />
+    <h1 style="margin-right: 20px;">Classes luchtvaartmaatschappij beheren</h1><br />
     
         <?php if(isset($succes_class) && $succes_class){ ?>
     <strong>Class succesvol bewerkt</strong>
@@ -1201,7 +1201,7 @@ if(isset($_GET["airline_name"]) || isset($_GET["airline_id"])){
     
     <?php
     if(count($edit_airline->classes) == 0){
-        echo "<p>Deze vliegmaatschappij heeft nog geen classes.<br />Klik op 'toevoegen' bovenin om ze toe te voegen.</p>";
+        echo "<p>Deze luchtvaartmaatschappij heeft nog geen classes.<br />Klik op 'toevoegen' bovenin om ze toe te voegen.</p>";
     }
     else
     {
@@ -1260,7 +1260,7 @@ if(isset($_GET["airline_name"]) || isset($_GET["airline_id"])){
         <div class="l"><?php echo display_error($error, "sizeLenghtHL"); ?><label>Lengte handbagage cm</label><input type="text" name="sizeLenghtHL" <?php echo add_existing_value($edit_class->sizeLenghtHL, $_POST, "sizeLenghtHL", $succes_class); ?> />
         <?php echo display_error($error, "sizeHeightHL"); ?><label>Hoogte handbagage cm</label><input type="text" name="sizeHeightHL" <?php echo add_existing_value($edit_class->sizeHeightHL, $_POST, "sizeHeightHL", $succes_class); ?> />
         <?php echo display_error($error, "SizeWidthHL"); ?><label>Breedte handbagage cm</label><input type="text" name="SizeWidthHL" <?php echo add_existing_value($edit_class->SizeWidthHL, $_POST, "SizeWidthHL", $succes_class); ?> /></div>
-        <div class="t"><?php echo display_error($error, "sizeTotalHL"); ?><label>Totale grootte handbagage cm<sup>3</sup></label><input type="text" name="sizeTotalHL" <?php echo add_existing_value($edit_class->sizeTotalHL, $_POST, "sizeTotalHL", $succes_class); ?> /></div>
+        <div class="t"><?php echo display_error($error, "sizeTotalHL"); ?><label>Totale omtrek handbagage cm</label><input type="text" name="sizeTotalHL" <?php echo add_existing_value($edit_class->sizeTotalHL, $_POST, "sizeTotalHL", $succes_class); ?> /></div>
         <?php echo display_error($error, "petsAllowedHL"); ?><label>Huisdieren toegestaan</label><select class="input" name="petsAllowedHL"><option></option><option value="true" <?php echo set_selected_tf($_POST, "petsAllowedHL", "true", $succes_class, $edit_class, "petsAllowedHL", 1); ?>>Ja</option><option value="false" <?php echo set_selected_tf($_POST, "petsAllowedHL", "false", $succes_class, $edit_class, "petsAllowedHL", 0); ?>>Nee</option></select><br />
         
         <!--Items-->
@@ -1269,7 +1269,7 @@ if(isset($_GET["airline_name"]) || isset($_GET["airline_id"])){
         <div class="lI"><?php echo display_error($error, "sizeLenghtPerItem"); ?><label>Lengte per koffer cm</label><input type="text" name="sizeLenghtPerItem"  <?php echo add_existing_value($edit_class->sizeLenghtPerItem, $_POST, "sizeLenghtPerItem", $succes_class); ?> />
         <?php echo display_error($error, "sizeHeightPerItem"); ?><label>Hoogte per koffer cm</label><input type="text" name="sizeHeightPerItem" <?php echo add_existing_value($edit_class->sizeHeightPerItem, $_POST, "sizeHeightPerItem", $succes_class); ?> />
         <?php echo display_error($error, "sizeWidthPerItem"); ?><label>Breedte per koffer cm</label><input type="text" name="sizeWidthPerItem" <?php echo add_existing_value($edit_class->sizeWidthPerItem, $_POST, "sizeWidthPerItem", $succes_class); ?> /></div>
-        <div class="tI"><?php echo display_error($error, "sizeTotalPerItem"); ?><label>Totale grootte per koffer cm<sup>3</sup></label><input type="text" name="sizeTotalPerItem" <?php echo add_existing_value($edit_class->sizeTotalPerItem, $_POST, "sizeTotalPerItem", $succes_class); ?> /></div><br />
+        <div class="tI"><?php echo display_error($error, "sizeTotalPerItem"); ?><label>Totale omtrek per koffer cm</label><input type="text" name="sizeTotalPerItem" <?php echo add_existing_value($edit_class->sizeTotalPerItem, $_POST, "sizeTotalPerItem", $succes_class); ?> /></div><br />
         
         <!--LP-->
         <label class="title">Loyalty programma (LP)</label><br />
@@ -1288,7 +1288,7 @@ if(isset($_GET["airline_name"]) || isset($_GET["airline_id"])){
         <div class="pets_lengte"><?php echo display_error($error, "sizeLenghtPet"); ?><label>Lengte huisdier cm</label><input type="text" name="sizeLenghtPet" <?php echo add_existing_value($edit_class->sizeLenghtPet, $_POST, "sizeLenghtPet", $succes_class); ?> />
         <?php echo display_error($error, "sizeHeightPet"); ?><label>Hoogte huisdier cm</label><input type="text" name="sizeHeightPet" <?php echo add_existing_value($edit_class->sizeHeightPet, $_POST, "sizeHeightPet", $succes_class); ?> />
         <?php echo display_error($error, "sizeWidthPet"); ?><label>Breedte huisdier cm</label><input type="text" name="sizeWidthPet" <?php echo add_existing_value($edit_class->sizeWidthPet, $_POST, "sizeWidthPet", $succes_class); ?> /></div>
-        <div class="pets_totaal"><?php echo display_error($error, "sizeTotalPet"); ?><label>Grootte huisdier cm<sup>3</sup></label><input type="text" name="sizeTotalPet" <?php echo add_existing_value($edit_class->sizeTotalPet, $_POST, "sizeTotalPet", $succes_class); ?> /></div></div><br />
+        <div class="pets_totaal"><?php echo display_error($error, "sizeTotalPet"); ?><label>Omtrek huisdier cm</label><input type="text" name="sizeTotalPet" <?php echo add_existing_value($edit_class->sizeTotalPet, $_POST, "sizeTotalPet", $succes_class); ?> /></div></div><br />
         
         <!--Waardeaangifte-->
         <label class="title">Waardeaangifte</label><br />
@@ -1318,7 +1318,7 @@ if(isset($_GET["airline_name"]) || isset($_GET["airline_id"])){
 <form action="airline.php" method="get" style="float: left;">
     <input type="hidden" name="action" value="del" />
     <input type="hidden" name="airline_id" value="<?php echo $edit_airline->airline_id; ?>" />
-    <input type="submit" value="Vliegmaatschappij verwijderen" />
+    <input type="submit" value="Luchtvaartmaatschappij verwijderen" />
 </form>
 <?php
 if(isset($_GET["class"]) && validator::isInt($_GET["class"])){
@@ -1346,10 +1346,10 @@ elseif(isset($_GET["action"]) && $_GET["action"] == "del"){
         if(isset($_POST["airline_id"]) && !isset($_POST["class_number"])){
             if($_POST["del"] == "true" && validator::isInt($_POST["airline_id"])){
                 airline::remove_airline($_POST["airline_id"]);
-                echo "Vliegmaatschappij verwijderd.";
+                echo "Luchtvaartmaatschappij verwijderd.";
             }
             elseif($_POST["del"] == "false"){
-                echo "Vliegmaatschappij niet verwijderd.";
+                echo "Luchtvaartmaatschappij niet verwijderd.";
             }
         }
         elseif(isset($_POST["airline_id"]) && isset($_POST["class_number"])){
@@ -1366,7 +1366,7 @@ elseif(isset($_GET["action"]) && $_GET["action"] == "del"){
     {
         $del_airline = airline::get_airline($_GET["airline_id"], "all");
         if(count($del_airline) == 0){
-            echo "De opgegeven vliegmaatschappij bestaat (niet) meer.";
+            echo "De opgegeven luchtvaartmaatschappij bestaat (niet) meer.";
         }
     else{
 ?>
@@ -1392,7 +1392,7 @@ elseif(isset($_GET["action"]) && $_GET["action"] == "del"){
 elseif(isset($_GET["airline_id"]) && isset($_GET["class_number"])){
     $del_airline = airline::get_airline($_GET["airline_id"], $_GET["class_number"]);
     if(count($del_airline) == 0){
-        echo "De opgegeven vliegmaatschappij bestaat (niet) meer.";
+        echo "De opgegeven luchtvaartmaatschappij bestaat (niet) meer.";
     }
     else{
     ?>
