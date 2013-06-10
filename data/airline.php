@@ -98,10 +98,10 @@ class airline
     public static function get_airlines($searchTerm = "", $start = null, $count = null)
     {
         if (is_int($start) && is_int($count)) {
-            $result_airlines = DbHandler::QueryLimit("SELECT * FROM `airline` WHERE `name` LIKE :searchterm",
+            $result_airlines = DbHandler::QueryLimit("SELECT * FROM `airline` WHERE `name` LIKE :searchterm ORDER BY airline.name ASC",
                 array("searchterm" => "%" . $searchTerm . "%"), $start, $count);
         } else {
-            $result_airlines = DbHandler::Query("SELECT * FROM `airline` WHERE `name` LIKE :searchterm",
+            $result_airlines = DbHandler::Query("SELECT * FROM `airline` WHERE `name` LIKE :searchterm ORDER BY airline.name ASC",
                 array("searchterm" => "%" . $searchTerm . "%"));
         }
         if (count($result_airlines) == 0) {
