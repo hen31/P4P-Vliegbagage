@@ -268,7 +268,9 @@ if (isset($results))
 
 ?>
                         <p>
+                    <?php    if(isset($_GET["beginPunt"])){?>
                         Er zijn geen luchtvaartmaatschapijen die aan deze voorwaarden voldoen.
+                        <?php }?>
                         </p>
                         <?php
 
