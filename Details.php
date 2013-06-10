@@ -191,6 +191,10 @@ else
             </td>
             <td>
                         <?php echo $airline->classes[0]->pcsLuggageInfantMaxWeight;?>kg</td></tr>
+                        <tr>
+                        <td>Stukken handbagage  kind:</td><td><?php echo $airline->classes[0]->pcsInfantHL;?></td>
+                        <td>Max. gewicht handbagage  kind:</td><td><?php echo $airline->classes[0]->MaxWeightInfantHL;?>kg</td>
+                        </tr>
             </table>
         
             </div>
@@ -268,13 +272,13 @@ else
                 Extra gewicht loyalty:
                 </td>
                 <td>
-                <?php echo $airline->classes[0]->LPextraWeightLuggage;?>
+                <?php echo $airline->classes[0]->LPextraWeightLuggage;?>kg
                 </td>
                    <td>
                 Maximaal gewicht:
                 </td>
                 <td>
-                <?php echo $airline->classes[0]->AbsoluteMaxPerItem;?>
+                <?php echo $airline->classes[0]->AbsoluteMaxPerItem;?>kg
                 </td>
                     <?php }?>
                 </tr>
@@ -299,7 +303,7 @@ else
                 Max. totaal gewicht ruim:
                 </td>
                 <td>
-                <?php echo $airline->classes[0]->MaxWeightPet;?>
+                <?php echo $airline->classes[0]->MaxWeightPet;?>kg
                 </td>
                         <td> Max. afmetingen kooi ruim:</td>
                       <td>  <?php  $afmetingen = $airline->

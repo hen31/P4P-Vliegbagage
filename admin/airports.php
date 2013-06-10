@@ -15,7 +15,7 @@ if ($_GET["action"] == "edit")
                     $Iata = trim($_POST["Iata"]);
                     $City = trim($_POST["airportCity"]);
                     
-                    var_dump($name);
+ 
                     
                     if (strlen($name) > 0 && strlen($name) < 101 && strlen($Iata) >
                     0 && strlen($Iata) < 5 && strlen($City) > 0 && strlen($City) < 101) {

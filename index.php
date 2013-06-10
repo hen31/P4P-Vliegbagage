@@ -70,7 +70,7 @@ if (isset($_GET["beginPunt"]) && isset($_GET["eindPunt"]))
             </p>
                 
             
-                <form action="index.php" method="get" id="IndexForm">
+                <form action="index.php" method="get" id="IndexForm" class="form">
                 <?php
 //als special luggage is die toevoegen als hiddenfield
 $counter = 0;
@@ -83,15 +83,15 @@ while (isset($_GET["specLug" . $counter]))
 
 ?>
 
-                <div class="ui-widget">
+                <div >
                   <label for="beginPunt">Beginpunt: </label>
-                  <select name="beginPunt" id="beginPunt">
+                  <select name="beginPunt" id="beginPunt" class="input">
     <?php
 //vliegvelden toevoegen voor typeahead
-$airports = frontend::GetAirports();
+$airports = frontend::GetAirportsBegin();
 for ($i = 0; $i < count($airports); $i++)
 {
-    if(htmlspecialchars($_GET["beginPunt"]) == $airports[$i]->AirportID)
+    if(isset($_GET["beginPunt"]) && htmlspecialchars($_GET["beginPunt"]) == $airports[$i]->AirportID)
     {
          echo '<option selected="true" value="' . $airports[$i]->AirportID . '">'. $airports[$i]->AirportName . '('. $airports[$i]->AirportCity. ')'.'</option>';
         }
@@ -100,7 +100,23 @@ for ($i = 0; $i < count($airports); $i++)
         echo '<option value="' . $airports[$i]->AirportID . '">'. $airports[$i]->AirportName . '('. $airports[$i]->AirportCity. ')'.'</option>';
 }
 }
-$cities = airports::GetAirportsTwoPerCity();
+$cities = array();// airports::GetAirportsTwoPerCity();
+$CitieCount=array();
+for($i=0;$i< count($airports);$i++)
+{
+    if(array_key_exists($airports[$i]->AirportCity,$CitieCount))
+    {
+        if($CitieCount[$airports[$i]->AirportCity] ==1)
+        {
+            $CitieCount[$airports[$i]->AirportCity] =2;
+        $cities[] =  $airports[$i]->AirportCity;
+        }
+    }
+    else
+    {
+        $CitieCount[$airports[$i]->AirportCity] =1;
+    }
+}
 for ($i = 0; $i < count($cities); $i++)
 {
     if(isset($_GET["beginPunt"])&&htmlspecialchars($_GET["beginPunt"]) == $cities[$i])
@@ -115,9 +131,9 @@ for ($i = 0; $i < count($cities); $i++)
 ?>
 </select>
                   <label for="eindPunt">Eindpunt: </label>
-                  <select name="eindPunt" id="eindPunt">
+                  <select name="eindPunt" id="eindPunt" class="input">
                   <?php
-                  $airports = frontend::GetAirports();
+                  $airports = frontend::GetAirportsEnd();
 for ($i = 0; $i < count($airports); $i++)
 {
     if(htmlspecialchars($_GET["eindPunt"]) == $airports[$i]->AirportID)
@@ -129,10 +145,26 @@ for ($i = 0; $i < count($airports); $i++)
         echo '<option value="' . $airports[$i]->AirportID . '">'. $airports[$i]->AirportName . '('. $airports[$i]->AirportCity. ')'.'</option>';
 }
 }
-$cities = airports::GetAirportsTwoPerCity();
+$cities = array();// airports::GetAirportsTwoPerCity();
+$CitieCount=array();
+for($i=0;$i< count($airports);$i++)
+{
+    if(array_key_exists($airports[$i]->AirportCity,$CitieCount))
+    {
+        if($CitieCount[$airports[$i]->AirportCity] ==1)
+        {
+            $CitieCount[$airports[$i]->AirportCity] =2;
+        $cities[] =  $airports[$i]->AirportCity;
+        }
+    }
+    else
+    {
+        $CitieCount[$airports[$i]->AirportCity] =1;
+    }
+}
 for ($i = 0; $i < count($cities); $i++)
 {
-    if(htmlspecialchars($_GET["eindPunt"]) == $cities[$i])
+    if(isset($_GET["eindPunt"]) &&htmlspecialchars($_GET["eindPunt"]) == $cities[$i])
     {
          echo '<option selected="true" value="' . $cities[$i]. '">'. $cities[$i] . '(alle vliegvelden)</option>';
         }
@@ -144,8 +176,8 @@ for ($i = 0; $i < count($cities); $i++)
                   ?>
                   </select>
                 </div>
-                <label for="classSel">Klasse</label>
-                <select name="class" id="classSel">
+                <label for="classSel">Klasse:</label>
+                <select name="class" id="classSel" class="input">
                 <option value="0"
                  <?php
 //als een klasse is ingevuld die selecteren
@@ -186,9 +218,10 @@ if (isset($_GET["class"]))
 ?>>Business klas</option>
                 </select>
                                 <div>
-                                <div>
-                                    <label for="spec">Extra bagage</label>
-                                    <select name="spec" id="spec" >
+                                <div >
+                                
+                                    <label for="spec">Extra bagage:</label>
+                                    <select name="spec" id="spec" class="input" style="float:left;">
                                 <?php    $specialeBagage1 = SpecialLuggage::GetSpecialLuggageList();
 for ($i = 0; $i < count($specialeBagage1); $i++)
 {
@@ -196,9 +229,9 @@ for ($i = 0; $i < count($specialeBagage1); $i++)
         echo '<option>' . $specialeBagage1[$i]->Name . '</option>';
 
 }?></select>
-                                    <button onClick="AddSpec(); return false;">Toevoegen</button>
-                                    <div id="specListDiv">
-                                    <ul id="specList" >
+                                    <button onClick="AddSpec(); return false;" class="input">Toevoegen</button>
+                                    <div id="specListDiv" class="input" >
+                                    <ul id="specList">
                                         <?php
 //zorgen dat er jvavascript word uitgevoerd als op delete word geklikt
 $counter = 0;
@@ -216,6 +249,7 @@ while (isset($_GET["specLug" . $counter]))
              
                 
                 </div>
+                <label for="submit" >&nbsp;</label>
                 <input id="submit" type="submit" value="Zoeken" /> 
                 </form>          
                 
@@ -250,6 +284,14 @@ if (isset($results))
 <script src="js/javascript.js"></script>
 
 <script type="text/javascript">
+$(document).ready(function(){
+   <?php if(isset($_GET["specLug0"]) ==false) 
+   {
+    ?>
+   $('#specListDiv').hide();
+    <?php
+   }?>
+});
 jQuery("#list4").jqGrid({
 	datatype: "local",
 	height: 500,
@@ -409,6 +451,7 @@ function AddSpec()
     var text = $("#spec").find(":selected").text();
     if(/\S/.test(text) == true)
     {
+           $('#specListDiv').show();
     $('#IndexForm').append('<input type="hidden" id="specLug'+counter +'" name="specLug'+counter +'" value="'+text +'">');
         $('#specList').append('<li id="'+counter+'">'+text +'<img src="images/deleteIcon.png" onClick="Delete(\''+counter+'\'); return false;" /></li>');
     counter = counter + 1;
@@ -420,6 +463,11 @@ function AddSpec()
   {
 $('#'+counter).remove();
    $('#specLug'+counter).remove();
+    if( $('#specList').find('li').length ==0)
+   {
+
+       $('#specListDiv').hide();
+   }
    
   }
   </script>
