@@ -961,7 +961,7 @@ if (isset($_GET["action"]) && $_GET["action"] == "add") {
 
 <!--Add-->
 <div id="left">
-    <h1 style="margin-left: 20px;">Vliegmaatschappij toevoegen</h1><br />
+    <h1 style="margin-left: 20px;">Luchtvaartmaatschappij toevoegen</h1><br />
     <?php if(isset($succes_airline) && $succes_airline){ ?>
     <strong>Luchtvaartmaatschappij <?php echo htmlspecialchars($_POST["naam"]); ?> succesvol toegevoegd.</strong>
     <?php } ?>
@@ -997,7 +997,7 @@ if (isset($_GET["action"]) && $_GET["action"] == "add") {
     </form>
 </div>
 <div id="right">
-    <h1 style="margin-right: 20px;">Class toevoegen aan luchtvaartmaatschappij</h1><br />
+    <h1 style="margin-right: 20px; padding-right: 200px;">Class toevoegen</h1><br />
     
     <?php if(isset($succes_class) && $succes_class){ ?>
     <strong>Class toegevoegd aan <?php echo htmlspecialchars($_POST["airline_name"]); ?></strong>
@@ -1005,7 +1005,7 @@ if (isset($_GET["action"]) && $_GET["action"] == "add") {
     
     <form action="airline.php?action=add" method="post" class="form">
         <input type="hidden" name="act" value="class" />
-        <?php echo display_error($error, "airline_name"); ?><label>Vliegmaatschappij:</label><select class="input" id="airline_name" name="airline_name">
+        <?php echo display_error($error, "airline_name"); ?><label>Luchtvaartmaatschappij:</label><select class="input" id="airline_name" name="airline_name">
             <?php 
             $airlines = airline::get_airlines();
             if(count($airlines) > 0){
@@ -1149,7 +1149,7 @@ if(isset($_GET["airline_name"]) || isset($_GET["airline_id"])){
     else{ ?>
 <br />
 <div id="left">
-    <h1 style="margin-left: 20px;">Vliegmaatschappij beheren</h1><br />
+    <h1 style="margin-left: 20px;">Luchtvaartmaatschappij beheren</h1><br />
     <?php 
     if(isset($succes_airline) && $succes_airline){
         echo '<strong style="margin-left: 20px;">Luchtvaartmaatschappij succesvol bijgewerkt.</strong>';
