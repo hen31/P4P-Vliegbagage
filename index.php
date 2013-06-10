@@ -143,7 +143,7 @@ for ($i = 0; $i < count($cities); $i++)
                   $airports = frontend::GetAirportsEnd();
 for ($i = 0; $i < count($airports); $i++)
 {
-    if(htmlspecialchars($_GET["eindPunt"]) == $airports[$i]->AirportID)
+    if(isset($_GET["eindPunt"]) &&htmlspecialchars($_GET["eindPunt"]) == $airports[$i]->AirportID)
     {
          echo '<option selected="true" value="' . $airports[$i]->AirportID . '">'. $airports[$i]->AirportName . '('. $airports[$i]->AirportCity. ')'.'</option>';
         }
