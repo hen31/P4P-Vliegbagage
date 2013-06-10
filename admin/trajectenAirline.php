@@ -72,10 +72,10 @@ unset($traject);
 <a href="trajecten.php">Traject aanmaken</a><br/>
 <h1>Traject Koppelen</h1>
 <p>Selecteer het traject</p>
-<form action="trajectenAirline.php" method="get">
+<form action="trajectenAirline.php" method="get" class="form">
   <div class="ui-widget">
     <label for="beginPunt">Beginpunt: </label>
-    <select name="beginPunt" id="beginPunt"> <?php
+    <select name="beginPunt" id="beginPunt" class="input"> <?php
     //alle vliegvelden in een lijst zetten
 $airports = airports::GetAirports();
 for ($i = 0; $i < count($airports); $i++)
@@ -90,7 +90,7 @@ for ($i = 0; $i < count($airports); $i++)
 }
 }?></select>
     <label for="eindPunt">Eindpunt: </label>
-    <select name="eindPunt" id="eindPunt" >
+    <select name="eindPunt" id="eindPunt" class="input" >
     <?php
       //alle vliegvelden in een lijst zetten
 $airports = airports::GetAirports();
