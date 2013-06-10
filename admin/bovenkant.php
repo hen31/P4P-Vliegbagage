@@ -20,7 +20,7 @@ if((!isset($_SESSION["user"]) || $_SESSION["user"]==null) && !DEBUG)
     <div id="container">
         <div id="header"></div>
         <div class="name">
-            <a href="airline.php">Vliegmaatschappijen</a>
+            <a href="airline.php">Luchtvaartmaatschappijen</a>
             <a href="airports.php">Vliegvelden</a>
             <a href="trajecten.php">Trajecten</a>
             <a href="specialluggage.php">Speciale bagage</a>
