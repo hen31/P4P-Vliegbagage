@@ -313,7 +313,7 @@ elseif($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["act"]) && $_POST["a
         }
     }
     
-    if(isset($_POST["airline_name"])){
+    if(isset($_POST["airline_name"]) && !empty($_POST["airline_name"])){
         $name = explode("(", $_POST["airline_name"]);
         if(count($name) == 1){
             $name = $name[0];
@@ -1005,7 +1005,7 @@ if (isset($_GET["action"]) && $_GET["action"] == "add") {
     
     <form action="airline.php?action=add" method="post" class="form">
         <input type="hidden" name="act" value="class" />
-        <?php echo display_error($error, "airline_name"); ?><label>Luchtvaartmaatschappij:</label><select class="input" id="airline_name" name="airline_name">
+        <?php echo display_error($error, "airline_name"); ?><label>Luchtvaartmaatschappij:</label><select class="input" id="airline_name" name="airline_name"><option value=""></option>
             <?php 
             $airlines = airline::get_airlines();
             if(count($airlines) > 0){
