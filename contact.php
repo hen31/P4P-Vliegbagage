@@ -5,6 +5,8 @@
  * @Datum 13-5-2013
  * @uses Hier volgt het contact formulier voor het mailen.
  */
+
+$titel = "Contact";
 //Alle data classes includen
 require_once("data/includeAll.php");
 require_once("bovenkant.php");
