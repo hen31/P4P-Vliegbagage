@@ -73,7 +73,7 @@ if (isset($_GET["beginPunt"]) && isset($_GET["eindPunt"]))
             <p>
                 Iedere luchtvaartmaatschappij hanteert tarieven voor het vervoer van reizigers;<br/> wat kost het vervoer van de bagage en wat mag je  meenemen?
                 <br/><br/>
-                Deze website geeft het antwoord op deze vraag<br />
+                Deze website geeft het antwoord op deze vraag.<br />
             </p>
                 
             
