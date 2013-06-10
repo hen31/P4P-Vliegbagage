@@ -21,7 +21,7 @@ if (isset($_POST['Submit'])) {
                 //als het goed is gegaan redirecten naar adminpagina
                 $fatalerror = false;
                 $_SESSION["user"] = $user;
-                header("Location: admin.php");
+                header("Location: ../admin");
                 exit;
             }
             }
