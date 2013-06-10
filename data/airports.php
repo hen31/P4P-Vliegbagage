@@ -97,7 +97,7 @@ class airports
     //Alle vliegvelden ophalen
     public static function GetAirports()
     {
-        $Query = DbHandler::Query("SELECT * FROM airports", null);
+        $Query = DbHandler::Query("SELECT * FROM airports ORDER BY name ASC", null);
         $AirportCOllection = array();
 
         foreach ($Query as $result)
@@ -127,7 +127,7 @@ class airports
     {
         $SearchQuery = htmlspecialchars($SearchQuery);
 
-        $Query = DbHandler::Query("SELECT * FROM airports WHERE name LIKE  :SearchQuery ",
+        $Query = DbHandler::Query("SELECT * FROM airports WHERE name LIKE  :SearchQuery ORDER BY name ASC",
             array("SearchQuery" => "%" . $SearchQuery . "%"));
         $AirportCOllection = array();
 
