@@ -143,7 +143,7 @@ class FrontEnd
     }
        static public function GetAirportsEnd()
        {
-         $ids = DbHandler::Query("SELECT DISTINCT(airport_id) FROM airports WHERE ( airport_id IN ( SELECT airport_stop_id FROM traject GROUP BY airport_stop_id)) ;");
+         $ids = DbHandler::Query("SELECT DISTINCT(airport_id) FROM airports WHERE ( airport_id IN ( SELECT airport_stop_id FROM traject GROUP BY airport_stop_id)) ORDER BY airports.name ASC ;");
         //$numbers =  array();
         $airports = array();
         for ($i = 0; $i < count($ids); $i++)
@@ -164,7 +164,7 @@ class FrontEnd
        }
         static public function GetAirportsBegin()
        {
-       $ids = DbHandler::Query("SELECT DISTINCT(airport_id) FROM airports WHERE (airport_id IN ( SELECT airport_start_id FROM traject GROUP BY airport_start_id)) ;");
+       $ids = DbHandler::Query("SELECT DISTINCT(airport_id) FROM airports WHERE (airport_id IN ( SELECT airport_start_id FROM traject GROUP BY airport_start_id)) ORDER BY airports.name ASC;");
         //$numbers =  array();
         $airports = array();
         for ($i = 0; $i < count($ids); $i++)

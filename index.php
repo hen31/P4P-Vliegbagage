@@ -62,6 +62,13 @@ if (isset($_GET["beginPunt"]) && isset($_GET["eindPunt"]))
 }
 
 ?>
+<noscript>
+<div class="errorJava">
+<div class="errorJavaCenter">
+<h1 style="color: red;">Om deze site te bekijken moet u javascript aanzetten<br />Om te zien hoe dit moet gaat u naar <a href="http://www.enable-javascript.com/nl">deze site</a></h1><br />
+</div>
+</div>
+</noscript>
             <h2>Wat kost het vervoer van mijn koffer?</h2>
             <p>
                 Iedere luchtvaartmaatschappij hanteert tarieven voor het vervoer van reizigers;<br/> wat kost het vervoer van de bagage en wat mag je  meenemen?
