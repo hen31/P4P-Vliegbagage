@@ -164,7 +164,7 @@ class SpecialLuggage
     //hiermee haal je de bestaande informatie op om later te kunnen weergeven
     public static function GetSpecialLuggageList()
     {
-        $Query = DbHandler::Query("SELECT * FROM SPECIALLUGGAGE", null);
+        $Query = DbHandler::Query("SELECT * FROM SPECIALLUGGAGE ORDER BY name ASC", null);
         $SpecialLuggageCollection = array();
 
         foreach ($Query as $result) {
