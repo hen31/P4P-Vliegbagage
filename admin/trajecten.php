@@ -14,8 +14,9 @@ if (!empty($_SERVER["QUERY_STRING"])) {
 
         //Remove a traject from database. - Wim
         trajecten::remove_traject_by_trajectid($remove);
-        header("Location: trajecten.php");
-        exit;
+        $removed = true;
+        session_start();
+        $_SESSION["removed"] = true;
     }
 }
 if ((isset($_POST["checkPostedAdd"]))) {
@@ -53,6 +54,12 @@ if (isset($added) && $added == true) {
     header("Location: trajecten.php");
     exit;
 }
+if (isset($removed) && $removed == true) {
+    $removed = false;
+    header("Location: trajecten.php");
+    exit;
+}
+
 require_once ("bovenkant.php");
 
 ?>
@@ -308,6 +315,11 @@ if (($idplus * 10) < trajecten::get_traject_amount($startAirportId, $stopAirport
         echo ("?pageId=" . $idplus);
     } ?>">Volgende</a>
 <?php
+}
+if (isset($_SESSION["removed"]) && $_SESSION["removed"] == true) {
+    $_SESSION["removed"] = false;
+    echo ('<br> <p class="good">Traject is met succes verwijderd.</p>');
+    $showBlank = true;
 }
 require_once ("onderkant.php");
 ?>
