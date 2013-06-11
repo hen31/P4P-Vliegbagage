@@ -66,9 +66,7 @@ else
             <?php 
             echo htmlspecialchars($airline->name);?>
             </h2>
-            <p>
-           <?php echo htmlspecialchars($airline->notes);?>
-            </p>
+
             </div>
             <table style="width:100%;">
             
@@ -282,8 +280,14 @@ else
                 </td>
                     <?php }?>
                 </tr>
-            
+                  <tr>
+                  <td colspan="4">
+                        <hr />
+           <?php echo htmlspecialchars($airline->notes);?>
+</td>
+</tr>
             </table>
+
             </div>
             <hr />
                    <div id="accordion2">
