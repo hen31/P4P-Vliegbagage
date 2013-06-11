@@ -602,7 +602,6 @@ elseif($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["act"]) && $_POST["a
         $succes_class = true;
         
         }
-    print_r($error);
 }
 
 ?>

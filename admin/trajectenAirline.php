@@ -121,7 +121,7 @@ if (isset($traject) == false)
 </form>
 <?php    if (isset($_SESSION["traject"])){?>
 <form action="trajectenAirline.php" method="get">
-  <label for="AirlineName">Vliegmaatschapij:</label>: </label>
+  <label for="AirlineName">Luchtvaartmaatschappij:</label>
 <select name="AirlineName" id="AirlineName">
 <?php
 $airlines = airline::get_airlines();
@@ -157,14 +157,14 @@ else
 //zorgen dat het bestaat
  if($falseAirport == true)
 {
-    echo "</br>Vliegmaatschapij bestaat niet.";
+    echo "</br>Luchtvaartmaatschappij bestaat niet.";
 }?>
 <input type="hidden" value="Toevoegen" id="actie" />
 
 </form>
 
 <form action="trajectenAirline.php" method="get">
-<label for="CurrentAirlines">Huidige vliegtuigmaatschapijen op dit traject:<br /></label>
+<label for="CurrentAirlines">Huidige luchtvaartmaatschappijen op dit traject:<br /></label>
 <select id="CurrentAirlines" name="CurrentAirlines" size="6" style="width:150px;" >
 <?php
 //opties toevoegen
