@@ -50,7 +50,7 @@ class user
         if ($check != true) {
             DbHandler::Query("INSERT INTO user(username,password) VALUES (:Name,:userPassword);",
                 array("Name" => $username, "userPassword" => $userPassword));
-            echo "user aangemaakt";
+            echo "Gebruiker is aangemaakt";
 
             return true;
         } else {
