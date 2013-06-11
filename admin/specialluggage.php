@@ -183,7 +183,7 @@ if (isset($_GET["action"])) {
                                                                 <form action="specialluggage.php?action=edit&Edited=<?php echo
                 $specialluggage_id; ?>" method="post" class="form">
                                                                     <div><label for="specialluggagename">Speciale bagage naam: </label><input name="name" id="specialluggagename" value="<?php echo
-                $Specialluggage->Name; ?>" style="width:325px;" /></div>
+                $Specialluggage->Name; ?>" style="width:250px;" /></div>
                                                                     <div><label for="Verwijderen">Bagage verwijderen? </label></div>
                                                                     <input type="checkbox" name="verwijderen" value="true"/></div>
                                                                     <div>&nbsp;</div>

@@ -239,11 +239,11 @@ if (isset($_GET["action"])) {
                                                                 <form action="airports.php?action=edit&Edited=<?php echo
                 $Airportid; ?>" method="post" class="form">
                                                                     <div><label for="airportname">Vliegveld naam: </label><input name="name" id="airportname" value="<?php echo
-                $AirportName; ?>" style="width:325px;" /></div>
+                $AirportName; ?>" style="width:250px;" /></div>
                                                                     <div><label for="airportIata">Vliegveld IATA code: </label><input name="Iata" id="IataCode" value="<?php echo
-                $IataCode[0]; ?>" style="width:325px;" /></div>
+                $IataCode[0]; ?>" style="width:250px;" /></div>
                                                                     <div><label for="airportCity">Vliegveld plaats</label><input name="airportCity" id="airportCity" value="<?php echo
-                $AirportCity; ?>" style="width:325px;" /></div>
+                $AirportCity; ?>" style="width:250px;" /></div>
                                                                     <div><label for="Verwijderen">Vliegveld verwijderen? </label><input type="checkbox" name="verwijderen" value="true"/></div>
                                                                     <div>&nbsp;</div>
                                                                     <div><label>&nbsp;</label><input type="submit" value="Vliegveld wijzigen"/></div>
