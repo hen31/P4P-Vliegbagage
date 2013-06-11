@@ -320,7 +320,7 @@ else
                 <td>
                 &euro;
                 <?php
-                echo $airline->classes[0]->CostsPet;
+                echo number_format($airline->classes[0]->CostsPet,2, ',', ' ');
                 ?>
                 </td>
                 </tr>
@@ -330,7 +330,7 @@ else
             </div>
 
     </div>
-               <div style="height:30px; "></div>
+               <div style="height:20px; "></div>
      <div class="Disclaimer">
     <div class="DisclaimerCenter">
     Bij vertrekpunten in het buitenland wordt de plaatselijke valuta gebruikt.</div>
