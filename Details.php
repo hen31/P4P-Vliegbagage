@@ -78,12 +78,12 @@ else
             <td><?php if($airline->classes[0]->maxWeightLuggage !=0){ echo $airline->classes[0]->maxWeightLuggage.'kg';}
             else
             {
-                                echo 'Deze vliegmaatschapij rekent</br> met aantal koffers en niet met gewicht.';
+                                echo 'n.v.t.';
             }?></td>
            <td>Gratis aantal handbagage:</td>
-            <td><?php if($airline->classes[0]->pcsHL !=0){echo $airline->classes[0]->pcsHL.'kg';}
+            <td><?php if($airline->classes[0]->pcsHL !=0){echo $airline->classes[0]->pcsHL;}
             else{
-                echo 'Deze vliegmaatschapij rekent met gewichten</br> en niet met aantal koffers.';
+                echo 'n.v.t..';
             }?></td>
            
             </tr>
@@ -93,12 +93,12 @@ else
             <td>Gratis aantal ruim koffers:</td>
             <td><?php if($airline->classes[0]->pcsLuggage !=0){echo $airline->classes[0]->pcsLuggage;}
             else{
-                echo 'Deze vliegmaatschapij rekent met gewichten</br> en niet met aantal koffers.';
+                echo 'n.v.t.';
             }?></td>
             <td>Gratis gewicht handbagage:</td>
             <td><?php if($airline->classes[0]->MaxWeightHL !=0){echo $airline->classes[0]->MaxWeightHL.'kg';}
             else{
-                echo 'Deze vliegmaatschapij rekent met aantal koffers</br> en niet met gewicht.';
+                echo 'n.v.t.';
             }?></td>
             </tr>
        
@@ -107,8 +107,8 @@ else
               <td>Ruim bagage afmetingen:</td>
             <td><?php  $afmetingen = $airline->
                 classes[0]->sizeTotalPerItem ? $airline->classes[0]->sizeTotalPerItem.'cm' : $airline->
-                classes[0]->sizeLenghtPerItem . 'cm x ' . $airline->classes[0]->sizeWidthPerItem .
-                'cm x ' . $airline->classes[0]->sizeHeightPerItem.'cm';
+                classes[0]->sizeLenghtPerItem . ' x ' . $airline->classes[0]->sizeWidthPerItem .
+                ' x ' . $airline->classes[0]->sizeHeightPerItem.'cm';
                 echo $afmetingen;
             ?></td>
             <td>Handbagage afmetingen:</td>
@@ -116,8 +116,8 @@ else
             else
             {
               $afmetingen =   $airline->
-                classes[0]->sizeLenghtHL . 'cm x ' . $airline->classes[0]->SizeWidthHL .
-                'cm x ' . $airline->classes[0]->sizeHeightHL.'cm';
+                classes[0]->sizeLenghtHL . ' x ' . $airline->classes[0]->SizeWidthHL .
+                ' x ' . $airline->classes[0]->sizeHeightHL.'cm';
                 echo $afmetingen;
             }?></td>
             
@@ -129,7 +129,7 @@ else
             <hr /></td></tr>
             
             <tr>
-             <td>Kosten overwicht(per kg):</td>
+             <td>Kosten overgewicht(per kg):</td>
             <td>&euro;<?php echo number_format($airline->OverweightChargeG,2, ',', ' ');?></td>
                  <td>Kosten te grote koffer:</td>
             <td>&euro;<?php echo number_format($airline->OversizeCharge,2, ',', ' ');?></td>
@@ -141,7 +141,7 @@ else
                 echo 'koffer ' . ($bag->number+1 ). ': &euro;'. number_format($bag->costs,2, ',', ' ') . '</br>';
             }?></td>
                  <td>Kosten overgewicht per koffer:</td>
-            <td>&euro;<?php echo  number_format($airline->OverweightChargeBag,2, ',', ' ');?><br />Is alleen van toepassing als per koffer wordt gerekend</td>
+            <td>&euro;<?php echo  number_format($airline->OverweightChargeBag,2, ',', ' ');?></td>
             </tr>
             
                    <tr>
@@ -249,7 +249,7 @@ else
                 <td><?php if($airline->classes[0]->DeclarationOfValue == true){ echo 'ja';}else{echo 'nee';}?></td>
                 <?php if($airline->classes[0]->DeclarationOfValue == true){?>
                 <td>
-                Maximale waarde afgifte:
+                Maximale waarde aangifte:
                 </td>
                 <td>&euro;
                 <?php echo number_format($airline->classes[0]->MaxDeclarationOfValue,2, ',', ' ');?>
@@ -302,25 +302,39 @@ else
                 <td>
                 Max. totaal gewicht ruim:
                 </td>
+                
                 <td>
                 <?php echo $airline->classes[0]->MaxWeightPet;?>kg
                 </td>
-                        <td> Max. afmetingen kooi ruim:</td>
+                        <td>Max. afmetingen kooi ruim:</td>
                       <td>  <?php  $afmetingen = $airline->
                 classes[0]->MaxWeightPet ? $airline->classes[0]->MaxWeightPet.'cm' : $airline->
-                classes[0]->sizeLenghtPet . 'cm x ' . $airline->classes[0]->sizeWidthPet .
-                'cm x ' . $airline->classes[0]->sizeHeightPet.'cm';
+                classes[0]->sizeLenghtPet . ' x ' . $airline->classes[0]->sizeWidthPet .
+                ' x ' . $airline->classes[0]->sizeHeightPet.'cm';
                 echo $afmetingen;
             ?></td>
                     <?php }?>
+                </tr>
+                <tr>
+                <td>Kosten</td>
+                <td>
+                &euro;
+                <?php
+                echo $airline->classes[0]->CostsPet;
+                ?>
+                </td>
                 </tr>
                 </table>
                    </div>
             
             </div>
-            
+
     </div>
-    
+               <div style="height:30px; "></div>
+     <div class="Disclaimer">
+    <div class="DisclaimerCenter">
+    Bij vertrekpunten in het buitenland wordt de plaatselijke valuta gebruikt.</div>
+   </div>
     </body>
     <script src="js/jquery-1.9.0.min.js"></script>
 <script src="js/jquery-ui.js"></script>

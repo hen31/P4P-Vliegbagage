@@ -160,7 +160,25 @@ p {
 	color: #006e81;
 	font-style: normal;
 }
-
+.Disclaimer
+{
+      bottom:0px;
+       position:fixed;
+    height: 30px;
+    width:100%;
+    display:block;
+    background-color:darkred;
+    
+    
+}
+.DisclaimerCenter
+{
+  
+margin-left:25%;
+width:50%;
+margin-right:25%;
+color:white;
+}
 #header {
 	height: 200px; 
 	width: 900px;

@@ -93,6 +93,7 @@ while (isset($_GET["specLug" . $counter]))
                 <div >
                   <label for="beginPunt">Beginpunt: </label>
                   <select name="beginPunt" id="beginPunt" class="input">
+                  <option></option>
     <?php
 //vliegvelden toevoegen voor typeahead
 $airports = frontend::GetAirportsBegin();
@@ -139,6 +140,7 @@ for ($i = 0; $i < count($cities); $i++)
 </select>
                   <label for="eindPunt">Eindpunt: </label>
                   <select name="eindPunt" id="eindPunt" class="input">
+                   <option></option>
                   <?php
                   $airports = frontend::GetAirportsEnd();
 for ($i = 0; $i < count($airports); $i++)
@@ -229,6 +231,7 @@ if (isset($_GET["class"]))
                                 
                                     <label for="spec">Extra bagage:</label>
                                     <select name="spec" id="spec" class="input" style="float:left;">
+                                    <option></option>
                                 <?php    $specialeBagage1 = SpecialLuggage::GetSpecialLuggageList();
 for ($i = 0; $i < count($specialeBagage1); $i++)
 {
@@ -305,11 +308,11 @@ jQuery("#list4").jqGrid({
 	datatype: "local",
 	height: 500,
     width: 875,
-   	colNames:['Logo','Naam', 'Gratis gewicht', 'Afmeting','koffers ruim bagage','Gewicht handbagage', 'Handbagage afmeting'],
+   	colNames:['Logo','Naam', 'Max. Gw. Ruimbagage', 'Afmeting','Max. koffers ruim','Gewicht handbagage', 'Handbagage afmeting'],
    	colModel:[
    		{name:'logo',index:'logo', width:110, sortable:false, align:"center"},
    		{name:'name',index:'name', width:90, sorttype:"text",align:"center"},
-   		{name:'GwGrts',index:'GwGrts', width:90, sorttype:"int",align:"center"},
+   		{name:'GwGrts',index:'GwGrts', width:120, sorttype:"int",align:"center"},
    		{name:'Afmeting',index:'Afmeting', width:90, sorttype:"int",align:"center" },
    		{name:'Apcs',index:'Apcs', width:100, sorttype:"int",align:"center" },		
    		{name:'Gwhl',index:'Gwhl', width:90, sorttype:"int",align:"center"},		
@@ -374,15 +377,15 @@ if (isset($results) && count($results) > 0)
         $airline = $results[$s];
         $afmetingen = $airline->
                 classes[0]->sizeTotalPerItem ? $airline->classes[0]->sizeTotalPerItem.'cm' : $airline->
-                classes[0]->sizeLenghtPerItem . 'cm x ' . $airline->classes[0]->sizeWidthPerItem .
-                'cm x ' . $airline->classes[0]->sizeHeightPerItem.'cm';
+                classes[0]->sizeLenghtPerItem . ' x ' . $airline->classes[0]->sizeWidthPerItem .
+                ' x ' . $airline->classes[0]->sizeHeightPerItem.'cm';
     $afmetingenHL = $airline->
                 classes[0]->sizeTotalHL ? $airline->classes[0]->sizeTotalHL.'cm' : $airline->
-                classes[0]->sizeLenghtHL . 'cm x ' . $airline->classes[0]->SizeWidthHL .
-                'cm x ' . $airline->classes[0]->sizeHeightHL.'cm';
+                classes[0]->sizeLenghtHL . ' x ' . $airline->classes[0]->SizeWidthHL .
+                ' x ' . $airline->classes[0]->sizeHeightHL.'cm';
                 if($airline->classes[0]->MaxWeightHL  ==0)
                 {
-                    $airline->classes[0]->MaxWeightHL = 'NVT';
+                    $airline->classes[0]->MaxWeightHL = 'n.v.t.';
                 }
                 else
                 {
@@ -393,12 +396,12 @@ if (isset($results) && count($results) > 0)
                 pcsLuggage  ==0)
                 {
                     $airline->classes[0]->
-                pcsLuggage = 'NVT';
+                pcsLuggage = 'n.v.t.';
                 }
                 
                 if($airline->classes[0]->maxWeightLuggage == 0)
                 {
-                    $airline->classes[0]->maxWeightLuggage = 'NVT';
+                    $airline->classes[0]->maxWeightLuggage = 'n.v.t.';
                 }
                 else
                 {
