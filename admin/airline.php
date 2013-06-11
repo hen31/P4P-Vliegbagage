@@ -54,7 +54,10 @@ function add_existing_value($value, $post, $postindex, $succes_var){
         return 'value="' .htmlspecialchars($post[$postindex]) .'"';
     }
     else{
-        return 'value="' .htmlspecialchars($value) .'"';
+        if($value != 0){
+            return 'value="' .htmlspecialchars($value) .'"';
+        }
+        
     }
 }
 
@@ -998,10 +1001,10 @@ if (isset($_GET["action"]) && $_GET["action"] == "add") {
     </form>
 </div>
 <div id="right">
-    <h1 style="margin-right: 20px; padding-right: 200px;">Class toevoegen</h1><br />
+    <h1 style="margin-right: 20px; padding-right: 200px;">Klas toevoegen</h1><br />
     
     <?php if(isset($succes_class) && $succes_class){ ?>
-    <strong>Class toegevoegd aan <?php echo htmlspecialchars($_POST["airline_name"]); ?></strong>
+    <strong>Klas toegevoegd aan <?php echo htmlspecialchars($_POST["airline_name"]); ?></strong>
     <?php } ?>
     
     <form action="airline.php?action=add" method="post" class="form">
@@ -1016,7 +1019,7 @@ if (isset($_GET["action"]) && $_GET["action"] == "add") {
             }
             ?>
         </select>
-        <?php echo display_error($error, "classnumber"); ?><label>Class:</label><select class="input" name="classnumber">
+        <?php echo display_error($error, "classnumber"); ?><label>Klas:</label><select class="input" name="classnumber">
                                 <option></option>
                                 <option value="0" <?php echo set_selected($_POST, "classnumber", "0", $succes_class); ?>>Economy</option>
                                 <option value="1" <?php echo set_selected($_POST, "classnumber", "1", $succes_class); ?>>Eerste klas</option>
@@ -1064,7 +1067,7 @@ if (isset($_GET["action"]) && $_GET["action"] == "add") {
         <?php echo display_error($error, "AbsoluteMaxPerItem"); ?><label>Abs. max. gewicht bagage kg</label><input type="text" name="AbsoluteMaxPerItem" <?php echo add_value($_POST, "AbsoluteMaxPerItem", $succes_class); ?> /></div><br />
         
         <!--Huisdieren-->
-        <label class="title">Huisdieren (Vrachtruim)</label><br />
+        <label class="title">Huisdieren inclusief kooi (Vrachtruim)</label><br />
         <?php echo display_error($error, "PetsAllowed"); ?><label>Huisdieren toegestaan</label><select id="pets" name="PetsAllowed" class="input"><option></option><option value="true" <?php echo set_selected($_POST, "PetsAllowed", "true", $succes_class); ?>>Ja</option><option value="false" <?php echo set_selected($_POST, "PetsAllowed", "false", $succes_class); ?>>Nee</option></select>
         <div class="pets"><?php echo display_error($error, "CostsPet"); ?><label>Kosten huisdier &euro;</label><input type="text" name="CostsPet" <?php echo add_value($_POST, "CostsPet", $succes_class); ?> />
         <?php echo display_error($error, "MaxWeightPet"); ?><label>Max. gewicht huisdier kg</label><input type="text" name="MaxWeightPet" <?php echo add_value($_POST, "MaxWeightPet", $succes_class); ?> />
@@ -1072,9 +1075,9 @@ if (isset($_GET["action"]) && $_GET["action"] == "add") {
         <?php echo display_error($error, "lengte_totaalPets"); ?><label>LxHxB of totaal</label><select class="input" id="lengte_selectPets" name="lengte_totaalPets"><option></option><option value="l" <?php echo set_selected($_POST, "lengte_totaalPets", "l", $succes_class); ?>>LxHxB</option><option value="t" <?php echo set_selected($_POST, "lengte_totaalPets", "t", $succes_class); ?>>Totaal</option></select>
         
         <div class="pets_lengte"><?php echo display_error($error, "sizeLenghtPet"); ?><label>Lengte huisdier cm</label><input type="text" name="sizeLenghtPet" <?php echo add_value($_POST, "sizeLenghtPet", $succes_class); ?> />
-        <?php echo display_error($error, "sizeHeightPet"); ?><label>Hoogte huisdier cm</label><input type="text" name="sizeHeightPet" <?php echo add_value($_POST, "sizeHeightPet", $succes_class); ?> />
-        <?php echo display_error($error, "sizeWidthPet"); ?><label>Breedte huisdier cm</label><input type="text" name="sizeWidthPet" <?php echo add_value($_POST, "sizeWidthPet", $succes_class); ?> /></div>
-        <div class="pets_totaal"><?php echo display_error($error, "sizeTotalPet"); ?><label>Omtrek huisdier cm</label><input type="text" name="sizeTotalPet" <?php echo add_value($_POST, "sizeTotalPet", $succes_class); ?> /></div></div><br />
+        <?php echo display_error($error, "sizeHeightPet"); ?><label>Hoogte kooi huisdier cm</label><input type="text" name="sizeHeightPet" <?php echo add_value($_POST, "sizeHeightPet", $succes_class); ?> />
+        <?php echo display_error($error, "sizeWidthPet"); ?><label>Breedte kooi huisdier cm</label><input type="text" name="sizeWidthPet" <?php echo add_value($_POST, "sizeWidthPet", $succes_class); ?> /></div>
+        <div class="pets_totaal"><?php echo display_error($error, "sizeTotalPet"); ?><label>Omtrek kooi huisdier cm</label><input type="text" name="sizeTotalPet" <?php echo add_value($_POST, "sizeTotalPet", $succes_class); ?> /></div></div><br />
         
         <!--Waardeaangifte-->
         <label class="title">Waardeaangifte</label><br />
@@ -1195,10 +1198,10 @@ if(isset($_GET["airline_name"]) || isset($_GET["airline_id"])){
 </div>
 
 <div id="right">
-    <h1 style="margin-right: 20px;">Classes luchtvaartmaatschappij beheren</h1><br />
+    <h1 style="margin-right: 20px;">Klas luchtvaartmaatschappij beheren</h1><br />
     
         <?php if(isset($succes_class) && $succes_class){ ?>
-    <strong>Class succesvol bewerkt</strong>
+    <strong>Klas succesvol bewerkt</strong>
     <?php } ?>
     
     <?php
@@ -1211,7 +1214,7 @@ if(isset($_GET["airline_name"]) || isset($_GET["airline_id"])){
     <form action="airline.php" class="form" id="class_form">
         <input type="hidden" name="airline_id" value="<?php echo $edit_airline->airline_id; ?>" />
         <input type="hidden" name="action" value="edit" />
-        <label>Class:</label><select class="input class_edit" name="class"><option></option>
+        <label>Klas:</label><select class="input class_edit" name="class"><option></option>
         <?php
         foreach($edit_airline->classes as $class){
             switch($class->classnumber){
@@ -1281,17 +1284,17 @@ if(isset($_GET["airline_name"]) || isset($_GET["airline_id"])){
         <?php echo display_error($error, "AbsoluteMaxPerItem"); ?><label>Abs. max. gewicht bagage kg</label><input type="text" name="AbsoluteMaxPerItem" <?php echo add_existing_value($edit_class->AbsoluteMaxPerItem, $_POST, "AbsoluteMaxPerItem", $succes_class); ?> /></div><br />
         
         <!--Huisdieren-->
-        <label class="title">Huisdieren (Vrachtruim)</label><br />
+        <label class="title">Huisdieren inclusief kooi (Vrachtruim)</label><br />
         <?php echo display_error($error, "PetsAllowed"); ?><label>Huisdieren toegestaan</label><select id="pets" name="PetsAllowed" class="input"><option></option><option value="true" <?php echo set_selected_tf($_POST, "PetsAllowed", "true", $succes_class, $edit_class, "PetsAllowed", 1); ?>>Ja</option><option value="false" <?php echo set_selected_tf($_POST, "PetsAllowed", "false", $succes_class, $edit_class, "PetsAllowed", 0); ?>>Nee</option></select>
         <div class="pets"><?php echo display_error($error, "CostsPet"); ?><label>Kosten huisdier &euro;</label><input type="text" name="CostsPet" <?php echo add_existing_value($edit_class->CostsPet, $_POST, "CostsPet", $succes_class); ?> />
         <?php echo display_error($error, "MaxWeightPet"); ?><label>Max. gewicht huisdier kg</label><input type="text" name="MaxWeightPet" <?php echo add_existing_value($edit_class->MaxWeightPet, $_POST, "MaxWeightPet", $succes_class); ?> />
         
         <?php echo display_error($error, "lengte_totaalPets"); ?><label>LxHxB of totaal</label><select class="input" id="lengte_selectPets" name="lengte_totaalPets"><option></option><option value="l" <?php echo set_selected_on_set($_POST, "lengte_totaalPets", "l", $succes_class, array("sizeLenghtPet", "sizeHeightPet", "sizeWidthPet"), $edit_class, array("sizeTotalPet")); ?>>LxHxB</option><option value="t" <?php echo set_selected_on_set($_POST, "lengte_totaalPets", "t", $succes_class, array("sizeTotalPet"), $edit_class, array("sizeLenghtPet", "sizeHeightPet", "sizeWidthPet")); ?>>Totaal</option></select>
         
-        <div class="pets_lengte"><?php echo display_error($error, "sizeLenghtPet"); ?><label>Lengte huisdier cm</label><input type="text" name="sizeLenghtPet" <?php echo add_existing_value($edit_class->sizeLenghtPet, $_POST, "sizeLenghtPet", $succes_class); ?> />
-        <?php echo display_error($error, "sizeHeightPet"); ?><label>Hoogte huisdier cm</label><input type="text" name="sizeHeightPet" <?php echo add_existing_value($edit_class->sizeHeightPet, $_POST, "sizeHeightPet", $succes_class); ?> />
-        <?php echo display_error($error, "sizeWidthPet"); ?><label>Breedte huisdier cm</label><input type="text" name="sizeWidthPet" <?php echo add_existing_value($edit_class->sizeWidthPet, $_POST, "sizeWidthPet", $succes_class); ?> /></div>
-        <div class="pets_totaal"><?php echo display_error($error, "sizeTotalPet"); ?><label>Omtrek huisdier cm</label><input type="text" name="sizeTotalPet" <?php echo add_existing_value($edit_class->sizeTotalPet, $_POST, "sizeTotalPet", $succes_class); ?> /></div></div><br />
+        <div class="pets_lengte"><?php echo display_error($error, "sizeLenghtPet"); ?><label>Lengte kooi huisdier cm</label><input type="text" name="sizeLenghtPet" <?php echo add_existing_value($edit_class->sizeLenghtPet, $_POST, "sizeLenghtPet", $succes_class); ?> />
+        <?php echo display_error($error, "sizeHeightPet"); ?><label>Hoogte kooi huisdier cm</label><input type="text" name="sizeHeightPet" <?php echo add_existing_value($edit_class->sizeHeightPet, $_POST, "sizeHeightPet", $succes_class); ?> />
+        <?php echo display_error($error, "sizeWidthPet"); ?><label>Breedte kooi huisdier cm</label><input type="text" name="sizeWidthPet" <?php echo add_existing_value($edit_class->sizeWidthPet, $_POST, "sizeWidthPet", $succes_class); ?> /></div>
+        <div class="pets_totaal"><?php echo display_error($error, "sizeTotalPet"); ?><label>Omtrek kooi huisdier cm</label><input type="text" name="sizeTotalPet" <?php echo add_existing_value($edit_class->sizeTotalPet, $_POST, "sizeTotalPet", $succes_class); ?> /></div></div><br />
         
         <!--Waardeaangifte-->
         <label class="title">Waardeaangifte</label><br />
