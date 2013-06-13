@@ -13,14 +13,21 @@ class SpecialLuggage
     public $AirlineID;
     public $Name;
     public $Notes;
+    public $Fare;
+    public $Dimension;
+    public $Weight;
 
     //deze functie geeft waarden aan speciale bagage per airline
-    public function SetProperties($specialluggage_id, $AirlineID, $Name, $Notes)
+    public function SetProperties($specialluggage_id, $AirlineID, $Name, $Notes, $Fare = null,
+        $Dimension = null, $Weight = null)
     {
         $this->specialluggage_id = $specialluggage_id;
         $this->AirlineID = $AirlineID;
         $this->Name = $Name;
         $this->Notes = $Notes;
+        $this->Fare = $Fare;
+        $this->Dimension = $Dimension;
+        $this->Weight = $Weight;
     }
     //deze functie geeft waarden aan algemene speciale bagage
     public function SetPropertiestwo($specialluggage_id, $name)
@@ -30,12 +37,16 @@ class SpecialLuggage
     }
 
     //deze functie zorgt ervoor dat de beheerder specifieke airline informatie per spec bagage toe kan voegen
-    public static function AddItem($AirlineID, $Name, $Notes)
+    public static function AddItem($AirlineID, $Name, $Notes = null, $Fare = null, $Dimension = null,
+        $Weight = null)
     {
         $Name = htmlspecialchars($Name);
         $Notes = htmlspecialchars($Notes);
-        
-        $QueryResult = DbHandler::Query("SELECT specialluggage_id FROM specialluggage WHERE name = :Name ;",
+        $Fare = htmlspecialchars($Fare);
+        $Dimension = htmlspecialchars($Dimension);
+        $Weight = htmlspecialchars($Weight);
+
+        $QueryResult = DbHandler::Query("SELECT specialluggage_id FROM specialluggage WHERE name = :Name;",
             array("Name" => $Name));
 
         if ($QueryResult != null && count($QueryResult) > 0) {
@@ -49,28 +60,38 @@ class SpecialLuggage
         }
         if ($AirlineID != null) {
 
-			DbHandler::NonQuery("INSERT INTO airlinespecialluggage (airline_id, specialLuggage_id, notes) VALUES (:Airlineid, :specialid, :notes); ",
+            DbHandler::NonQuery("INSERT INTO airlinespecialluggage (airline_id, specialLuggage_id, notes, fare, dimension, weight) VALUES (:Airlineid, :specialid, :notes, :fare, :dimension, :weight); ",
                 array(
                 "Airlineid" => $AirlineID,
                 "specialid" => $SpecialLugageID,
-                "notes" => $Notes));
+                "notes" => $Notes,
+                "fare" => $Fare,
+                "dimension" => $Dimension,
+                "weight" => $Weight));
             $ClassObject = new SpecialLuggage();
-            $ClassObject->SetProperties($SpecialLugageID, $AirlineID, $Name, $Notes);
+            $ClassObject->SetProperties($SpecialLugageID, $AirlineID, $Name, $Notes, $Fare,
+                $Dimension, $Weight);
             return $ClassObject;
         }
 
     }
-    //deze functie voegt de optie toe om bestaande notes te wijzigen
-    public static function EditAirlineNotes($Specialluggage_id, $airlineID, $Notes)
+    //deze functie voegt de optie toe om bestaande eigenschappen te wijzigen
+    public static function EditAirlineSpecialLuggage($Specialluggage_id, $airlineID,
+        $Notes, $Fare, $Dimension, $Weight)
     {
         $Notes = htmlspecialchars($Notes);
-        
-		if ($airlineID != 0 && $Notes != "") {
-            DbHandler::NonQuery("UPDATE airlinespecialluggage SET airline_id = :airlineID, notes = :notes WHERE specialluggage_id = :ID",
+        $Fare = htmlspecialchars($Fare);
+        $Dimension = htmlspecialchars($Dimension);
+        $Weight = htmlspecialchars($Weight);
+        if ($airlineID != 0) {
+            DbHandler::NonQuery("UPDATE airlinespecialluggage SET airline_id = :airlineID, notes = :notes, fare= :fare, dimension = :dimension, weight = :weight WHERE specialluggage_id = :ID",
                 array(
-				"airlineID" => $airlineID,
+                "airlineID" => $airlineID,
                 "ID" => $Specialluggage_id,
-                "notes" => $Notes));
+                "notes" => $Notes,
+                "fare" => $Fare,
+                "dimension" => $Dimension,
+                "weight" => $Weight));
             return SpecialLuggage::GetCombo($airlineID, $Specialluggage_id);
         }
     }
@@ -79,7 +100,6 @@ class SpecialLuggage
     public static function EditSpecialLuggage($Specialluggage_id, $Name)
     {
         $Name = htmlspecialchars($Name);
-        
         DbHandler::NonQuery("UPDATE specialluggage SET name = :Name WHERE specialluggage_id = :ID",
             array("Name" => $Name, "ID" => $Specialluggage_id));
         return SpecialLuggage::GetCombo($airlineID, $Specialluggage_id);
@@ -110,7 +130,7 @@ class SpecialLuggage
         if (count($Result) == 0) {
             return null;
         } else {
-            $ClassObject->SetProperties($ID, 0, $Result[0]["name"], "");
+            $ClassObject->SetPropertiestwo($ID, $Result[0]["name"]);
             return $ClassObject;
         }
     }
@@ -119,15 +139,13 @@ class SpecialLuggage
     public static function GetSpecialLuggageName($Name)
     {
         $Name = htmlspecialchars($Name);
-        
         $Result = DbHandler::Query("Select * FROM specialluggage WHERE  NAME = :Name;",
             array("Name" => $Name));
         if (count($Result) < 1) {
             return null;
         }
         $ClassObject = new SpecialLuggage();
-        $ClassObject->SetProperties($Result[0]["specialluggage_id"], 0, $Result[0]["name"],
-            "");
+        $ClassObject->SetPropertiestwo($Result[0]["specialluggage_id"], $Result[0]["name"]);
         return $ClassObject;
     }
 
@@ -137,10 +155,11 @@ class SpecialLuggage
         $Result = DbHandler::Query("SELECT * FROM specialluggage WHERE specialluggage_id = :ID ;",
             array("ID" => $specialLuggageID));
         $Result2 = DbHandler::Query("SELECT * FROM airlinespecialluggage WHERE airline_id = :AirlineID AND specialluggage_id = :ID  ;",
-            array("AirlineID" => $airlineID,"ID" => $specialLuggageID));
+            array("AirlineID" => $airlineID, "ID" => $specialLuggageID));
         if (count($Result2) != 0) {
             $ClassObject = new SpecialLuggage();
-            $ClassObject->SetProperties($specialLuggageID, $airlineID, $Result[0]["name"], $Result2[0]["notes"]);
+            $ClassObject->SetProperties($specialLuggageID, $airlineID, $Result[0]["name"], $Result2[0]["notes"],
+                $Result2[0]["fare"], $Result2[0]["dimension"], $Result2[0]["weight"]);
         } else {
             return null;
         }
@@ -151,13 +170,10 @@ class SpecialLuggage
     public static function EditItem($id, $Name)
     {
         $Name = htmlspecialchars($Name);
-        
         DbHandler::Query("UPDATE specialluggage SET name = (:Name) WHERE specialluggage_id = (:ID)",
             array("Name" => $Name, "ID" => $id));
-
         $ClassObject = new SpecialLuggage();
         $ClassObject->SetPropertiestwo($id, $Name);
-
         return $ClassObject;
     }
 
@@ -166,7 +182,6 @@ class SpecialLuggage
     {
         $Query = DbHandler::Query("SELECT * FROM SPECIALLUGGAGE ORDER BY SPECIALLUGGAGE.name ASC", null);
         $SpecialLuggageCollection = array();
-
         foreach ($Query as $result) {
             $SpecialLuggageObject = new SpecialLuggage();
             $SpecialLuggageObject->SetProperties($result["specialluggage_id"], 0, $result["name"],
@@ -182,7 +197,6 @@ class SpecialLuggage
         $Query = DbHandler::Query("SELECT * FROM SPECIALLUGGAGE WHERE specialluggage_id NOT IN (SELECT specialluggage_id FROM airlineSpecialluggage WHERE airline_id=:ID);",
             array("ID" => $airlineID));
         $SpecialLuggageCollection = array();
-
         foreach ($Query as $result) {
             $SpecialLuggageObject = new SpecialLuggage();
             $SpecialLuggageObject->SetProperties($result["specialluggage_id"], 0, $result["name"],
@@ -197,7 +211,6 @@ class SpecialLuggage
         $Query = DbHandler::Query("SELECT * FROM SPECIALLUGGAGE WHERE specialluggage_id  IN (SELECT specialluggage_id FROM airlineSpecialluggage WHERE airline_id=:ID);",
             array("ID" => $airlineID));
         $SpecialLuggageCollection = array();
-
         foreach ($Query as $result) {
             $SpecialLuggageObject = new SpecialLuggage();
             $SpecialLuggageObject->SetProperties($result["specialluggage_id"], 0, $result["name"],
@@ -210,11 +223,9 @@ class SpecialLuggage
     public static function SearchSpecialLuggage($SearchQuery)
     {
         $SearchQuery = htmlspecialchars($SearchQuery);
-        
         $Query = DbHandler::Query("SELECT * FROM specialluggage WHERE name LIKE  :SearchQuery ",
             array("SearchQuery" => "%" . $SearchQuery . "%"));
         $SpecialLuggageCollection = array();
-
         foreach ($Query as $result) {
             $SpecialLuggageObject = new SpecialLuggage();
             $SpecialLuggageObject->SetPropertiestwo($result["specialluggage_id"], $result["name"]);
@@ -223,7 +234,6 @@ class SpecialLuggage
 
 
         return $SpecialLuggageCollection;
-
     }
 }
 

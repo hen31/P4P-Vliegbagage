@@ -109,25 +109,13 @@ if (!empty($_SERVER["QUERY_STRING"])) {
             if (isset($_POST["checkPostedAdd"]) && $airlineValid == true) {
                 if (isset($_POST["availableSpecialLuggage"]) && $specialLuggageValid) {
                     //Check if notes is filled in. - Wim
-                    if (empty($_POST["specialLuggageNotes"])) {
-                        SpecialLuggage::AddItem(airline::get_airline_by_name($_GET["airlineName"])->
-                            airline_id, $_POST["availableSpecialLuggage"], "");
+                    SpecialLuggage::AddItem(airline::get_airline_by_name($_GET["airlineName"])->
+                        airline_id, $_POST["availableSpecialLuggage"], $_POST["specialLuggageNotes"], $_POST["specialLuggageFare"],
+                        $_POST["specialLuggageDimension"], $_POST["specialLuggageWeight"]);
 
-                        $linkedSpecialLuggage = true;
-                        session_start();
-                        $_SESSION["linkedSpecialLuggage"] = true;
-                    } else {
-                        if (strlen($_POST["linkedSpecialLuggageNotes"]) < 1000) {
-                            SpecialLuggage::AddItem(airline::get_airline_by_name($_GET["airlineName"])->
-                                airline_id, $_POST["availableSpecialLuggage"], $_POST["specialLuggageNotes"]);
-
-                            $linkedSpecialLuggage = true;
-                            session_start();
-                            $_SESSION["linkedSpecialLuggage"] = true;
-                        } else {
-                            $availableMessage = "<p class='error'> Een opmerking mag maximaal 1000 tekens bevatten.";
-                        }
-                    }
+                    $linkedSpecialLuggage = true;
+                    session_start();
+                    $_SESSION["linkedSpecialLuggage"] = true;
                 } else {
                     $availableMessage = "<p class='error'> Er is geen speciale bagage geselecteerd. Probeer het opnieuw alstublieft.";
                 }
@@ -171,6 +159,22 @@ if (!empty($_SERVER["QUERY_STRING"])) {
   <br />
   <textarea id="specialLuggageNotes" name="specialLuggageNotes" cols="40" rows="10" wrap="virtual" maxlength="1000" style="resize:none"></textarea>
   <br />
+  <br />
+    <label for="specialLuggageFare">Tarief (euro):</label>
+  <br />
+  <input type="text id="specialLuggageFare" name="specialLuggageFare"/>
+    <br />
+    <br />
+    <label for="specialLuggageDimension">Afmeting:</label>
+  <br />
+  <input type="text id="specialLuggageDimension" name="specialLuggageDimension"/>
+      <br />
+      <br />
+    <label for="specialLuggageWeight">Gewicht (kg):</label>
+  <br />
+  <input type="text id="specialLuggageWeight" name="specialLuggageWeight"/>
+  <br />
+  <br />
   <input type="submit" value="Koppelen" />
   <input type="hidden" name="checkPostedAdd" value="yes" />
 </form>
@@ -209,8 +213,9 @@ if (!empty($_SERVER["QUERY_STRING"])) {
                         if (strlen($_POST["linkedSpecialLuggageNotes"]) < 1000) {
                             //Edit existing linked special luggage. - Wim
                             $result = SpecialLuggage::GetSpecialLuggageName($_POST["linkedSpecialLuggage"]);
-                            SpecialLuggage::EditAirlineNotes($result->specialluggage_id, airline::
-                                get_airline_by_name($_GET["airlineName"])->airline_id, $_POST["linkedSpecialLuggageNotes"]);
+                            SpecialLuggage::EditAirlineSpecialLuggage($result->specialluggage_id, airline::
+                                get_airline_by_name($_GET["airlineName"])->airline_id, $_POST["linkedSpecialLuggageNotes"],
+                                $_POST["linkedSpecialLuggageFare"], $_POST["linkedSpecialLuggageDimension"], $_POST["linkedSpecialLuggageWeight"]);
                             $linkMessage = "<p class='good'>Wijziging is met succes doorgevoerd.";
                         } else {
                             $linkMessage = "<p class='error'>Wijziging niet opgeslagen: een opmerking mag maximaal 1000 tekens bevatten.";
@@ -267,6 +272,43 @@ if (!empty($_SERVER["QUERY_STRING"])) {
                 echo ($resultb->Notes);
             } ?>
 </textarea>
+<br />
+  <br />
+    <label for="linkedSpecialLuggageFare">Tarief:</label>
+  <br />
+  <input type="text id="linkedSpecialLuggageFare" name="linkedSpecialLuggageFare" value="<?php if (!
+            empty($_POST["linkedSpecialLuggage"]) && $specialLuggageValid) {
+                //Populate notes texarea. - Wim
+                $resulta = SpecialLuggage::GetSpecialLuggageName($_POST["linkedSpecialLuggage"]);
+                $resultb = SpecialLuggage::GetCombo(airline::get_airline_by_name($_GET["airlineName"])->
+                    airline_id, $resulta->specialluggage_id);
+                echo ($resultb->Fare);
+            } ?>"/>
+    <br />
+    <br />
+    <label for="linkedSpecialLuggageDimension">Afmeting:</label>
+  <br />
+  <input type="text id="linkedSpecialLuggageDimension" name="linkedSpecialLuggageDimension" value="<?php if (!
+            empty($_POST["linkedSpecialLuggage"]) && $specialLuggageValid) {
+                //Populate notes texarea. - Wim
+                $resulta = SpecialLuggage::GetSpecialLuggageName($_POST["linkedSpecialLuggage"]);
+                $resultb = SpecialLuggage::GetCombo(airline::get_airline_by_name($_GET["airlineName"])->
+                    airline_id, $resulta->specialluggage_id);
+                echo ($resultb->Dimension);
+            } ?>"/>
+      <br />
+      <br />
+    <label for="linkedSpecialLuggageWeight">Gewicht:</label>
+  <br />
+  <input type="text id="linkedSpecialLuggageWeight" name="linkedSpecialLuggageWeight" value="<?php if (!
+            empty($_POST["linkedSpecialLuggage"]) && $specialLuggageValid) {
+                //Populate notes texarea. - Wim
+                $resulta = SpecialLuggage::GetSpecialLuggageName($_POST["linkedSpecialLuggage"]);
+                $resultb = SpecialLuggage::GetCombo(airline::get_airline_by_name($_GET["airlineName"])->
+                    airline_id, $resulta->specialluggage_id);
+                echo ($resultb->Weight);
+            } ?>"/>
+  <br />
   <br />
   <input type="submit" name="submitChangeRemove" value="Wijzigen" />
   <input type="submit" name="submitChangeRemove" value="Ontkoppelen" />

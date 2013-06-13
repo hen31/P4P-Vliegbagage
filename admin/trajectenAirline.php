@@ -164,9 +164,10 @@ else
 </form>
 
 <form action="trajectenAirline.php" method="get">
-<label for="CurrentAirlines">Huidige luchtvaartmaatschappijen op dit traject:<br /></label>
-<select id="CurrentAirlines" name="CurrentAirlines" size="6" style="width:150px;" >
-<?php
+  <label for="CurrentAirlines">Huidige luchtvaartmaatschappijen op dit traject:<br />
+  </label>
+  <select id="CurrentAirlines" name="CurrentAirlines" size="6" style="width:150px;" >
+    <?php
 //opties toevoegen
 if (isset($traject) && isset($airlinesList))
 {
@@ -177,9 +178,9 @@ if (isset($traject) && isset($airlinesList))
 }
 
 ?>
-</select>
-<input type="submit" value="Verwijderen" /> 
-<input type="hidden" value="Verwijderen" id="actie" />
+  </select>
+  <input type="submit" value="Verwijderen" />
+  <input type="hidden" value="Verwijderen" id="actie" />
 </form>
 
 
