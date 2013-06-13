@@ -154,10 +154,7 @@ else
                       <table style="width:100%;">
                 <tr>
             <th>
-            Speciale bagage naam
-            </th>
-            <th>
-          Opmerkingen
+            Speciale bagage
             </th>
           </tr>
        
@@ -166,7 +163,10 @@ else
                         {
                             $naam =htmlspecialchars($specbag->Name);
                             $notes =htmlspecialchars($specbag->Notes);
-                            echo '<tr><td>'.$naam.'</td><td>' .$notes .'</td></tr>';
+                                         $fare =htmlspecialchars($specbag->Fare);
+                                                      $dimension =htmlspecialchars($specbag->Dimension);
+                                                                   $weight =htmlspecialchars($specbag->Weight);
+                            echo '<tr><td>Naam: '.$naam.'</td><td>Prijs: &euro;' . number_format($fare,2, ',', ' ') .'<br/>Max. gewicht(kg):'. $weight .'<br/>Dimensies:'. $dimension .'<br/>Opmerkingen:'. $notes.'</td></tr>';
                         }?>
             </table>
                     </div>
