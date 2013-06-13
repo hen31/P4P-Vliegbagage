@@ -16,11 +16,6 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
 
---
--- Database: `p4p`
---
-CREATE DATABASE `p4p` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `p4p`;
 
 -- --------------------------------------------------------
 

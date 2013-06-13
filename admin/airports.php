@@ -33,9 +33,21 @@ if ($_GET["action"] == "edit")
                         airports::RemoveItem($ItemID);
                     } 
                     else {
-                        if (!(airports::GetAirportByName($FullName) == null))
+                        
+                        $CHeckiFDuplicate = airports::GetAirportByName($FullName);
+                        
+                        if ($CHeckiFDuplicate != null)
                         {
-                            $name = "a";
+                            if ($CHeckiFDuplicate->AirportCity == $City )
+                            {
+                                $name = "a";
+                            }
+                            else
+                            {
+                                airports::EditItem($ItemID, $FullName, $City);
+                            }
+                            
+                            
                         }
                         else
                         {
@@ -112,6 +124,7 @@ if (isset($_GET["action"])) {
                 $CheckIfExists = airports::GetAirportByName($name);
 
                 if ($CheckIfExists != null) {
+                    
                     $name = "Vliegveld bestaat al!";
 
                 } else {
