@@ -157,6 +157,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["act"]) && $_POST["act"
                         if(!validator::isInt($koffer) && !empty($koffer)){
                             $error[$postveld .$key] = "Vul een getal in";
                         }
+                        else if(empty($koffer)){
+                            $_POST["ChargeExtraBag"][$key] = null;
+                        }
                     }
                 }
             }
@@ -392,6 +395,9 @@ elseif($_SERVER["REQUEST_METHOD"] == "POST" && isset($_GET["action"]) && $_GET["
                     foreach($_POST[$postveld] as $key => $koffer){
                         if(!validator::isInt($koffer) && !empty($koffer)){
                             $error[$postveld .$key] = "Vul een getal in";
+                        }
+                        else if(empty($koffer)){
+                            $_POST["ChargeExtraBag"][$key] = null;
                         }
                     }
                 }
