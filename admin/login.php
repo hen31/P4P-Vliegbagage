@@ -1,4 +1,5 @@
 <?php
+$titel = "Login";
 session_start();
 //Alle data classes includen
 require_once ("../data/includeAll.php");
