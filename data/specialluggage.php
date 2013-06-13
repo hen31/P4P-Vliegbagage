@@ -180,7 +180,7 @@ class SpecialLuggage
     //hiermee haal je de bestaande informatie op om later te kunnen weergeven
     public static function GetSpecialLuggageList()
     {
-        $Query = DbHandler::Query("SELECT * FROM SPECIALLUGGAGE ORDER BY SPECIALLUGGAGE.name ASC", null);
+        $Query = DbHandler::Query("SELECT * FROM specialluggage ORDER BY specialluggage.name ASC", null);
         $SpecialLuggageCollection = array();
         foreach ($Query as $result) {
             $SpecialLuggageObject = new SpecialLuggage();
@@ -194,7 +194,7 @@ class SpecialLuggage
 
     public static function GetLinkedSpecialLuggageList($airlineID)
     {
-        $Query = DbHandler::Query("SELECT * FROM SPECIALLUGGAGE WHERE specialluggage_id NOT IN (SELECT specialluggage_id FROM airlineSpecialluggage WHERE airline_id=:ID);",
+        $Query = DbHandler::Query("SELECT * FROM specialluggage WHERE specialluggage_id NOT IN (SELECT specialluggage_id FROM airlinespecialluggage WHERE airline_id=:ID);",
             array("ID" => $airlineID));
         $SpecialLuggageCollection = array();
         foreach ($Query as $result) {
@@ -208,7 +208,7 @@ class SpecialLuggage
 
     public static function GetNotLinkedSpecialLuggageList($airlineID)
     {
-        $Query = DbHandler::Query("SELECT * FROM SPECIALLUGGAGE WHERE specialluggage_id  IN (SELECT specialluggage_id FROM airlineSpecialluggage WHERE airline_id=:ID);",
+        $Query = DbHandler::Query("SELECT * FROM specialluggage WHERE specialluggage_id  IN (SELECT specialluggage_id FROM airlinespecialluggage WHERE airline_id=:ID);",
             array("ID" => $airlineID));
         $SpecialLuggageCollection = array();
         foreach ($Query as $result) {

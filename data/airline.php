@@ -79,7 +79,7 @@ class airline
             $classes = DbHandler::Query("SELECT * FROM `airlineclass` WHERE `airline` = :airline AND `classnumber` = :class_number",
                 array("airline" => $airline_id, "class_number" => $class_number));
         }
-        $charge = DbHandler::Query("SELECT * FROM `chargeExtraBag` WHERE `airline` = :airline", array("airline" => $airline_id));
+        $charge = DbHandler::Query("SELECT * FROM `chargextrabag` WHERE `airline` = :airline", array("airline" => $airline_id));
         //terug geven
         return new airline($airline[0], $classes, $charge);
     }
@@ -90,7 +90,7 @@ class airline
             return array();
         }
         $result_classes = DbHandler::Query("SELECT * FROM `airlineclass` WHERE `airline` = :airlineid", array("airlineid" => $result[0]["airline_id"]));
-        $charge = DbHandler::Query("SELECT * FROM `chargeExtraBag` WHERE `airline` = :airlineid", array("airlineid" => $result[0]["airline_id"]));
+        $charge = DbHandler::Query("SELECT * FROM `chargeextrabag` WHERE `airline` = :airlineid", array("airlineid" => $result[0]["airline_id"]));
 
         return new airline($result[0], $result_classes, $charge);
     }
@@ -112,7 +112,7 @@ class airline
             $classes = DbHandler::Query("SELECT * FROM `airlineclass` WHERE (`airline` = :airline);",
                 array("airline" => $airline["airline_id"]));
                 
-            $charge = DbHandler::Query("SELECT * FROM `chargeExtraBag` WHERE `airline` = :airline", array("airline" => $airline["airline_id"]));
+            $charge = DbHandler::Query("SELECT * FROM `chargeextrabag` WHERE `airline` = :airline", array("airline" => $airline["airline_id"]));
             
             $airlines[] = new airline($airline, $classes, $charge);
         }
@@ -178,7 +178,8 @@ class airline
         }
         
         foreach($ChargeExtraBag as $number => $costs){
-            DbHandler::NonQuery("INSERT INTO `chargeExtraBag` (`airline`, `number`, `costs`) VALUES(:airline, :number, :costs)", array("airline" => $airline_id[0]["airline_id"], "number" => $number, "costs" => $costs));
+            chargeExtraBag::add($airline_id[0]["airline_id"], $number, $costs);
+            //DbHandler::NonQuery("INSERT INTO `chargeExtraBag` (`airline`, `number`, `costs`) VALUES(:airline, :number, :costs)", array("airline" => $airline_id[0]["airline_id"], "number" => $number, "costs" => $costs));
         }
     }
 // vliegmaatschapij toevoegen met een klasse
@@ -213,7 +214,8 @@ class airline
         }
         
         foreach($ChargeExtraBag as $number => $costs){
-            DbHandler::NonQuery("INSERT INTO `chargeExtraBag` (`airline`, `number`, `costs`) VALUES(:airline, :number, :costs)", array("airline" => $id[0]["airline_id"], "number" => $number, "costs" => $costs));
+            chargeExtraBag::add($id[0]["airline_id"], $number, $costs);
+            //DbHandler::NonQuery("INSERT INTO `chargeExtraBag` (`airline`, `number`, `costs`) VALUES(:airline, :number, :costs)", array("airline" => $id[0]["airline_id"], "number" => $number, "costs" => $costs));
         }
 
         DbHandler::NonQuery("INSERT INTO `airlineclass` (`airline`, `classnumber`, `pcsHL`, `MaxWeightHL`, `sizeLenghtHL`, `sizeHeightHL`, `SizeWidthHL`, `sizeTotalHL`, `LaptopAllowedHL`, `pcsInfantHL`, `pcsLuggageInfant`, `pcsLuggageInfantMaxWeight`, `pcsLuggage`, `maxWeightLuggage`, `LoyaltyProgramme`, `LPextraPcsLuggage`, `LPextraWeightLuggage`, `AbsoluteMaxPerItem`, `sizeLenghtPerItem`, `sizeHeightPerItem`, `sizeWidthPerItem`, `sizeTotalPerItem`, `Pooling`, `FreeWheelChair`, `FreeServiceDog`, `PetsAllowed`, `MaxWeightPet`, `sizeLenghtPet`, `sizeHeightPet`, `sizeWidthPet`, `sizeTotalPet`, `DeclarationOfValue`, `MaxDeclarationOfValue`, `petsAllowedHL`, `MaxWeightInfantHL`, `CostsPet`) VALUES(:airline, :classnumber, :pcsHL, :MaxWeightHL, :sizeLenghtHL, :sizeHeightHL, :SizeWidthHL, :sizeTotalHL, :LaptopAllowedHL, :pcsInfantHL, :pcsLuggageInfant, :pcsLuggageInfantMaxWeight, :pcsLuggage, :maxWeightLuggage, :LoyaltyProgramme, :LPextraPcsLuggage, :LPextraWeightLuggage, :AbsoluteMaxPerItem, :sizeLenghtPerItem, :sizeHeightPerItem, :sizeWidthPerItem, :sizeTotalPerItem, :Pooling, :FreeWheelChair, :FreeServiceDog, :PetsAllowed, :MaxWeightPet, :sizeLenghtPet, :sizeHeightPet, :sizeWidthPet, :sizeTotalPet, :DeclarationOfValue, :MaxDeclarationOfValue, :petsAllowedHL, :MaxWeightInfantHL, :CostsPet)",
@@ -317,7 +319,7 @@ class airline
                 $airline_id));
         DbHandler::NonQuery("DELETE FROM `airlineclass` WHERE `airline` = :id", array("id" =>
                 $airline_id));
-        DbHandler::NonQuery("DELETE FROM `chargeExtraBag` WHERE `airline` = :id", array("id" =>
+        DbHandler::NonQuery("DELETE FROM `chargeextrabag` WHERE `airline` = :id", array("id" =>
                 $airline_id));
         DbHandler::NonQuery("DELETE FROM `trajectairline` WHERE `airline_id` = :id", array("id" =>
                 $airline_id));

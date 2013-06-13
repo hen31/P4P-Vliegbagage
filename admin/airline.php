@@ -54,10 +54,7 @@ function add_existing_value($value, $post, $postindex, $succes_var){
         return 'value="' .htmlspecialchars($post[$postindex]) .'"';
     }
     else{
-        if($value != 0){
-            return 'value="' .htmlspecialchars($value) .'"';
-        }
-        
+        return 'value="' .htmlspecialchars($value) .'"';
     }
 }
 

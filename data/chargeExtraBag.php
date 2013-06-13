@@ -20,15 +20,15 @@ class chargeExtraBag{
     }
     //prijs aanpassen
     public static function edit($charge){        
-        DbHandler::NonQuery("UPDATE `chargeExtraBag` SET `airline` = :airline, `number` = :number, `costs` = :costs WHERE `ChargeExtraBag_id` = :id", array("airline" => $charge->airline, "number" => $charge->number, "costs" => $charge->costs, "id" => $charge->chargeExtraBag_id));
+        DbHandler::NonQuery("UPDATE `chargeextrabag` SET `airline` = :airline, `number` = :number, `costs` = :costs WHERE `ChargeExtraBag_id` = :id", array("airline" => $charge->airline, "number" => $charge->number, "costs" => $charge->costs, "id" => $charge->chargeExtraBag_id));
     }
     //een toevoegen
     public static function add($airline_id, $number, $costs){
-        DbHandler::NonQuery("INSERT INTO `chargeExtraBag` (`airline`, `number`, `costs`) VALUES (:airline, :number, :costs)", array("airline" => $airline_id, "number" => $number, "costs" => $costs));
+        DbHandler::NonQuery("INSERT INTO `chargeextrabag` (`airline`, `number`, `costs`) VALUES (:airline, :number, :costs)", array("airline" => $airline_id, "number" => $number, "costs" => $costs));
     }
     //alle koffers van een vliegmaatschapij verwijderen
     public static function remove_all($airline_id){
-        DbHandler::NonQuery("DELETE FROM `chargeExtraBag` WHERE `airline` = :airline", array("airline" => $airline_id));
+        DbHandler::NonQuery("DELETE FROM `chargeextrabag` WHERE `airline` = :airline", array("airline" => $airline_id));
     }
 }
 
