@@ -172,22 +172,34 @@ if (!empty($_SERVER["QUERY_STRING"])) {
   <br />
     <label for="specialLuggageFare">Tarief (euro):</label>
   <br />
-  <input type="text id="specialLuggageFare" name="specialLuggageFare"/>
+  <input type="text id="specialLuggageFare" name="specialLuggageFare" value="<?php if (isset
+            ($_POST["specialLuggageFare"])) {
+                echo ($_POST["specialLuggageFare"]);
+            } ?>"/>
     <br />
     <br />
     <label for="specialLuggageDimension">Afmeting:</label>
   <br />
-  <input type="text id="specialLuggageDimension" name="specialLuggageDimension"/>
+  <input type="text id="specialLuggageDimension" name="specialLuggageDimension" value="<?php if (isset
+            ($_POST["specialLuggageDimension"])) {
+                echo ($_POST["specialLuggageDimension"]);
+            } ?>"/>
       <br />
       <br />
     <label for="specialLuggageWeight">Gewicht (kg):</label>
   <br />
-  <input type="text id="specialLuggageWeight" name="specialLuggageWeight"/>
+  <input type="text id="specialLuggageWeight" name="specialLuggageWeight" value="<?php if (isset
+            ($_POST["specialLuggageWeight"])) {
+                echo ($_POST["specialLuggageWeight"]);
+            } ?>"/>
   <br />
   <br />
     <label for="specialLuggageNotes">Opmerkingen:</label>
   <br />
-  <textarea id="specialLuggageNotes" name="specialLuggageNotes" cols="40" rows="10" wrap="virtual" maxlength="1000" style="resize:none"></textarea>
+  <textarea id="specialLuggageNotes" name="specialLuggageNotes" cols="40" rows="10" wrap="virtual" maxlength="1000" style="resize:none"><?php if (isset
+            ($_POST["specialLuggageNotes"])) {
+                echo ($_POST["specialLuggageNotes"]);
+            } ?></textarea>
   <br />
   <br />
   <input type="submit" value="Koppelen" />
@@ -294,6 +306,8 @@ if (!empty($_SERVER["QUERY_STRING"])) {
                 $resultb = SpecialLuggage::GetCombo(airline::get_airline_by_name($_GET["airlineName"])->
                     airline_id, $resulta->specialluggage_id);
                 echo ($resultb->Fare);
+            } elseif (isset($_POST["linkedSpecialLuggageFare"])) {
+                echo ($_POST["linkedSpecialLuggageFare"]);
             } ?>"/>
     <br />
     <br />
@@ -306,6 +320,8 @@ if (!empty($_SERVER["QUERY_STRING"])) {
                 $resultb = SpecialLuggage::GetCombo(airline::get_airline_by_name($_GET["airlineName"])->
                     airline_id, $resulta->specialluggage_id);
                 echo ($resultb->Dimension);
+            } elseif (isset($_POST["linkedSpecialLuggageDimension"])) {
+                echo ($_POST["linkedSpecialLuggageDimension"]);
             } ?>"/>
       <br />
       <br />
@@ -318,6 +334,8 @@ if (!empty($_SERVER["QUERY_STRING"])) {
                 $resultb = SpecialLuggage::GetCombo(airline::get_airline_by_name($_GET["airlineName"])->
                     airline_id, $resulta->specialluggage_id);
                 echo ($resultb->Weight);
+            } elseif (isset($_POST["linkedSpecialLuggageWeight"])) {
+                echo ($_POST["linkedSpecialLuggageWeight"]);
             } ?>"/>
   <br />
   <br />
@@ -330,6 +348,8 @@ if (!empty($_SERVER["QUERY_STRING"])) {
                 $resultb = SpecialLuggage::GetCombo(airline::get_airline_by_name($_GET["airlineName"])->
                     airline_id, $resulta->specialluggage_id);
                 echo ($resultb->Notes);
+            } elseif (isset($_POST["linkedSpecialLuggageNotes"])) {
+                echo ($_POST["linkedSpecialLuggageNotes"]);
             } ?>
 </textarea>
 <br />
