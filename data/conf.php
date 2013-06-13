@@ -10,7 +10,7 @@ define("DATABASE_NAME", "p4p");
 define("DEBUG", false);
 
 //overig
-define("ERROR_MSG", "Er is iets ernstig mis gegegaan.<br/>Er is geen ");
-define("ADMIN_EMAIL", "robertde.jong@live.nl");
+define("ERROR_MSG", "Er is iets mis gegegaan.<br />Probeer het opnieuw.");
+define("ADMIN_EMAIL", "robertdj20@gmail.com");
 
 ?>
