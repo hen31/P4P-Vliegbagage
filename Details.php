@@ -166,7 +166,7 @@ else
                                          $fare =htmlspecialchars($specbag->Fare);
                                                       $dimension =htmlspecialchars($specbag->Dimension);
                                                                    $weight =htmlspecialchars($specbag->Weight);
-                            echo '<tr><td>Naam: '.$naam.'</td><td>Prijs $euro;:' . number_format($fare,2, ',', ' ') .'<br/>Max. gewicht(kg):'. $weight .'<br/>Dimensies:'. $dimension .'<br/>Opmerkingen:'. $notes.'</td></tr>';
+                            echo '<tr><td>Naam: '.$naam.'</td><td>Prijs: &euro;' . number_format($fare,2, ',', ' ') .'<br/>Max. gewicht(kg):'. $weight .'<br/>Dimensies:'. $dimension .'<br/>Opmerkingen:'. $notes.'</td></tr>';
                         }?>
             </table>
                     </div>
