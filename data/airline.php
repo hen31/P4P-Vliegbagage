@@ -79,7 +79,7 @@ class airline
             $classes = DbHandler::Query("SELECT * FROM `airlineclass` WHERE `airline` = :airline AND `classnumber` = :class_number",
                 array("airline" => $airline_id, "class_number" => $class_number));
         }
-        $charge = DbHandler::Query("SELECT * FROM `chargeExtraBag` WHERE `airline` = :airline", array("airline" => $airline_id));
+        $charge = DbHandler::Query("SELECT * FROM `chargextrabag` WHERE `airline` = :airline", array("airline" => $airline_id));
         //terug geven
         return new airline($airline[0], $classes, $charge);
     }
@@ -90,7 +90,7 @@ class airline
             return array();
         }
         $result_classes = DbHandler::Query("SELECT * FROM `airlineclass` WHERE `airline` = :airlineid", array("airlineid" => $result[0]["airline_id"]));
-        $charge = DbHandler::Query("SELECT * FROM `chargeExtraBag` WHERE `airline` = :airlineid", array("airlineid" => $result[0]["airline_id"]));
+        $charge = DbHandler::Query("SELECT * FROM `chargeextrabag` WHERE `airline` = :airlineid", array("airlineid" => $result[0]["airline_id"]));
 
         return new airline($result[0], $result_classes, $charge);
     }
@@ -112,7 +112,7 @@ class airline
             $classes = DbHandler::Query("SELECT * FROM `airlineclass` WHERE (`airline` = :airline);",
                 array("airline" => $airline["airline_id"]));
                 
-            $charge = DbHandler::Query("SELECT * FROM `chargeExtraBag` WHERE `airline` = :airline", array("airline" => $airline["airline_id"]));
+            $charge = DbHandler::Query("SELECT * FROM `chargeextrabag` WHERE `airline` = :airline", array("airline" => $airline["airline_id"]));
             
             $airlines[] = new airline($airline, $classes, $charge);
         }
