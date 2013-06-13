@@ -76,7 +76,8 @@ unset($traject);
 <form action="trajectenAirline.php" method="get" class="form">
   <div class="ui-widget">
     <label for="beginPunt">Beginpunt: </label>
-    <select name="beginPunt" id="beginPunt" class="input"> <?php
+    <select name="beginPunt" id="beginPunt" class="input">
+      <?php
     //alle vliegvelden in een lijst zetten
 $airports = frontend::GetAirportsBegin();
 for ($i = 0; $i < count($airports); $i++)
@@ -89,10 +90,11 @@ for ($i = 0; $i < count($airports); $i++)
         {
         echo '<option value="' . $airports[$i]->AirportName . '">'. $airports[$i]->AirportName . '('. $airports[$i]->AirportCity. ')'.'</option>';
 }
-}?></select>
+}?>
+    </select>
     <label for="eindPunt">Eindpunt: </label>
     <select name="eindPunt" id="eindPunt" class="input" >
-    <?php
+      <?php
       //alle vliegvelden in een lijst zetten
 $airports = frontend::GetAirportsEnd();
 for ($i = 0; $i < count($airports); $i++)
@@ -109,7 +111,7 @@ for ($i = 0; $i < count($airports); $i++)
     </select>
     <input id="submit" type="submit" value="Zoeken" />
     <br />
-   <?php
+    <?php
 
 if (isset($traject) == false)
 {
@@ -122,8 +124,8 @@ if (isset($traject) == false)
 <?php    if (isset($_SESSION["traject"])){?>
 <form action="trajectenAirline.php" method="get">
   <label for="AirlineName">Luchtvaartmaatschappij:</label>
-<select name="AirlineName" id="AirlineName">
-<?php
+  <select name="AirlineName" id="AirlineName">
+    <?php
 $airlines = airline::get_airlines();
 for ($i = 0; $i < count($airlines); $i++)
 {
@@ -138,31 +140,29 @@ else
 }
 
 ?>
+    
 //vorige ingevulde waarde terugzetten
 
 
 ?>
-
-
-</select> 
-<label for="Zone">Zone:</label>
-<select id="Zone" name="Zone">
-<option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="4">4</option>
-<option value="5">5</option></select>
-<input type="submit" value="Toevoegen" /> 
-<?php
+  </select>
+  <label for="Zone">Zone:</label>
+  <select id="Zone" name="Zone">
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+  </select>
+  <input type="submit" value="Toevoegen" />
+  <?php
 //zorgen dat het bestaat
  if($falseAirport == true)
 {
     echo "</br>Luchtvaartmaatschappij bestaat niet.";
 }?>
-<input type="hidden" value="Toevoegen" id="actie" />
-
+  <input type="hidden" value="Toevoegen" id="actie" />
 </form>
-
 <form action="trajectenAirline.php" method="get">
   <label for="CurrentAirlines">Huidige luchtvaartmaatschappijen op dit traject:<br />
   </label>
@@ -182,16 +182,12 @@ if (isset($traject) && isset($airlinesList))
   <input type="submit" value="Verwijderen" />
   <input type="hidden" value="Verwijderen" id="actie" />
 </form>
-
-
 <?php }?>
 <script src="../js/jquery-1.9.0.min.js"></script>
 <script src="../js/jquery-ui.js"></script>
 <script src="../js/grid.locale-nl.js" type="text/javascript"></script>
 <script src="../js/jquery.jqGrid.min.js" type="text/javascript"></script>
 <script src="../js/javascript.js"></script>
-
-  
 <?php
 
 require_once ("onderkant.php");
