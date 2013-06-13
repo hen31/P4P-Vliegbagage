@@ -145,14 +145,16 @@ function set_selected_tf($post, $postindex, $value, $succes_var, $object, $prope
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["act"]) && $_POST["act"] == "airline" && isset($_GET["action"]) && $_GET["action"] == "add") {
     $postvelden = array("naam", "iata", "OverweightChargeG", "OverweightChargeBag", "ChargeExtraBag", "OversizeCharge");
         
+    $not_required = array("OverweightChargeG", "OverweightChargeBag", "ChargeExtraBag", "OversizeCharge");
+        
         foreach($postvelden as $postveld){
-            if(!isset($_POST[$postveld]) || (empty($_POST[$postveld]) && $_POST[$postveld] != "0")){
+            if(!isset($_POST[$postveld]) || (empty($_POST[$postveld]) && $_POST[$postveld] != "0") && !in_array($postveld, $not_required)){
                 $error[$postveld] = 'Veld niet ingevuld.';
             }
             elseif($postveld == "ChargeExtraBag"){
                 if(is_array($_POST[$postveld])){
                     foreach($_POST[$postveld] as $key => $koffer){
-                        if(!validator::isInt($koffer)){
+                        if(!validator::isInt($koffer) && !empty($koffer)){
                             $error[$postveld .$key] = "Vul een getal in";
                         }
                     }
@@ -170,9 +172,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["act"]) && $_POST["act"
             }
 
             else if($postveld != "notes"){
-                if(!validator::isInt($_POST[$postveld])){
+                if(!validator::isInt($_POST[$postveld]) && !empty($_POST[$postveld])){
                     $error[$postveld] = 'Vul een getal in.';
                 }
+            }
+            if(empty($_POST[$postveld])){
+                $_POST[$postveld] = null;
             }
         }
         
@@ -203,12 +208,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["act"]) && $_POST["act"
             }
         }
         else{
-            $name = "";
+            $name = null;
         }
         
         if($error == null){
-            if(!isset($_POST["notes"])){
-                $_POST["notes"] = "";
+            if(!isset($_POST["notes"]) || empty($_POST["notes"])){
+                $_POST["notes"] = null;
             }
             airline::add_airline_without_class($_POST["naam"], $name, $_POST["OverweightChargeG"], $_POST["OverweightChargeBag"], $_POST["ChargeExtraBag"], $_POST["OversizeCharge"], $_POST["iata"], $_POST["notes"]);
             $succes_airline = true;
@@ -218,6 +223,8 @@ elseif($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["act"]) && $_POST["a
     $required = array("airline_name", "classnumber", "pcs_weight","pcs_weightHL","LoyaltyProgramme","PetsAllowed","DeclarationOfValue","LaptopAllowedHL",
                         "Pooling","FreeWheelChair","FreeServiceDog", "petsAllowedHL", "lengte_totaal", "lengte_totaalI");
                         
+    
+    $extra_required = $required;
     
     if(isset($_POST["pcs_weight"]) && $_POST["pcs_weight"] == "pcs"){
         $required[] = "pcsLuggage";
@@ -257,7 +264,7 @@ elseif($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["act"]) && $_POST["a
     
     if(isset($_POST["PetsAllowed"]) && $_POST["PetsAllowed"] == "true"){
         $required[] = "MaxWeightPet";
-        $required[] = "lengte_totaalPets";
+        $required[] = "lengte_totaalPets"; $extra_required[] = "lengte_totaalPets";
         $required[] = "CostsPet";
         
         if(isset($_POST["lengte_totaalPets"]) && $_POST["lengte_totaalPets"] == "l"){
@@ -295,7 +302,7 @@ elseif($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["act"]) && $_POST["a
     
     
     foreach($required as $requiredField){
-        if(!isset($_POST[$requiredField]) || (empty($_POST[$requiredField]) && $_POST[$requiredField] != "0")){
+        if(!isset($_POST[$requiredField]) || (empty($_POST[$requiredField]) && $_POST[$requiredField] != "0") && in_array($requiredField, $extra_required)){
             $error[$requiredField] = 'Veld niet ingevuld.';
         }
         elseif($requiredField == "classnumber" && isset($_POST[$requiredField]) && ($_POST[$requiredField] < 0 || $_POST[$requiredField] > 2)){
@@ -308,9 +315,12 @@ elseif($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["act"]) && $_POST["a
             $error[$requiredField] = "Kies uit stukken, gewicht of beide.";
         }
         elseif(!in_array($requiredField, array("lengte_totaalPets", "lengte_totaal", "lengte_totaalI", "petsAllowedHL", "airline_name", "pcs_weight", "pcs_weightHL", "FreeServiceDog", "FreeWheelChair", "Pooling", "strollerAllowedHL", "LaptopAllowedHL", "DeclarationOfValue", "PetsAllowed", "LoyaltyProgramme"))){
-            if(!validator::isInt($_POST[$requiredField])){
+            if(!validator::isInt($_POST[$requiredField]) && !empty($_POST[$requiredField])){
                 $error[$requiredField] = "Vul een getal in.";
             }
+        }
+        if(empty($_POST[$requiredField])){
+            $_POST[$requiredField] = null;
         }
     }
     
@@ -365,19 +375,22 @@ elseif($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["act"]) && $_POST["a
 
 elseif($_SERVER["REQUEST_METHOD"] == "POST" && isset($_GET["action"]) && $_GET["action"] == "edit" && isset($_POST["act"]) && $_POST["act"] == "airline"){
     $postvelden = array("naam", "iata", "OverweightChargeG", "OverweightChargeBag", "ChargeExtraBag", "OversizeCharge");
+        
+        $not_required = array("OverweightChargeG", "OverweightChargeBag", "ChargeExtraBag", "OversizeCharge");
+        
         if(isset($_POST["airline_id"]) && $_POST["airline_id"] != ""){
             $current_airline = airline::get_airline($_POST["airline_id"], 0);
         }
         
         
         foreach($postvelden as $postveld){
-            if(!isset($_POST[$postveld]) || (empty($_POST[$postveld]) && $_POST[$postveld] != "0")){
+            if(!isset($_POST[$postveld]) || (empty($_POST[$postveld]) && $_POST[$postveld] != "0") && !in_array($postveld, $not_required)){
                 $error[$postveld] = 'Veld niet ingevuld.';
             }
             elseif($postveld == "ChargeExtraBag"){
                 if(is_array($_POST[$postveld])){
                     foreach($_POST[$postveld] as $key => $koffer){
-                        if(!validator::isInt($koffer)){
+                        if(!validator::isInt($koffer) && !empty($koffer)){
                             $error[$postveld .$key] = "Vul een getal in";
                         }
                     }
@@ -395,9 +408,12 @@ elseif($_SERVER["REQUEST_METHOD"] == "POST" && isset($_GET["action"]) && $_GET["
             }
 
             else if($postveld != "notes" && $postveld != "naam"){
-                if(!validator::isInt($_POST[$postveld])){
+                if(!validator::isInt($_POST[$postveld]) && !empty($_POST[$postveld])){
                     $error[$postveld] = 'Vul een getal in.';
                 }
+            }
+            if(empty($_POST[$postveld])){
+                $_POST[$postveld] = null;
             }
         }
         
@@ -458,6 +474,7 @@ elseif($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["act"]) && $_POST["a
     $required = array("pcs_weight","pcs_weightHL","LoyaltyProgramme","PetsAllowed","DeclarationOfValue","LaptopAllowedHL",
                         "Pooling","FreeWheelChair","FreeServiceDog", "petsAllowedHL", "lengte_totaal", "lengte_totaalI");
                         
+    $extra_required = $required;
     
     if(isset($_POST["pcs_weight"]) && $_POST["pcs_weight"] == "pcs"){
         $required[] = "pcsLuggage";
@@ -497,7 +514,7 @@ elseif($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["act"]) && $_POST["a
     
     if(isset($_POST["PetsAllowed"]) && $_POST["PetsAllowed"] == "true"){
         $required[] = "MaxWeightPet";
-        $required[] = "lengte_totaalPets";
+        $required[] = "lengte_totaalPets"; $extra_required[] = "lengte_totaalPets";
         $required[] = "CostsPet";
         
         if(isset($_POST["lengte_totaalPets"]) && $_POST["lengte_totaalPets"] == "l"){
@@ -535,7 +552,7 @@ elseif($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["act"]) && $_POST["a
     
     
     foreach($required as $requiredField){
-        if(!isset($_POST[$requiredField]) || (empty($_POST[$requiredField]) && $_POST[$requiredField] != "0")){
+        if(!isset($_POST[$requiredField]) || (empty($_POST[$requiredField]) && $_POST[$requiredField] != "0") && in_array($requiredField, $extra_required)){
             $error[$requiredField] = 'Veld niet ingevuld.';
         }
         elseif($requiredField == "pcs_weight" && isset($_POST[$requiredField]) && !in_array($_POST[$requiredField], array("pcs", "weight", "both"))){
@@ -545,9 +562,12 @@ elseif($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["act"]) && $_POST["a
             $error[$requiredField] = "Kies uit stukken, gewicht of beide.";
         }
         elseif(!in_array($requiredField, array("lengte_totaalPets", "lengte_totaal", "lengte_totaalI", "petsAllowedHL", "airline_name", "pcs_weight", "pcs_weightHL", "FreeServiceDog", "FreeWheelChair", "Pooling", "strollerAllowedHL", "LaptopAllowedHL", "DeclarationOfValue", "PetsAllowed", "LoyaltyProgramme"))){
-            if(!validator::isInt($_POST[$requiredField])){
+            if(!validator::isInt($_POST[$requiredField]) && !empty($_POST[$requiredField])){
                 $error[$requiredField] = "Vul een getal in.";
             }
+        }
+        if(empty($_POST[$requiredField])){
+            $_POST[$requiredField] = null;
         }
     }
     
