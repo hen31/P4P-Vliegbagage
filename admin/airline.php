@@ -1024,10 +1024,10 @@ if (isset($_GET["action"]) && $_GET["action"] == "add") {
     </form>
 </div>
 <div id="right">
-    <h1 style="margin-right: 20px; padding-right: 200px;">Klas toevoegen</h1><br />
+    <h1 style="margin-right: 20px; padding-right: 200px;">Klasse toevoegen</h1><br />
     
     <?php if(isset($succes_class) && $succes_class){ ?>
-    <strong>Klas toegevoegd aan <?php echo htmlspecialchars($_POST["airline_name"]); ?></strong>
+    <strong>Klasse toegevoegd aan <?php echo htmlspecialchars($_POST["airline_name"]); ?></strong>
     <?php } ?>
     
     <form action="airline.php?action=add" method="post" class="form">
@@ -1042,7 +1042,7 @@ if (isset($_GET["action"]) && $_GET["action"] == "add") {
             }
             ?>
         </select>
-        <?php echo display_error($error, "classnumber"); ?><label>Klas:</label><select class="input" name="classnumber">
+        <?php echo display_error($error, "classnumber"); ?><label>Klasse:</label><select class="input" name="classnumber">
                                 <option></option>
                                 <option value="0" <?php echo set_selected($_POST, "classnumber", "0", $succes_class); ?>>Economy</option>
                                 <option value="1" <?php echo set_selected($_POST, "classnumber", "1", $succes_class); ?>>Eerste klas</option>
@@ -1221,10 +1221,10 @@ if(isset($_GET["airline_name"]) || isset($_GET["airline_id"])){
 </div>
 
 <div id="right">
-    <h1 style="margin-right: 20px;">Klas luchtvaartmaatschappij beheren</h1><br />
+    <h1 style="margin-right: 20px;">Klasse luchtvaartmaatschappij beheren</h1><br />
     
         <?php if(isset($succes_class) && $succes_class){ ?>
-    <strong>Klas succesvol bewerkt</strong>
+    <strong>Klasse succesvol bewerkt</strong>
     <?php } ?>
     
     <?php
@@ -1237,7 +1237,7 @@ if(isset($_GET["airline_name"]) || isset($_GET["airline_id"])){
     <form action="airline.php" class="form" id="class_form">
         <input type="hidden" name="airline_id" value="<?php echo $edit_airline->airline_id; ?>" />
         <input type="hidden" name="action" value="edit" />
-        <label>Klas:</label><select class="input class_edit" name="class"><option></option>
+        <label>Klasse:</label><select class="input class_edit" name="class"><option></option>
         <?php
         foreach($edit_airline->classes as $class){
             switch($class->classnumber){
