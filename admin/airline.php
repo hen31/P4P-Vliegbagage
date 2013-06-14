@@ -611,7 +611,7 @@ elseif($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["act"]) && $_POST["a
         }
         if(isset($_GET["airline_name"]) && isset($_GET["class"])){
             $airline = airline::get_airline_by_name($_GET["airline_name"]);
-            $airline = airline::get_airline($airine->airline_id, $_GET["class"]);
+            $airline = airline::get_airline($airline->airline_id, $_GET["class"]);
         }
         $class = $airline->classes[0];
         foreach($required as $requiredField){
@@ -996,7 +996,7 @@ if (isset($_GET["action"]) && $_GET["action"] == "add") {
         <input type="hidden" name="act" value="airline" />
         <?php echo display_error($error, "naam"); ?><label>Naam</label><input type="text" name="naam" <?php echo add_value($_POST, "naam", $succes_airline); ?> />
         <?php echo display_error($error, "logo"); ?><label>Logo</label><input type="file" name="logo" />
-        <?php echo display_error($error, "iata"); ?><label>Iata code</label><input type="text" name="iata" <?php echo add_value($_POST, "iata", $succes_airline); ?> />
+        <?php echo display_error($error, "iata"); ?><label>IATA code</label><input type="text" name="iata" <?php echo add_value($_POST, "iata", $succes_airline); ?> />
         <?php echo display_error($error, "OverweightChargeG"); ?><label>Kosten per extra kilogram &euro;</label><input type="text" name="OverweightChargeG" <?php echo add_value($_POST, "OverweightChargeG", $succes_airline) ?> />
         <?php echo display_error($error, "OverweightChargeBag"); ?><label>Kosten overgewicht koffer &euro;</label><input type="text" name="OverweightChargeBag" <?php echo add_value($_POST, "OverweightChargeBag", $succes_airline) ?> /> 
         
@@ -1189,7 +1189,7 @@ if(isset($_GET["airline_name"]) || isset($_GET["airline_id"])){
         <?php echo display_error($error, "naam"); ?><label>Naam</label><input type="text" name="naam" <?php echo add_existing_value($edit_airline->name,$_POST, "naam", $succes_airline); ?> />
         <img class="input" style="margin-left: 15px;" src="../images/airlines/<?php echo $edit_airline->logo ?>" alt="Logo luchtvaartmaatschappij" height="100" width="100" />
         <?php echo display_error($error, "logo"); ?><label>Logo</label><input type="file" name="logo" />
-        <?php echo display_error($error, "iata"); ?><label>Iata code</label><input type="text" name="iata" <?php echo add_existing_value($edit_airline->iata, $_POST, "iata", $succes_airline); ?> />
+        <?php echo display_error($error, "iata"); ?><label>IATA code</label><input type="text" name="iata" <?php echo add_existing_value($edit_airline->iata, $_POST, "iata", $succes_airline); ?> />
         <?php echo display_error($error, "OverweightChargeG"); ?><label>Kosten per extra kilogram &euro;</label><input type="text" name="OverweightChargeG" <?php echo add_existing_value($edit_airline->OverweightChargeG, $_POST, "OverweightChargeG", $succes_airline) ?> />
         <?php echo display_error($error, "OverweightChargeBag"); ?><label>Kosten overgewicht koffer &euro;</label><input type="text" name="OverweightChargeBag" <?php echo add_existing_value($edit_airline->OverweightChargeBag, $_POST, "OverweightChargeBag", $succes_airline) ?> /> 
         

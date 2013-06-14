@@ -102,7 +102,7 @@ class SpecialLuggage
         $Name = htmlspecialchars($Name);
         DbHandler::NonQuery("UPDATE specialluggage SET name = :Name WHERE specialluggage_id = :ID",
             array("Name" => $Name, "ID" => $Specialluggage_id));
-        return SpecialLuggage::GetCombo($airlineID, $Specialluggage_id);
+        return SpecialLuggage::GetSpecialLuggageID($Specialluggage_id);
     }
 
     //hiermee kan speciale bagage uit het systeem verwijderd worden
