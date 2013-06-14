@@ -91,6 +91,7 @@ if (!empty($_SERVER["QUERY_STRING"])) {
   </select>
 </form>
 <?php
+            //Show message is set. - Wim
             if (isset($airlineMessage)) {
                 echo ("<p class='error'>" . $airlineMessage . "</p>");
             } else {
@@ -108,9 +109,13 @@ if (!empty($_SERVER["QUERY_STRING"])) {
             }
             if (isset($_POST["checkPostedAdd"]) && $airlineValid == true) {
                 if (isset($_POST["availableSpecialLuggage"]) && $specialLuggageValid) {
+                    //Check if note is larger contains more than 1000. - Wim
                     if (strlen($_POST["specialLuggageNotes"]) < 1000) {
+                        //Check if fare is empty. - Wim
                         if ($_POST["specialLuggageFare"] != "") {
+                            //Check if fare are only digits. - Wim
                             if (is_numeric($_POST["specialLuggageFare"])) {
+                                //Check if weight are only digits. - Wim
                                 if (is_numeric($_POST["specialLuggageWeight"])) {
                                     //Check if notes is filled in. - Wim
                                     SpecialLuggage::AddItem(airline::get_airline_by_name($_GET["airlineName"])->
@@ -160,8 +165,12 @@ if (!empty($_SERVER["QUERY_STRING"])) {
                         get_airline_by_name($_GET["airlineName"])->airline_id);
                     for ($i = 0; $i < count($result); $i++) {
 ?>
-    <option value="<?php echo ($result[$i]->Name); ?>"><?php echo ($result[$i]->
-                        Name); ?></option>
+    <option value="<?php echo ($result[$i]->Name); ?>" <?php if (isset($_POST["availableSpecialLuggage"])) {
+                            if ($_POST["availableSpecialLuggage"] == $result[$i]->Name) {                                {
+                                    echo ("selected = 'selected'");
+                                }
+                            }
+                        } ?>><?php echo ($result[$i]->Name); ?></option>
     <?php
                     }
                 }
@@ -170,36 +179,37 @@ if (!empty($_SERVER["QUERY_STRING"])) {
   </select>
   <br />
   <br />
-    <label for="specialLuggageFare">Tarief (euro):</label>
+  <label for="specialLuggageFare">Tarief (euro):</label>
   <br />
-  <input type="text id="specialLuggageFare" name="specialLuggageFare" value="<?php if (isset
+  <input type="text" id="specialLuggageFare" name="specialLuggageFare" value="<?php if (isset
             ($_POST["specialLuggageFare"])) {
                 echo ($_POST["specialLuggageFare"]);
             } ?>"/>
-    <br />
-    <br />
-    <label for="specialLuggageDimension">Afmeting:</label>
   <br />
-  <input type="text id="specialLuggageDimension" name="specialLuggageDimension" value="<?php if (isset
+  <br />
+  <label for="specialLuggageDimension">Afmeting (bijvoorbeeld LxHxB):</label>
+  <br />
+  <input type="text" id="specialLuggageDimension" name="specialLuggageDimension" value="<?php if (isset
             ($_POST["specialLuggageDimension"])) {
                 echo ($_POST["specialLuggageDimension"]);
             } ?>"/>
-      <br />
-      <br />
-    <label for="specialLuggageWeight">Gewicht (kg):</label>
   <br />
-  <input type="text id="specialLuggageWeight" name="specialLuggageWeight" value="<?php if (isset
+  <br />
+  <label for="specialLuggageWeight">Gewicht (kg):</label>
+  <br />
+  <input type="text" id="specialLuggageWeight" name="specialLuggageWeight" value="<?php if (isset
             ($_POST["specialLuggageWeight"])) {
                 echo ($_POST["specialLuggageWeight"]);
             } ?>"/>
   <br />
   <br />
-    <label for="specialLuggageNotes">Opmerkingen:</label>
+  <label for="specialLuggageNotes">Opmerkingen:</label>
   <br />
   <textarea id="specialLuggageNotes" name="specialLuggageNotes" cols="40" rows="10" wrap="virtual" maxlength="1000" style="resize:none"><?php if (isset
             ($_POST["specialLuggageNotes"])) {
                 echo ($_POST["specialLuggageNotes"]);
-            } ?></textarea>
+            } ?>
+</textarea>
   <br />
   <br />
   <input type="submit" value="Koppelen" />
@@ -233,11 +243,14 @@ if (!empty($_SERVER["QUERY_STRING"])) {
                     }
                 }
                 if ($_POST["submitChangeRemove"] == "Wijzigen") {
-
                     if (!empty($_POST["linkedSpecialLuggage"]) && $specialLuggageValid) {
+                        //Check if note is larger contains more than 1000. - Wim
                         if (strlen($_POST["linkedSpecialLuggageNotes"]) < 1000) {
+                            //Check if fare is empty. - Wim
                             if ($_POST["linkedSpecialLuggageFare"] != "") {
+                                //Check if fare are only digits. - Wim
                                 if (is_numeric($_POST["linkedSpecialLuggageFare"])) {
+                                    //Check if weight are only digits. - Wim
                                     if (is_numeric($_POST["linkedSpecialLuggageWeight"])) {
                                         //Edit existing linked special luggage. - Wim
                                         $result = SpecialLuggage::GetSpecialLuggageName($_POST["linkedSpecialLuggage"]);
@@ -293,48 +306,45 @@ if (!empty($_SERVER["QUERY_STRING"])) {
                     }
                 }
             }
+            //Get data from database to populate the textboxes. - Wim
+            if (!empty($_POST["linkedSpecialLuggage"]) && $specialLuggageValid) {
+                $resulta = SpecialLuggage::GetSpecialLuggageName($_POST["linkedSpecialLuggage"]);
+                $resultb = SpecialLuggage::GetCombo(airline::get_airline_by_name($_GET["airlineName"])->
+                    airline_id, $resulta->specialluggage_id);
+            }
 ?>
   </select>
-<br />
   <br />
-    <label for="linkedSpecialLuggageFare">Tarief (euro):</label>
   <br />
-  <input type="text id="linkedSpecialLuggageFare" name="linkedSpecialLuggageFare" value="<?php if (!
+  <label for="linkedSpecialLuggageFare">Tarief (euro):</label>
+  <br />
+  <input type="text" id="linkedSpecialLuggageFare" name="linkedSpecialLuggageFare" value="<?php if (!
             empty($_POST["linkedSpecialLuggage"]) && $specialLuggageValid) {
-                //Populate notes texarea. - Wim
-                $resulta = SpecialLuggage::GetSpecialLuggageName($_POST["linkedSpecialLuggage"]);
-                $resultb = SpecialLuggage::GetCombo(airline::get_airline_by_name($_GET["airlineName"])->
-                    airline_id, $resulta->specialluggage_id);
                 echo ($resultb->Fare);
-            } elseif (isset($_POST["linkedSpecialLuggageFare"])) {
+            }
+            if (isset($_POST["linkedSpecialLuggageFare"])) {
                 echo ($_POST["linkedSpecialLuggageFare"]);
             } ?>"/>
-    <br />
-    <br />
-    <label for="linkedSpecialLuggageDimension">Afmeting:</label>
   <br />
-  <input type="text id="linkedSpecialLuggageDimension" name="linkedSpecialLuggageDimension" value="<?php if (!
+  <br />
+  <label for="linkedSpecialLuggageDimension">Afmeting (bijvoorbeeld LxHxB):</label>
+  <br />
+  <input type="text" id="linkedSpecialLuggageDimension" name="linkedSpecialLuggageDimension" value="<?php if (!
             empty($_POST["linkedSpecialLuggage"]) && $specialLuggageValid) {
-                //Populate notes texarea. - Wim
-                $resulta = SpecialLuggage::GetSpecialLuggageName($_POST["linkedSpecialLuggage"]);
-                $resultb = SpecialLuggage::GetCombo(airline::get_airline_by_name($_GET["airlineName"])->
-                    airline_id, $resulta->specialluggage_id);
                 echo ($resultb->Dimension);
-            } elseif (isset($_POST["linkedSpecialLuggageDimension"])) {
+            }
+            if (isset($_POST["linkedSpecialLuggageDimension"])) {
                 echo ($_POST["linkedSpecialLuggageDimension"]);
             } ?>"/>
-      <br />
-      <br />
-    <label for="linkedSpecialLuggageWeight">Gewicht (kg):</label>
   <br />
-  <input type="text id="linkedSpecialLuggageWeight" name="linkedSpecialLuggageWeight" value="<?php if (!
+  <br />
+  <label for="linkedSpecialLuggageWeight">Gewicht (kg):</label>
+  <br />
+  <input type="text" id="linkedSpecialLuggageWeight" name="linkedSpecialLuggageWeight" value="<?php if (!
             empty($_POST["linkedSpecialLuggage"]) && $specialLuggageValid) {
-                //Populate notes texarea. - Wim
-                $resulta = SpecialLuggage::GetSpecialLuggageName($_POST["linkedSpecialLuggage"]);
-                $resultb = SpecialLuggage::GetCombo(airline::get_airline_by_name($_GET["airlineName"])->
-                    airline_id, $resulta->specialluggage_id);
                 echo ($resultb->Weight);
-            } elseif (isset($_POST["linkedSpecialLuggageWeight"])) {
+            }
+            if (isset($_POST["linkedSpecialLuggageWeight"])) {
                 echo ($_POST["linkedSpecialLuggageWeight"]);
             } ?>"/>
   <br />
@@ -343,17 +353,14 @@ if (!empty($_SERVER["QUERY_STRING"])) {
   <br />
   <textarea id="linkedSpecialLuggageNotes" name="linkedSpecialLuggageNotes" cols="40" rows="10" wrap="virtual" maxlength="1000" style="resize:none">
 <?php if (!empty($_POST["linkedSpecialLuggage"]) && $specialLuggageValid) {
-                //Populate notes texarea. - Wim
-                $resulta = SpecialLuggage::GetSpecialLuggageName($_POST["linkedSpecialLuggage"]);
-                $resultb = SpecialLuggage::GetCombo(airline::get_airline_by_name($_GET["airlineName"])->
-                    airline_id, $resulta->specialluggage_id);
                 echo ($resultb->Notes);
-            } elseif (isset($_POST["linkedSpecialLuggageNotes"])) {
+            }
+            if (isset($_POST["linkedSpecialLuggageNotes"])) {
                 echo ($_POST["linkedSpecialLuggageNotes"]);
             } ?>
 </textarea>
-<br />
-<br />
+  <br />
+  <br />
   <input type="submit" name="submitChangeRemove" value="Wijzigen" />
   <input type="submit" name="submitChangeRemove" value="Ontkoppelen" />
   <input type="hidden" name="checkPostedAdd" value="yes" />
@@ -370,7 +377,6 @@ if (isset($_SESSION["removedSpecialLuggage"]) && $_SESSION["removedSpecialLuggag
     $_SESSION["removedSpecialLuggage"] = false;
     echo ("<p class='good'>Speciale bagage is met succes ontkoppeld.</p>");
 }
-
 //Show messages to inform the user when needed. - Wim
 if (isset($availableMessage)) {
     echo ("<p class='error'>" . $availableMessage . "</p>");
