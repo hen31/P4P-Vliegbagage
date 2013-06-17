@@ -43,7 +43,7 @@ if (isset($_POST['editUsername'])) {
 
 if (isset($_POST['editPassword'])) {
     if (!empty($_SESSION['user_id'])) {
-        if (!empty($_POST['oldPass']) && !empty($_POST['newPass'])) {
+        if (!empty($_POST['newPass'])) {
             $changeCheck = user::changeUser($_SESSION['user_id'], null, $_POST['newPass']);
             unset($_SESSION['user_id']);
             if ($changeCheck) {
@@ -221,7 +221,7 @@ if (isset($_GET["action"])) {
 <br />
         <form action="users.php?action=edit" method="post" class="form">
           
-            <div><label for="Oud wachtwoord">Oud wachtwoord: </label><input name="oldPass" id="oldPass" type="password"></div>
+            <input name="oldPass" id="oldPass" type="hidden">
             <div><label for="Nieuw wachtwoord">Nieuw wachtwoord: </label><input name="newPass" id="newPass" type="password"></div>
             <div>&nbsp;</div>
             <div><label>&nbsp;</label><input type="submit" name="editPassword" value="Wachtwoord wijzigen"/></div>
