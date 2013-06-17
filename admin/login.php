@@ -17,7 +17,7 @@ if (isset($_POST['Submit'])) {
             $user = user::login($_POST["uname"], $password);
             //als gebruiker null is bestaat de combinatie niet
             if ($user == null) {
-                $error1 =  'Gebruikersnaam of wachtwoord klopt niet';
+                $error1 = 'Gebruikersnaam of wachtwoord klopt niet';
             } else {
                 //als het goed is gegaan redirecten naar adminpagina
                 $fatalerror = false;
@@ -25,13 +25,10 @@ if (isset($_POST['Submit'])) {
                 header("Location: ../admin");
                 exit;
             }
-            }
-            else
-            {
-                //error weergeven
-                $error2 =  '1 of meer velden zijn niet ingevuld';
-            }
-        
+        } else {
+            //error weergeven
+            $error2 = '1 of meer velden zijn niet ingevuld';
+        }
 
 
     }
@@ -41,7 +38,9 @@ if (isset($_POST['Submit'])) {
 <html>
     <head>
 	   <meta http-equiv="content-type" content="text/html" />
-	   <title>Vliegbagage.nl | <?php if(isset($titel)){ echo $titel;}?></title>
+	   <title>Vliegbagage.nl | <?php if (isset($titel)) {
+    echo $titel;
+} ?></title>
        <link href="../style.css" type="text/css" rel="stylesheet"/>
        <link rel="stylesheet" type="text/css" media="screen" href="../css/ui.jqgrid.css" />
        <link rel="stylesheet" type="text/css" media="screen" href="../css/jquery-ui.css" />

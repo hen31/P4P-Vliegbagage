@@ -73,41 +73,33 @@ class user
     //Gebruikersnaam en/of wachtwoord veranderen.
     public static function changeUser($userid, $username, $userPassword)
     {
-        if($username!= null && $userPassword!= null)
-        {
-             $username = htmlspecialchars($username);
-        $check = user::UsernameExists($username);
-        $userPassword = sha1($userPassword . user::$SALT);
-        DbHandler::NonQuery("UPDATE user SET username=:Name, password = :password WHERE user_id = :ID;",
-            array(
-            "Name" => $username,
-            "ID" => $userid,
-            "password" => $userPassword));
+        if ($username != null && $userPassword != null) {
+            $username = htmlspecialchars($username);
+            $check = user::UsernameExists($username);
+            $userPassword = sha1($userPassword . user::$SALT);
+            DbHandler::NonQuery("UPDATE user SET username=:Name, password = :password WHERE user_id = :ID;",
+                array(
+                "Name" => $username,
+                "ID" => $userid,
+                "password" => $userPassword));
 
-        return true;
-        }
-        else if($username!= null && $userPassword== null)
-        {
-             $username = htmlspecialchars($username);
+            return true;
+        } else
+            if ($username != null && $userPassword == null) {
+                $username = htmlspecialchars($username);
                 $check = user::UsernameExists($username);
-        $userPassword = sha1($userPassword . user::$SALT);
-        DbHandler::NonQuery("UPDATE user SET username=:Name WHERE user_id = :ID;",
-            array(
-            "Name" => $username,
-            "ID" => $userid));
+                $userPassword = sha1($userPassword . user::$SALT);
+                DbHandler::NonQuery("UPDATE user SET username=:Name WHERE user_id = :ID;", array
+                    ("Name" => $username, "ID" => $userid));
 
-        return true; 
-        }
-        else
-        {
-        $userPassword = sha1($userPassword . user::$SALT);
-        DbHandler::NonQuery("UPDATE user SET  password = :password WHERE user_id = :ID;",
-            array(
-            "ID" => $userid,
-            "password" => $userPassword));
+                return true;
+            } else {
+                $userPassword = sha1($userPassword . user::$SALT);
+                DbHandler::NonQuery("UPDATE user SET  password = :password WHERE user_id = :ID;",
+                    array("ID" => $userid, "password" => $userPassword));
 
-        return true;
-        }
+                return true;
+            }
     }
 
     //Gebruiker ophalen aan de hand van de id die wordt opgegeven
@@ -152,7 +144,7 @@ class user
     //als dit het geval is dan wordt er een object van gebruiker terug gegeven.
     public static function login($username, $userPassword)
     {
-         $username = htmlspecialchars($username);
+        $username = htmlspecialchars($username);
         $results = DbHandler::Query("SELECT user_id, username FROM user WHERE username=:user AND password=:pass;",
             array("user" => $username, "pass" => $userPassword));
         //als er geen gebruiker bestaat met deze combinatie wordt null terug gegeven
@@ -173,7 +165,7 @@ class user
     public static function checkUser($username, $userPassword)
     {
         $check;
-         $username = htmlspecialchars($username);
+        $username = htmlspecialchars($username);
         $results = DbHandler::Query("SELECT * FROM user WHERE username=:user AND password=:pass;",
             array("user" => $username, "pass" => $userPassword));
 

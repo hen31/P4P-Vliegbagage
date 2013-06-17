@@ -12,43 +12,34 @@ require_once ("data/FrontEnd.php");
 $titel = "Home";
 require_once ("bovenkant.php");
 //check if het is ingevuld
-if (isset($_GET["beginPunt"]) && isset($_GET["eindPunt"]))
-{
-    if (!validator::isInt($_GET["beginPunt"]))
-    {
+if (isset($_GET["beginPunt"]) && isset($_GET["eindPunt"])) {
+    if (!validator::isInt($_GET["beginPunt"])) {
         $beginAirport = htmlspecialchars($_GET["beginPunt"]);
-    } else
-    {
+    } else {
         $beginAirport = airports::GetAirportByID($_GET["beginPunt"]);
     }
-    if (!validator::isInt($_GET["eindPunt"]))
-    {
+    if (!validator::isInt($_GET["eindPunt"])) {
         $endAirport = htmlspecialchars($_GET["eindPunt"]);
-    } else
-    {
+    } else {
         $endAirport = airports::GetAirportByID($_GET["eindPunt"]);
     }
     //vliegvelden ophalen
 
 
     // kijken of de vliegvelden bestaan
-    if ($beginAirport != null && $endAirport != null)
-    {
+    if ($beginAirport != null && $endAirport != null) {
         //kijken of het niet de zelfde vliegvelden zijn.
         /*  if ($beginAirport->AirportID != $endAirport->AirportID)
         {*/
         //kijken of er een klasse is ingevuld
-        if (isset($_GET["class"]))
-        {
+        if (isset($_GET["class"])) {
             $klasse = $_GET["class"];
             $counter = 0;
             $specialeBagage = array();
             //speciale bagage ophalen
-            while (isset($_GET["specLug" . $counter]))
-            {
+            while (isset($_GET["specLug" . $counter])) {
                 $spec = SpecialLuggage::GetSpecialLuggageName($_GET["specLug" . $counter]);
-                if ($spec != null)
-                {
+                if ($spec != null) {
                     $specialeBagage[] = $spec;
 
                 }
@@ -81,8 +72,7 @@ if (isset($_GET["beginPunt"]) && isset($_GET["eindPunt"]))
 
 //als special luggage is die toevoegen als hiddenfield
 $counter = 0;
-while (isset($_GET["specLug" . $counter]))
-{
+while (isset($_GET["specLug" . $counter])) {
     echo '<input type="hidden" id="specLug' . $counter . '" name="specLug' . $counter .
         '" value="' . htmlspecialchars($_GET["specLug" . $counter]) . '">'; //echo '<input type="hidden" id="specLug'. $counter .'" name="specLug'.$counter '" value="'.$_GET["specLug".$counter] .'">';
     $counter++;
@@ -98,43 +88,33 @@ while (isset($_GET["specLug" . $counter]))
 
 //vliegvelden toevoegen voor typeahead
 $airports = frontend::GetAirportsBegin();
-for ($i = 0; $i < count($airports); $i++)
-{
+for ($i = 0; $i < count($airports); $i++) {
     if (isset($_GET["beginPunt"]) && htmlspecialchars($_GET["beginPunt"]) == $airports[$i]->
-        AirportID)
-    {
+        AirportID) {
         echo '<option selected="true" value="' . $airports[$i]->AirportID . '">' . $airports[$i]->
             AirportName . '(' . $airports[$i]->AirportCity . ')' . '</option>';
-    } else
-    {
+    } else {
         echo '<option value="' . $airports[$i]->AirportID . '">' . $airports[$i]->
             AirportName . '(' . $airports[$i]->AirportCity . ')' . '</option>';
     }
 }
 $cities = array(); // airports::GetAirportsTwoPerCity();
 $CitieCount = array();
-for ($i = 0; $i < count($airports); $i++)
-{
-    if (array_key_exists($airports[$i]->AirportCity, $CitieCount))
-    {
-        if ($CitieCount[$airports[$i]->AirportCity] == 1)
-        {
+for ($i = 0; $i < count($airports); $i++) {
+    if (array_key_exists($airports[$i]->AirportCity, $CitieCount)) {
+        if ($CitieCount[$airports[$i]->AirportCity] == 1) {
             $CitieCount[$airports[$i]->AirportCity] = 2;
             $cities[] = $airports[$i]->AirportCity;
         }
-    } else
-    {
+    } else {
         $CitieCount[$airports[$i]->AirportCity] = 1;
     }
 }
-for ($i = 0; $i < count($cities); $i++)
-{
-    if (isset($_GET["beginPunt"]) && htmlspecialchars($_GET["beginPunt"]) == $cities[$i])
-    {
+for ($i = 0; $i < count($cities); $i++) {
+    if (isset($_GET["beginPunt"]) && htmlspecialchars($_GET["beginPunt"]) == $cities[$i]) {
         echo '<option selected="true" value="' . $cities[$i] . '">' . $cities[$i] .
             '(alle vliegvelden)</option>';
-    } else
-    {
+    } else {
         echo '<option  value="' . $cities[$i] . '">' . $cities[$i] .
             '(alle vliegvelden)</option>';
     }
@@ -148,53 +128,41 @@ for ($i = 0; $i < count($cities); $i++)
                    
                   <?php
 
-if (isset($_GET["beginPunt"]) && !empty($_GET["beginPunt"]))
-{
-     if (airports::GetAirportByID( htmlspecialchars($_GET["beginPunt"]))!=null)
-     {
-     $airports = frontend::GetAirportsEndByStart( htmlspecialchars($_GET["beginPunt"]));
-    for ($i = 0; $i < count($airports); $i++)
-    {
-        if (isset($_GET["eindPunt"]) && htmlspecialchars($_GET["eindPunt"]) == $airports[$i]->
-            AirportID)
-        {
-            echo '<option selected="true" value="' . $airports[$i]->AirportID . '">' . $airports[$i]->
-                AirportName . '(' . $airports[$i]->AirportCity . ')' . '</option>';
-        } else
-        {
-            echo '<option value="' . $airports[$i]->AirportID . '">' . $airports[$i]->
-                AirportName . '(' . $airports[$i]->AirportCity . ')' . '</option>';
-        }
-    }
-    $cities = array(); // airports::GetAirportsTwoPerCity();
-    $CitieCount = array();
-    for ($i = 0; $i < count($airports); $i++)
-    {
-        if (array_key_exists($airports[$i]->AirportCity, $CitieCount))
-        {
-            if ($CitieCount[$airports[$i]->AirportCity] == 1)
-            {
-                $CitieCount[$airports[$i]->AirportCity] = 2;
-                $cities[] = $airports[$i]->AirportCity;
+if (isset($_GET["beginPunt"]) && !empty($_GET["beginPunt"])) {
+    if (airports::GetAirportByID(htmlspecialchars($_GET["beginPunt"])) != null) {
+        $airports = frontend::GetAirportsEndByStart(htmlspecialchars($_GET["beginPunt"]));
+        for ($i = 0; $i < count($airports); $i++) {
+            if (isset($_GET["eindPunt"]) && htmlspecialchars($_GET["eindPunt"]) == $airports[$i]->
+                AirportID) {
+                echo '<option selected="true" value="' . $airports[$i]->AirportID . '">' . $airports[$i]->
+                    AirportName . '(' . $airports[$i]->AirportCity . ')' . '</option>';
+            } else {
+                echo '<option value="' . $airports[$i]->AirportID . '">' . $airports[$i]->
+                    AirportName . '(' . $airports[$i]->AirportCity . ')' . '</option>';
             }
-        } else
-        {
-            $CitieCount[$airports[$i]->AirportCity] = 1;
+        }
+        $cities = array(); // airports::GetAirportsTwoPerCity();
+        $CitieCount = array();
+        for ($i = 0; $i < count($airports); $i++) {
+            if (array_key_exists($airports[$i]->AirportCity, $CitieCount)) {
+                if ($CitieCount[$airports[$i]->AirportCity] == 1) {
+                    $CitieCount[$airports[$i]->AirportCity] = 2;
+                    $cities[] = $airports[$i]->AirportCity;
+                }
+            } else {
+                $CitieCount[$airports[$i]->AirportCity] = 1;
+            }
+        }
+        for ($i = 0; $i < count($cities); $i++) {
+            if (isset($_GET["eindPunt"]) && htmlspecialchars($_GET["eindPunt"]) == $cities[$i]) {
+                echo '<option selected="true" value="' . $cities[$i] . '">' . $cities[$i] .
+                    '(alle vliegvelden)</option>';
+            } else {
+                echo '<option  value="' . $cities[$i] . '">' . $cities[$i] .
+                    '(alle vliegvelden)</option>';
+            }
         }
     }
-    for ($i = 0; $i < count($cities); $i++)
-    {
-        if (isset($_GET["eindPunt"]) && htmlspecialchars($_GET["eindPunt"]) == $cities[$i])
-        {
-            echo '<option selected="true" value="' . $cities[$i] . '">' . $cities[$i] .
-                '(alle vliegvelden)</option>';
-        } else
-        {
-            echo '<option  value="' . $cities[$i] . '">' . $cities[$i] .
-                '(alle vliegvelden)</option>';
-        }
-    }
-}
 }
 ?>
                   </select>
@@ -205,10 +173,8 @@ if (isset($_GET["beginPunt"]) && !empty($_GET["beginPunt"]))
                  <?php
 
 //als een klasse is ingevuld die selecteren
-if (isset($_GET["class"]))
-{
-    if ($_GET["class"] == '0')
-    {
+if (isset($_GET["class"])) {
+    if ($_GET["class"] == '0') {
         echo 'Selected="true"';
     }
 }
@@ -219,10 +185,8 @@ if (isset($_GET["class"]))
                 <?php
 
 //als een klasse is ingevuld die selecteren
-if (isset($_GET["class"]))
-{
-    if ($_GET["class"] == '1')
-    {
+if (isset($_GET["class"])) {
+    if ($_GET["class"] == '1') {
         echo 'Selected="true"';
     }
 }
@@ -233,10 +197,8 @@ if (isset($_GET["class"]))
                  <?php
 
 //als een klasse is ingevuld die selecteren
-if (isset($_GET["class"]))
-{
-    if ($_GET["class"] == '2')
-    {
+if (isset($_GET["class"])) {
+    if ($_GET["class"] == '2') {
         echo 'Selected="true"';
     }
 }
@@ -252,8 +214,7 @@ if (isset($_GET["class"]))
                                 <?php
 
 $specialeBagage1 = SpecialLuggage::GetSpecialLuggageList();
-for ($i = 0; $i < count($specialeBagage1); $i++)
-{
+for ($i = 0; $i < count($specialeBagage1); $i++) {
 
     echo '<option>' . $specialeBagage1[$i]->Name . '</option>';
 
@@ -267,8 +228,7 @@ for ($i = 0; $i < count($specialeBagage1); $i++)
 
 //zorgen dat er jvavascript word uitgevoerd als op delete word geklikt
 $counter = 0;
-while (isset($_GET["specLug" . $counter]))
-{
+while (isset($_GET["specLug" . $counter])) {
     echo '<li id="' . $counter . '">' . htmlspecialchars($_GET["specLug" . $counter]) .
         '<img src="images/deleteIcon.png" onClick="Delete(\'' . $counter . '\'); return false;"  /></li>';
     $counter++;
@@ -289,21 +249,18 @@ while (isset($_GET["specLug" . $counter]))
                 <?php
 
 //als er resultaat is die tonen
-if (isset($results) && count($results)>0)
-{
+if (isset($results) && count($results) > 0) {
 
 ?>
                     <table id="list4" ></table>
                     <?php
 
-} else
-{
+} else {
 
 ?>
                         <p>
                     <?php
-    if (isset($_GET["beginPunt"]) )
-    {
+    if (isset($_GET["beginPunt"])) {
 
 ?>
                         Er zijn geen luchtvaartmaatschapijen die aan deze voorwaarden voldoen.
@@ -331,8 +288,7 @@ if (isset($results) && count($results)>0)
 $(document).ready(function(){
    <?php
 
-if (isset($_GET["specLug0"]) == false)
-{
+if (isset($_GET["specLug0"]) == false) {
 
 ?>
    $('#specListDiv').hide();
@@ -371,8 +327,7 @@ function popitup(url, kerl) {
  var left = (screen.width/2)-(w/2);
  <?php
 
-if (isset($results) && count($results) > 0)
-{
+if (isset($results) && count($results) > 0) {
     //class nummer in javascript zetten.
     echo 'var classnumber =' . $results[0]->classes[0]->classnumber . ';';
 }
@@ -381,11 +336,9 @@ if (isset($results) && count($results) > 0)
      <?php
 
 ///speciale bagage toevoegen aan javascript
-if (isset($specialeBagage))
-{
+if (isset($specialeBagage)) {
     $stringSpec = 'var SpecLug ="';
-    for ($i = 0; $i < count($specialeBagage); $i++)
-    {
+    for ($i = 0; $i < count($specialeBagage); $i++) {
         $stringSpec .= 'Speclug' . $i . '=' . $specialeBagage[0]->specialluggage_id .
             '&';
     }
@@ -412,10 +365,8 @@ var mydata = [
 {identifier:"7",invdate:"2007-10-04",name:"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00"},
 {identifier:"8",invdate:"2007-10-03",name:"test2",note:"note2",amount:"300.00",tax:"20.00",total:"320.00"},
 {identifier:"9",invdate:"2007-09-01",name:"test3",note:"note3",amount:"400.00",tax:"30.00",total:"430.00"}*/
-if (isset($results) && count($results) > 0)
-{
-    for ($s = 0; $s < count($results); $s++)
-    {
+if (isset($results) && count($results) > 0) {
+    for ($s = 0; $s < count($results); $s++) {
         //resultaten voor javascript formateren
         $airline = $results[$s];
         $afmetingen = $airline->classes[0]->sizeTotalPerItem ? $airline->classes[0]->
@@ -425,35 +376,28 @@ if (isset($results) && count($results) > 0)
         $afmetingenHL = $airline->classes[0]->sizeTotalHL ? $airline->classes[0]->
             sizeTotalHL . 'cm' : $airline->classes[0]->sizeLenghtHL . ' x ' . $airline->
             classes[0]->SizeWidthHL . ' x ' . $airline->classes[0]->sizeHeightHL . 'cm';
-        if ($airline->classes[0]->MaxWeightHL == 0)
-        {
+        if ($airline->classes[0]->MaxWeightHL == 0) {
             $airline->classes[0]->MaxWeightHL = 'n.v.t.';
-        } else
-        {
+        } else {
             $airline->classes[0]->MaxWeightHL .= 'kg';
         }
 
-        if ($airline->classes[0]->pcsLuggage == 0)
-        {
+        if ($airline->classes[0]->pcsLuggage == 0) {
             $airline->classes[0]->pcsLuggage = 'n.v.t.';
         }
 
-        if ($airline->classes[0]->maxWeightLuggage == 0)
-        {
+        if ($airline->classes[0]->maxWeightLuggage == 0) {
             $airline->classes[0]->maxWeightLuggage = 'n.v.t.';
-        } else
-        {
+        } else {
             $airline->classes[0]->maxWeightLuggage .= 'kg';
         }
-        if (count($results) - 1 == $s)
-        {
+        if (count($results) - 1 == $s) {
             $dataString = '{logo:"<img style=\"width:100px;height:100px;\" src=\"images/airlines/' .
                 $airline->logo . '\"/>",name:"' . htmlspecialchars($airline->name) . '",' .
                 'GwGrts:"' . $airline->classes[0]->maxWeightLuggage . '",Afmeting:"' . $afmetingen .
                 '",Apcs:"' . $airline->classes[0]->pcsLuggage . '",Gwhl:"' . $airline->classes[0]->
                 MaxWeightHL . '",AfmetingHL:"' . $afmetingenHL . '"}';
-        } else
-        {
+        } else {
             $dataString = '{logo:"<img style=\"width:100px;height:100px;\" src=\"images/airlines/' .
                 $airline->logo . '\"/>",name:"' . htmlspecialchars($airline->name) . '",' .
                 'GwGrts:"' . $airline->classes[0]->maxWeightLuggage . '",Afmeting:"' . $afmetingen .
@@ -487,14 +431,11 @@ var counter =0;
 
 //speciale bagage maken
 $specialeBagage = SpecialLuggage::GetSpecialLuggageList();
-for ($i = 0; $i < count($specialeBagage); $i++)
-{
-    if ($i == count($specialeBagage) - 1)
-    {
+for ($i = 0; $i < count($specialeBagage); $i++) {
+    if ($i == count($specialeBagage) - 1) {
 
         echo '"' . $specialeBagage[$i]->Name . '"';
-    } else
-    {
+    } else {
         echo '"' . $specialeBagage[$i]->Name . '"' . ",";
     }
 }

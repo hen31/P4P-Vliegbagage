@@ -62,10 +62,9 @@ class airports
             array("ID" => $id));
         DbHandler::NonQuery("DELETE FROM traject WHERE airport_start_id = (:ID)  OR airport_stop_id = (:ID)",
             array("ID" => $id));
-        foreach ($results as $row)
-        {
-          DbHandler::NonQuery("DELETE FROM trajectairline WHERE traject_id = (:ID);",
-            array("ID" => $row["traject_id"]));
+        foreach ($results as $row) {
+            DbHandler::NonQuery("DELETE FROM trajectairline WHERE traject_id = (:ID);",
+                array("ID" => $row["traject_id"]));
         }
     }
     //Vliegveld ophalen aan de hand van de ID
@@ -85,8 +84,7 @@ class airports
         $Query = DbHandler::Query("SELECT * FROM airports WHERE name = (:Name) lIMIT 1",
             array("Name" => $Name));
 
-        if (count($Query) == 0)
-        {
+        if (count($Query) == 0) {
             return null;
         }
         $ClassObject = new airports();
@@ -100,8 +98,7 @@ class airports
         $Query = DbHandler::Query("SELECT * FROM airports ORDER BY name ASC", null);
         $AirportCOllection = array();
 
-        foreach ($Query as $result)
-        {
+        foreach ($Query as $result) {
             $AirportObject = new airports();
             $AirportObject->SetProperties($result["airport_id"], $result["name"], $result["City"]);
             array_push($AirportCOllection, $AirportObject);
@@ -115,8 +112,7 @@ class airports
         $Query = DbHandler::Query("SELECT City FROM airports GROUP BY City HAVING COUNT(city) >1", null);
         $AirportCOllection = array();
 
-        foreach ($Query as $result)
-        {
+        foreach ($Query as $result) {
             $AirportCOllection[] = $result["City"];
         }
 
@@ -131,8 +127,7 @@ class airports
             array("SearchQuery" => "%" . $SearchQuery . "%"));
         $AirportCOllection = array();
 
-        foreach ($Query as $result)
-        {
+        foreach ($Query as $result) {
             $AirportObject = new airports();
             $AirportObject->SetProperties($result["airport_id"], $result["name"], $result["City"]);
             array_push($AirportCOllection, $AirportObject);

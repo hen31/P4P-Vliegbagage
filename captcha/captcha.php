@@ -1,19 +1,40 @@
 <?php
 session_start();
-$klinkers = array("a", "e", "i", "o", "u");
-$medeklinkers = array("b", "c", "d", "f", "g", "h", "k", "l", "m", "n", "p", "r", "s", "t", "v", "w", "z");
+$klinkers = array(
+    "a",
+    "e",
+    "i",
+    "o",
+    "u");
+$medeklinkers = array(
+    "b",
+    "c",
+    "d",
+    "f",
+    "g",
+    "h",
+    "k",
+    "l",
+    "m",
+    "n",
+    "p",
+    "r",
+    "s",
+    "t",
+    "v",
+    "w",
+    "z");
 $randomnr = null;
-for($i = 0; $i < 7; $i++){
-    if($i & 1) {
+for ($i = 0; $i < 7; $i++) {
+    if ($i & 1) {
         $rand = array_rand($klinkers, 1);
         $randomnr .= $klinkers[$rand];
-    }
-    else{
+    } else {
         $rand = array_rand($medeklinkers, 1);
         $randomnr .= $medeklinkers[$rand];
     }
 }
-$_SESSION["hash"] = sha1(strtolower($randomnr) ."iuherkdjcby8rhb");
+$_SESSION["hash"] = sha1(strtolower($randomnr) . "iuherkdjcby8rhb");
 
 $im = imagecreatetruecolor(300, 60);
 
@@ -23,7 +44,7 @@ $background = imagecolorallocate($im, 240, 240, 240);
 
 imagefilledrectangle($im, 0, 0, 300, 60, $background);
 
-$font = dirname(__FILE__) .'/font.ttf';
+$font = dirname(__file__) . '/font.ttf';
 
 imagettftext($im, 35, 0, 0, 40, $grey, $font, $randomnr);
 
