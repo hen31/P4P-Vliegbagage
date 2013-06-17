@@ -289,7 +289,7 @@ while (isset($_GET["specLug" . $counter]))
                 <?php
 
 //als er resultaat is die tonen
-if (isset($results))
+if (isset($results) && count($results)>0)
 {
 
 ?>
@@ -302,8 +302,7 @@ if (isset($results))
 ?>
                         <p>
                     <?php
-
-    if (isset($_GET["beginPunt"]))
+    if (isset($_GET["beginPunt"]) )
     {
 
 ?>
