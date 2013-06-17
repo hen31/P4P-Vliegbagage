@@ -373,7 +373,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["act"]) && $_POST["act"
                 $error[$requiredField] = "Vul een getal in.";
             }
         }
-        if (empty($_POST[$requiredField]) && $postveld != "classnumber") {
+        if (empty($_POST[$requiredField]) && $requiredField != "classnumber") {
             $_POST[$requiredField] = null;
         }
     }
