@@ -1733,7 +1733,7 @@ airline_id ?>" />
             echo "De opgegeven luchtvaartmaatschappij bestaat (niet) meer.";
         } else {
 ?>
-    <p style="color: red; font-size: 15pt; text-align: center;">Weet u zeker dat u deze class wilt verwijderen?</p>
+    <p style="color: red; font-size: 15pt; text-align: center;">Weet u zeker dat u deze klasse wilt verwijderen?</p>
     <div id="left">
         <form action="airline.php?action=del" method="post">
             <input type="hidden" name="airline_id" value="<?php echo $del_airline->
