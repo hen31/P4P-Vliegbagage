@@ -536,7 +536,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["act"]) && $_POST["act"
         chargeExtraBag::remove_all($current_airline->airline_id);
 
         foreach ($_POST["ChargeExtraBag"] as $number => $costs) {
+            if($costs == 0){
+                break;
+            }
             chargeExtraBag::add($current_airline->airline_id, $number, $costs);
+            
         }
         airline::edit_airline($current_airline);
         $succes_airline = true;
