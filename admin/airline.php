@@ -1439,7 +1439,7 @@ airline_id; ?>" />
                             break;
 
                         case 2:
-                            $klasnaam = "Busines klas";
+                            $klasnaam = "Business klas";
                             break;
                     }
                     if (set_selected($_GET, "class", $class->classnumber, false) != null) {
