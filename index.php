@@ -87,7 +87,8 @@ while (isset($_GET["specLug" . $counter])) {
     <?php
 
 //vliegvelden toevoegen voor typeahead
-$airports = frontend::GetAirportsBegin();
+$airports = frontend::GetAirportsBegin();// airports::GetAirportsTwoPerCity();
+$CitieCount = array();
 for ($i = 0; $i < count($airports); $i++) {
     if (isset($_GET["beginPunt"]) && htmlspecialchars($_GET["beginPunt"]) == $airports[$i]->
         AirportID) {
@@ -97,26 +98,21 @@ for ($i = 0; $i < count($airports); $i++) {
         echo '<option value="' . $airports[$i]->AirportID . '">' . $airports[$i]->
             AirportName . '(' . $airports[$i]->AirportCity . ')' . '</option>';
     }
-}
-$cities = array(); // airports::GetAirportsTwoPerCity();
-$CitieCount = array();
-for ($i = 0; $i < count($airports); $i++) {
-    if (array_key_exists($airports[$i]->AirportCity, $CitieCount)) {
+     if (array_key_exists($airports[$i]->AirportCity, $CitieCount)) {
         if ($CitieCount[$airports[$i]->AirportCity] == 1) {
             $CitieCount[$airports[$i]->AirportCity] = 2;
-            $cities[] = $airports[$i]->AirportCity;
+               if (isset($_GET["beginPunt"]) && htmlspecialchars($_GET["beginPunt"]) ==  $airports[$i]->AirportCity) {
+        echo '<option selected="true" value="' .  $airports[$i]->AirportCity . '">' .  $airports[$i]->AirportCity .
+            '(alle vliegvelden)</option>';
+    } else {
+        echo '<option  value="' .  $airports[$i]->AirportCity . '">' .  $airports[$i]->AirportCity .
+            '(alle vliegvelden)</option>';
+    }
+            
         }
     } else {
         $CitieCount[$airports[$i]->AirportCity] = 1;
-    }
-}
-for ($i = 0; $i < count($cities); $i++) {
-    if (isset($_GET["beginPunt"]) && htmlspecialchars($_GET["beginPunt"]) == $cities[$i]) {
-        echo '<option selected="true" value="' . $cities[$i] . '">' . $cities[$i] .
-            '(alle vliegvelden)</option>';
-    } else {
-        echo '<option  value="' . $cities[$i] . '">' . $cities[$i] .
-            '(alle vliegvelden)</option>';
+        
     }
 }
 
@@ -140,26 +136,19 @@ if (isset($_GET["beginPunt"]) && !empty($_GET["beginPunt"])) {
                 echo '<option value="' . $airports[$i]->AirportID . '">' . $airports[$i]->
                     AirportName . '(' . $airports[$i]->AirportCity . ')' . '</option>';
             }
-        }
-        $cities = array(); // airports::GetAirportsTwoPerCity();
-        $CitieCount = array();
-        for ($i = 0; $i < count($airports); $i++) {
-            if (array_key_exists($airports[$i]->AirportCity, $CitieCount)) {
+                if (array_key_exists($airports[$i]->AirportCity, $CitieCount)) {
                 if ($CitieCount[$airports[$i]->AirportCity] == 1) {
                     $CitieCount[$airports[$i]->AirportCity] = 2;
-                    $cities[] = $airports[$i]->AirportCity;
+                      if (isset($_GET["eindPunt"]) && htmlspecialchars($_GET["eindPunt"]) ==  $airports[$i]->AirportCity) {
+                echo '<option selected="true" value="' .  $airports[$i]->AirportCity . '">' .  $airports[$i]->AirportCity .
+                    '(alle vliegvelden)</option>';
+            } else {
+                echo '<option  value="' .  $airports[$i]->AirportCity . '">' .  $airports[$i]->AirportCity .
+                    '(alle vliegvelden)</option>';
+            }
                 }
             } else {
                 $CitieCount[$airports[$i]->AirportCity] = 1;
-            }
-        }
-        for ($i = 0; $i < count($cities); $i++) {
-            if (isset($_GET["eindPunt"]) && htmlspecialchars($_GET["eindPunt"]) == $cities[$i]) {
-                echo '<option selected="true" value="' . $cities[$i] . '">' . $cities[$i] .
-                    '(alle vliegvelden)</option>';
-            } else {
-                echo '<option  value="' . $cities[$i] . '">' . $cities[$i] .
-                    '(alle vliegvelden)</option>';
             }
         }
     }
