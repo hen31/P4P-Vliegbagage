@@ -1419,7 +1419,7 @@ $edit_airline->notes); ?></textarea>
     
     <?php
             if (count($edit_airline->classes) == 0) {
-                echo "<p>Deze luchtvaartmaatschappij heeft nog geen classes.<br />Klik op 'toevoegen' bovenin om ze toe te voegen.</p>";
+                echo "<p>Deze luchtvaartmaatschappij heeft nog geen klassen.<br />Klik op 'toevoegen' bovenin om ze toe te voegen.</p>";
             } else {
 ?>
     <form action="airline.php" class="form" id="class_form">
@@ -1668,7 +1668,7 @@ airline_id; ?>" />
     <input type="hidden" name="airline_id" value="' . $edit_airline->airline_id .
                     '" />
     <input type="hidden" name="class_number" value="' . $_GET["class"] . '" />
-    <input type="submit" value="Class verwijderen" />
+    <input type="submit" value="Klasse verwijderen" />
 </form>';
             }
             echo '<div style="clear:both;"></div>';
