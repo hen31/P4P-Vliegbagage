@@ -1647,7 +1647,7 @@ set_selected_tf($_POST, "FreeServiceDog", "false", $succes_class, $edit_class,
     <?php
             } else
                 if (count($edit_airline->classes) > 0) {
-                    echo "<p>Selecteer een class om deze te bewerken.</p>";
+                    echo "<p>Selecteer een klas om deze te bewerken.</p>";
                 }
 ?>
 </div>
@@ -1707,7 +1707,7 @@ airline_id; ?>" />
         } else {
 ?>
 <p style="color: red; font-size: 15pt; text-align: center;">Weet u zeker dat u <?php echo
-htmlspecialchars($del_airline->name); ?> met alle bijbehorende classes wilt verwijderen?</p>
+htmlspecialchars($del_airline->name); ?> met alle bijbehorende klassen wilt verwijderen?</p>
 <div id="left">
     <form action="airline.php?action=del" method="post">
         <input type="hidden" name="airline_id" value="<?php echo $del_airline->
