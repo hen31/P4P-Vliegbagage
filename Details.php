@@ -20,6 +20,7 @@ if (!isset($_GET["name"]) || !isset($_GET["class"])) {
 //gevens ophalen
 if (airline::airline_name_exists($_GET["name"])) {
     $airline = airline::get_airline_by_name($_GET["name"]);
+$airline = airline::get_airline($airline->airline_id,$_GET["class"]);
     $counter = 0;
     $specialeBagage = array();
     //speciale bagage ophalen
