@@ -318,14 +318,7 @@ MaxDeclarationOfValue, 2, ',', ' '); ?>
                    <h3>Huisdier</h3>
                            <table style="width:100%;">
                 <tr>
-                <td> Huisdier in ruim toegestaan:
-                </td>
-                <td><?php if ($airline->classes[0]->PetsAllowed == true) {
-    echo 'ja';
-} else {
-    echo 'nee';
-} ?></td>
-                <td> Huisdier in kabine toegestaan:
+                <td> Huisdier in cabine toegestaan:
                 </td>
                 <td><?php if ($airline->classes[0]->petsAllowedHL == true) {
     echo 'ja';
@@ -333,24 +326,7 @@ MaxDeclarationOfValue, 2, ',', ' '); ?>
     echo 'nee';
 } ?></td>
                 </tr>
-                <tr>
-                                <?php if ($airline->classes[0]->PetsAllowed == true) { ?>
-                <td>
-                Max. totaal gewicht ruim:
-                </td>
                 
-                <td>
-                <?php echo $airline->classes[0]->MaxWeightPet; ?>kg
-                </td>
-                        <td>Max. afmetingen kooi ruim:</td>
-                      <td>  <?php $afmetingen = $airline->classes[0]->
-    MaxWeightPet ? $airline->classes[0]->MaxWeightPet . 'cm' : $airline->classes[0]->
-        sizeLenghtPet . ' x ' . $airline->classes[0]->sizeWidthPet . ' x ' . $airline->
-        classes[0]->sizeHeightPet . 'cm';
-    echo $afmetingen;
-?></td>
-                    <?php } ?>
-                </tr>
                 <tr>
                 <td>Kosten</td>
                 <td>

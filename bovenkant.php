@@ -6,7 +6,7 @@ session_start();
 <html>
     <head>
 	   <meta http-equiv="content-type" content="text/html" />
-	   <title>Vliegbagage.nl | <?php if (isset($titel)) {
+	   <title>Vliegbagage.info | <?php if (isset($titel)) {
     echo $titel;
 } ?></title>
        <link href="style.css" type="text/css" rel="stylesheet"/>
@@ -20,6 +20,6 @@ session_start();
         <div class="name">
             <a href="index.php">Home</a>
             <a href="contact.php">Contact</a>
-            <h1>VLIEGBAGAGE.NL</h1>
+            <h1>VLIEGBAGAGE.INFO</h1>
         </div>
         <div id="content">
