@@ -9,7 +9,7 @@ if ((!isset($_SESSION["user"]) || $_SESSION["user"] == null) && !DEBUG) {
 <html>
     <head>
 	   <meta http-equiv="content-type" content="text/html" />
-	   <title>Vliegbagage.nl | <?php if (isset($titel)) {
+	   <title>Vliegbagage.info | <?php if (isset($titel)) {
     echo $titel;
 } ?></title>
        <link href="../style.css" type="text/css" rel="stylesheet"/>
@@ -27,6 +27,6 @@ if ((!isset($_SESSION["user"]) || $_SESSION["user"] == null) && !DEBUG) {
             <a href="specialluggage.php">Speciale bagage</a>
             <a href="users.php">Gebruikers</a>
             <a href="loguit.php">Uitloggen</a>
-            <h1>VLIEGBAGAGE.NL</h1>
+            <h1>VLIEGBAGAGE.INFO</h1>
         </div>
         <div id="content">
