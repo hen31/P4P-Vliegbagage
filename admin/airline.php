@@ -1575,7 +1575,7 @@ add_existing_value($edit_class->AbsoluteMaxPerItem, $_POST, "AbsoluteMaxPerItem"
 $succes_class); ?> /></div><br />
         
         <!--Huisdieren-->
-        <label class="title">Huisdieren inclusief kooi (Vrachtruim)</label><br />
+        <label class="title">Huisdieren inclusief kooi (Cabine)</label><br />
         <?php echo display_error($error, "PetsAllowed"); ?><label>Huisdieren toegestaan</label><select id="pets" name="PetsAllowed" class="input"><option></option><option value="true" <?php echo
 set_selected_tf($_POST, "PetsAllowed", "true", $succes_class, $edit_class,
 "PetsAllowed", 1); ?>>Ja</option><option value="false" <?php echo
