@@ -32,7 +32,14 @@ if (isset($_GET["action"])) {
 
                     if ($CHeckiFDuplicate != null) {
                         if ($CHeckiFDuplicate->AirportCity == $City) {
-                            $name = "a";
+                            if ($CHeckiFDuplicate->AirportName != $name)
+                            {
+                                 airports::EditItem($ItemID, $FullName, $City);   
+                            }
+                            else
+                            {
+                                $name = "a";
+                            }
                         } else {
                             airports::EditItem($ItemID, $FullName, $City);
                         }
@@ -107,9 +114,9 @@ if (isset($_GET["action"])) {
 
                 $CheckIfExists = airports::GetAirportByName($name);
 
-                if ($CheckIfExists != null) {
-
-                    $name = "Vliegveld bestaat al!";
+                if ($CheckIfExists != null) 
+                {
+                     $name = "Vliegveld bestaat al!";
 
                 } else {
                     $_POST["name"] = null;
