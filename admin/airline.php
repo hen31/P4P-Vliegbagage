@@ -1241,7 +1241,7 @@ add_value($_POST, "LPextraWeightLuggage", $succes_class); ?> />
 add_value($_POST, "AbsoluteMaxPerItem", $succes_class); ?> /></div><br />
         
         <!--Huisdieren-->
-        <label class="title">Huisdieren inclusief kooi (Vrachtruim)</label><br />
+        <label class="title">Huisdieren inclusief kooi (Kabine)</label><br />
         <?php echo display_error($error, "PetsAllowed"); ?><label>Huisdieren toegestaan</label><select id="pets" name="PetsAllowed" class="input"><option></option><option value="true" <?php echo
 set_selected($_POST, "PetsAllowed", "true", $succes_class); ?>>Ja</option><option value="false" <?php echo
 set_selected($_POST, "PetsAllowed", "false", $succes_class); ?>>Nee</option></select>
